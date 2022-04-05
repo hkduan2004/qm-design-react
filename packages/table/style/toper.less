@@ -1,0 +1,31 @@
+/*
+ * @Author: 焦质晔
+ * @Date: 2021-10-28 12:20:04
+ * @Last Modified by: 焦质晔
+ * @Last Modified time: 2022-02-27 21:52:42
+ */
+@prefix-table: ~'@{qm-prefix}-table';
+
+.@{prefix-table}-top {
+  display: flex;
+  white-space: nowrap;
+  margin-bottom: @v-module-distance;
+  &__space {
+    flex: 1;
+    display: inherit;
+    justify-content: space-between;
+    &-slot {
+      flex: 1;
+      align-items: center;
+      height: 100%;
+      display: inherit;
+      .ant-btn {
+        margin-right: @v-module-distance - 2px;
+      }
+    }
+  }
+  &__actions {
+    display: inherit;
+    align-items: center;
+  }
+}

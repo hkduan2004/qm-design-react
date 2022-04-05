@@ -1,0 +1,109 @@
+/*
+ * @Author: 焦质晔
+ * @Date: 2022-03-16 19:05:30
+ * @Last Modified by: 焦质晔
+ * @Last Modified time: 2022-03-18 13:31:03
+ */
+@prefix-table: ~'@{qm-prefix}-table';
+
+.@{prefix-table}-fast-search {
+  display: inline-block;
+  padding: 5px 3px;
+  line-height: 1;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  .icon {
+    font-size: 1.05em;
+  }
+  &:hover {
+    color: @v-primary-color;
+  }
+}
+
+.@{prefix-table}-fast-search__setting {
+  height: 100%;
+  .main {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    .top {
+      display: flex;
+      flex: 1;
+      height: 0;
+      overflow-y: auto;
+      .container {
+        flex: 1;
+        width: 0;
+        .qm-tabs {
+          margin-top: -@v-module-distance;
+        }
+      }
+      .saved {
+        width: 200px;
+        .form-wrap {
+          display: flex;
+        }
+        .card-wrap {
+          margin-top: @v-module-distance;
+          border: 1px solid @v-table-border-color;
+          > h5 {
+            display: flex;
+            align-items: center;
+            font-size: inherit;
+            font-weight: normal;
+            margin-bottom: 0;
+            padding: 0 @v-module-distance;
+            border-bottom: 1px solid @v-table-border-color;
+            background-color: @v-table-header-background-color;
+          }
+          > ul {
+            margin-bottom: 0;
+            li {
+              display: flex;
+              align-items: center;
+              position: relative;
+              padding: 8px @v-module-distance;
+              border-bottom: 1px solid @v-table-border-color;
+              cursor: pointer;
+              transition: all 0.3s ease;
+              &:last-of-type {
+                border-bottom: 0;
+              }
+              &:hover {
+                background-color: @v-table-row-hover-background-color;
+                .close {
+                  visibility: visible;
+                }
+              }
+              &.selected {
+                background-color: @v-table-row-selected-background-color;
+              }
+              .title {
+                i {
+                  margin-right: 5px;
+                }
+              }
+              .close {
+                position: absolute;
+                right: @v-module-distance;
+                visibility: hidden;
+              }
+            }
+          }
+        }
+      }
+      .line {
+        border-left: 1px dashed @--border-color-base;
+        padding-left: @v-module-distance;
+        margin-left: @v-module-distance;
+      }
+    }
+    .bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 5px;
+      border-top: 1px dashed @--border-color-base;
+    }
+  }
+}

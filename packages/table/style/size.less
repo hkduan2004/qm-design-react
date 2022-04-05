@@ -1,0 +1,69 @@
+/*
+ * @Author: 焦质晔
+ * @Date: 2020-02-28 22:11:53
+ * @Last Modified by: 焦质晔
+ * @Last Modified time: 2021-12-28 13:59:08
+ */
+@prefix-table: ~'@{qm-prefix}-table';
+.@{prefix-table} {
+  // 42 34 26
+  &--wrapper {
+    font-size: @v-font-size;
+    .@{prefix-table}-top {
+      height: @v-table-row-height - 2px;
+    }
+    .header--column,
+    .body--column,
+    .footer--column {
+      &.col--ellipsis {
+        height: @v-table-row-height;
+      }
+      &:not(.col--ellipsis) {
+        padding: ceil(((@v-table-row-height - @v-table-row-line-height) / 2)) 0;
+      }
+    }
+    .row--height {
+      height: @v-table-row-height;
+    }
+  }
+
+  &--lg {
+    font-size: @v-font-size-large;
+    .@{prefix-table}-top {
+      height: @v-table-row-height-large - 2px;
+    }
+    .header--column,
+    .body--column,
+    .footer--column {
+      &.col--ellipsis {
+        height: @v-table-row-height-large;
+      }
+      &:not(.col--ellipsis) {
+        padding: ceil(((@v-table-row-height-large - @v-table-row-line-height) / 2)) 0;
+      }
+    }
+    .row--height {
+      height: @v-table-row-height-large;
+    }
+  }
+
+  &--sm {
+    font-size: @v-font-size-small;
+    .@{prefix-table}-top {
+      height: @v-table-row-height-small - 2px;
+    }
+    .header--column,
+    .body--column,
+    .footer--column {
+      &.col--ellipsis {
+        height: @v-table-row-height-small;
+      }
+      &:not(.col--ellipsis) {
+        padding: ceil(((@v-table-row-height-small - @v-table-row-line-height) / 2)) 0;
+      }
+    }
+    .row--height {
+      height: @v-table-row-height-small;
+    }
+  }
+}

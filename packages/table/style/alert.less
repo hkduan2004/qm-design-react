@@ -1,0 +1,34 @@
+/*
+ * @Author: 焦质晔
+ * @Date: 2020-03-18 10:26:46
+ * @Last Modified by: 焦质晔
+ * @Last Modified time: 2021-12-28 21:55:44
+ */
+@prefix-table: ~'@{qm-prefix}-table';
+
+.@{prefix-table}__alert {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-right: @v-module-distance;
+  padding: 0 6px 0 30px;
+  border: 1px solid @v-table-border-color;
+  border-radius: @v-border-radius;
+  background-color: @v-table-header-background-color;
+  .box-sizing-content();
+  .icon {
+    position: absolute;
+    left: @v-module-distance;
+    line-height: 1;
+    font-size: 1.05em;
+    color: @v-primary-color;
+  }
+  em {
+    display: inline-block;
+    color: @v-primary-color;
+    padding: 0 @v-module-distance;
+    margin-right: -5px;
+    font-style: normal;
+    cursor: pointer;
+  }
+}

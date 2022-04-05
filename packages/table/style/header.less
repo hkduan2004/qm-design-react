@@ -1,0 +1,178 @@
+/*
+ * @Author: 焦质晔
+ * @Date: 2020-02-28 22:11:53
+ * @Last Modified by: 焦质晔
+ * @Last Modified time: 2021-12-28 18:50:31
+ */
+@prefix-table: ~'@{qm-prefix}-table';
+
+.TheadAlignCenter {
+  .cell--text {
+    justify-content: center !important;
+  }
+}
+
+.TheadAlignRight {
+  .cell--text {
+    justify-content: flex-end !important;
+  }
+}
+
+.@{prefix-table}--header-wrapper {
+  background-color: @v-table-header-background-color;
+  .@{prefix-table}--header {
+    tr > th[colspan]:not([colspan='1']) {
+      .TheadAlignCenter();
+    }
+  }
+  .gutter {
+    background-color: @v-table-header-background-color;
+  }
+}
+
+.header--column {
+  .cell--wrapper {
+    display: flex;
+    height: 100%;
+    .cell--text {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      flex: 1;
+      /* 重要 */
+      width: 0;
+      .cell {
+        padding-right: 2px;
+      }
+      .tip {
+        padding: 2px;
+        cursor: default;
+      }
+    }
+  }
+  &.col--center {
+    .TheadAlignCenter();
+  }
+  &.col--right {
+    .TheadAlignRight();
+  }
+  &:not(.column-has-sorter):not(.column-has-filter) {
+    .cell--text {
+      .cell {
+        padding-right: @v-module-distance;
+      }
+      .tip {
+        margin-left: -8px;
+      }
+    }
+  }
+  &.column--required {
+    .cell {
+      &::before {
+        content: '*';
+        color: @v-danger-color;
+        margin-right: 2px;
+      }
+    }
+  }
+
+  /* 全选 */
+  .cell--selection {
+    display: flex;
+    align-items: center;
+    .icon {
+      padding: 2px;
+      margin-left: 2px;
+      margin-top: 1px;
+      font-size: @v-font-size;
+      color: @v-icon-color;
+      cursor: pointer;
+    }
+  }
+
+  /* 排序 */
+  .cell--sorter {
+    width: 1em;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transform: scale(0.8, 0.85);
+    &__asc,
+    &__desc {
+      color: @v-icon-color;
+      &.actived {
+        color: @v-primary-color;
+      }
+    }
+    &__asc {
+      transform: translateY(2px);
+    }
+    &__desc {
+      transform: translateY(-2px);
+    }
+  }
+
+  /* 筛选 */
+  .cell--filter {
+    width: 20px;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    color: @v-icon-color;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    .icon {
+      transform: scale(0.9, 1);
+    }
+    &:hover,
+    &.selected {
+      color: @v-font-secondary-color;
+      background-color: @v-table-column-filter-hover-color;
+    }
+    &.actived {
+      color: @v-primary-color;
+    }
+  }
+
+  .resizable {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: -5px;
+    width: 10px;
+    z-index: 1;
+    cursor: col-resize;
+    &.is--line {
+      &:before {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 20%;
+        width: 1px;
+        height: 60%;
+        background-color: @v-table-resizable-color;
+      }
+    }
+  }
+}
+
+.head-filter--wrap {
+  ul {
+    margin: 0;
+    li {
+      display: flex;
+      align-items: center;
+      margin-bottom: 5px;
+      &:last-of-type {
+        margin-bottom: 0;
+      }
+      & > span {
+        margin-right: 5px;
+      }
+    }
+  }
+}

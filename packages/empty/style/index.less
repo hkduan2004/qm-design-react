@@ -1,0 +1,35 @@
+/*
+ * @Author: 焦质晔
+ * @Date: 2021-07-23 19:05:57
+ * @Last Modified by: 焦质晔
+ * @Last Modified time: 2021-07-31 22:38:07
+ */
+@import '../../style/common';
+
+@prefix-empty: ~'@{qm-prefix}-empty';
+
+.@{prefix-empty} {
+  .ant-empty-image {
+    height: auto;
+  }
+  // ------ size ------
+  // 40  32  24
+  &--lg {
+    .ant-empty-image > svg {
+      width: 80px;
+      height: 50px;
+    }
+    .ant-empty-description {
+      font-size: @--font-size-base;
+    }
+  }
+  &--sm {
+    .ant-empty-image > svg {
+      width: 55px;
+      height: 35px;
+    }
+    .ant-empty-description {
+      font-size: @--font-size-sm;
+    }
+  }
+}

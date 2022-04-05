@@ -1,0 +1,79 @@
+/*
+ * @Author: 焦质晔
+ * @Date: 2021-07-23 19:05:57
+ * @Last Modified by: 焦质晔
+ * @Last Modified time: 2021-08-05 15:57:45
+ */
+@import '../../style/common';
+
+@prefix-drawer: ~'@{qm-prefix}-drawer';
+
+.@{prefix-drawer} {
+  .ant-drawer-header {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    height: 44px;
+    padding: 0 15px;
+    border-bottom: 1px solid @--border-color-secondary;
+    .ant-drawer-title {
+      display: flex;
+      flex: 1;
+      align-items: center;
+      justify-content: space-between;
+      padding-right: 20px;
+      .full-screen {
+        padding: @--padding-md 5px @--padding-md @--padding-md;
+        color: @--text-color-secondary;
+        line-height: 1;
+        transition: all 0.3s ease;
+        &:hover {
+          color: @--text-color;
+        }
+      }
+    }
+    .ant-drawer-close {
+      position: absolute;
+      right: -8px;
+      font-size: 17px;
+      padding: @--padding-md;
+    }
+  }
+  .ant-drawer-body {
+    padding: @--padding-md;
+  }
+  &-spin {
+    position: absolute;
+    top: 44px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.65);
+    z-index: 9999;
+    .ant-spin-text {
+      margin-top: 4px;
+    }
+  }
+  // ------ size ------
+  // 52  48  44
+  &--lg {
+    .ant-drawer-header {
+      height: 48px;
+    }
+    .qm-drawer-spin {
+      top: 48px;
+    }
+  }
+  &--sm {
+    .ant-drawer-header {
+      height: 40px;
+    }
+    .qm-drawer-spin {
+      top: 40px;
+    }
+  }
+}

@@ -1,0 +1,83 @@
+/*
+ * @Author: 焦质晔
+ * @Date: 2021-02-09 09:27:46
+ * @Last Modified by: 焦质晔
+ * @Last Modified time: 2021-11-05 13:33:02
+ */
+@import '../../style/common';
+
+@prefix-split: ~'@{qm-prefix}-split';
+@prefix-split-pane: ~'@{qm-prefix}-split-pane';
+
+.@{prefix-split} {
+  .reset-component();
+  display: flex;
+  &.vertical {
+    flex-direction: column;
+  }
+  &__resize-bar {
+    position: relative;
+    background-color: transparent;
+    border-radius: @--border-radius-base - 1px;
+    transition: all 0.4s ease;
+    user-select: none;
+    box-sizing: border-box;
+    z-index: 1;
+    &.horizontal {
+      width: 11px;
+      margin: 0 -5px;
+      cursor: col-resize;
+      &::after {
+        content: ' ';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        width: 0;
+        pointer-events: none;
+        border-left: 1px solid @--border-color-base;
+      }
+    }
+    &.vertical {
+      height: 11px;
+      margin: -5px 0;
+      cursor: row-resize;
+      &::after {
+        content: ' ';
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 50%;
+        height: 0;
+        pointer-events: none;
+        border-top: 1px solid @--border-color-base;
+      }
+    }
+    &:hover,
+    &:active {
+      background-color: @--background-color;
+    }
+  }
+  .@{prefix-split-pane} {
+    box-sizing: border-box;
+    &.horizontal {
+      &:nth-child(1) {
+        padding-right: 5px;
+      }
+      &:nth-child(3) {
+        padding-left: 5px;
+      }
+    }
+    &.vertical {
+      &:nth-of-type(1) {
+        padding-bottom: 5px;
+      }
+      &:nth-of-type(3) {
+        padding-top: 5px;
+      }
+    }
+    &.isLocked {
+      pointer-events: none;
+    }
+  }
+}

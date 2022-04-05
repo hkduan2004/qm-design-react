@@ -1,0 +1,24 @@
+/*
+ * @Author: 焦质晔
+ * @Date: 2021-07-23 18:58:20
+ * @Last Modified by: 焦质晔
+ * @Last Modified time: 2021-07-23 18:59:02
+ */
+@import '../themes/index';
+
+.operation-unit() {
+  color: @--link-color;
+  text-decoration: none;
+  outline: none;
+  cursor: pointer;
+  transition: color 0.3s;
+
+  &:focus,
+  &:hover {
+    color: @--link-hover-color;
+  }
+
+  &:active {
+    color: @--link-active-color;
+  }
+}

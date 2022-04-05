@@ -1,0 +1,22 @@
+/*
+ * @Author: 焦质晔
+ * @Date: 2021-07-23 19:05:57
+ * @Last Modified by: 焦质晔
+ * @Last Modified time: 2021-08-01 21:58:46
+ */
+@import '../../style/common';
+
+@prefix-countup: ~'@{qm-prefix}-countup';
+
+.@{prefix-countup} {
+  .reset-component;
+  font-size: @--font-size-base;
+  // ------ size ------
+  // 40  32  24
+  &--lg {
+    font-size: @--font-size-base;
+  }
+  &--sm {
+    font-size: @--font-size-sm;
+  }
+}

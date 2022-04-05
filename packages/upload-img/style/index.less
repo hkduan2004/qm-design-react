@@ -1,0 +1,36 @@
+/*
+ * @Author: 焦质晔
+ * @Date: 2021-07-23 19:05:57
+ * @Last Modified by: 焦质晔
+ * @Last Modified time: 2021-08-28 08:54:46
+ */
+@import '../../style/common';
+
+@prefix-upload-img: ~'@{qm-prefix}-upload-img';
+@prefix-cropper-preview: ~'@{qm-prefix}-cropper-preview';
+
+.@{prefix-upload-img} {
+}
+
+.@{prefix-cropper-preview} {
+  .cropper-preview {
+    display: flex;
+    flex-direction: row;
+    .cropper-area {
+      flex: 1;
+      .actions {
+        margin-top: @--margin-md;
+      }
+    }
+    .preview-area {
+      width: 380px;
+      min-height: 380px;
+      margin-left: @--margin-md;
+      display: flex;
+      justify-content: center;
+      .preview {
+        overflow: hidden;
+      }
+    }
+  }
+}

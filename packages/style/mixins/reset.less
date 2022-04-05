@@ -1,0 +1,35 @@
+/*
+ * @Author: 焦质晔
+ * @Date: 2021-07-23 18:58:43
+ * @Last Modified by:   焦质晔
+ * @Last Modified time: 2021-07-23 18:58:43
+ */
+@import '../themes/index';
+
+.reset-component() {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  color: @--text-color;
+  font-size: @--font-size-base;
+  font-variant: @font-variant-base;
+  line-height: @--line-height-base;
+  list-style: none;
+  font-feature-settings: @font-feature-settings-base;
+}
+
+.box-sizing-content() {
+  box-sizing: border-box;
+}
+
+.text-overflow-cut() {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.user-select-none() {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}

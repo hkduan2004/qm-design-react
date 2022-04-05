@@ -1,0 +1,54 @@
+/*
+ * @Author: 焦质晔
+ * @Date: 2021-07-23 19:05:57
+ * @Last Modified by: 焦质晔
+ * @Last Modified time: 2021-08-21 20:34:44
+ */
+@import '../../style/common';
+
+@prefix-divider: ~'@{qm-prefix}-divider';
+
+.@{prefix-divider} {
+  .reset-component;
+  display: flex;
+  align-items: center;
+  padding: 0 @--padding-md;
+  height: @--height-md;
+  border: 1px solid @--border-color-base;
+  border-radius: @--border-radius-base;
+  background-color: @--background-color-cecondary;
+  position: relative;
+  &::before {
+    content: ' ';
+    position: absolute;
+    width: 6px;
+    left: -1px;
+    top: -1px;
+    bottom: -1px;
+    background-color: @--primary-color;
+  }
+  &__title {
+    margin-left: 5px;
+  }
+  &__extra {
+    .text-overflow-cut();
+    flex: 1;
+    margin-left: @--margin-md;
+  }
+  &__collapse {
+    margin-left: @--margin-md;
+    padding-left: 0;
+    padding-right: 0;
+    .anticon {
+      margin-left: 4px !important;
+    }
+  }
+  // ------ size ------
+  // 40  32  24
+  &--lg {
+    height: @--height-lg;
+  }
+  &--sm {
+    height: @--height-sm;
+  }
+}

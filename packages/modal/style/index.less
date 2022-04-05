@@ -1,0 +1,93 @@
+/*
+ * @Author: 焦质晔
+ * @Date: 2021-07-23 19:05:57
+ * @Last Modified by: 焦质晔
+ * @Last Modified time: 2022-03-17 20:33:33
+ */
+@import '../../style/common';
+
+@prefix-modal: ~'@{qm-prefix}-modal';
+
+.@{prefix-modal} {
+  .ant-modal-header {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    height: 44px;
+    padding: 0 15px;
+    border-bottom: 1px solid @--border-color-secondary;
+    .ant-modal-title {
+      width: 100%;
+      > div {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-right: 20px;
+        cursor: move;
+        .full-screen {
+          padding: @--padding-md 5px @--padding-md @--padding-md;
+          color: @--text-color-secondary;
+          line-height: 1;
+          transition: all 0.3s ease;
+          &:hover {
+            color: @--text-color;
+          }
+        }
+      }
+    }
+  }
+  .ant-modal-close {
+    top: 3px;
+    font-size: 17px;
+    padding: @--padding-md 15px @--padding-md 5px;
+    .ant-modal-close-x {
+      width: 1em;
+      height: 1em;
+      font-size: inherit;
+      line-height: 1;
+    }
+  }
+  .ant-modal-body {
+    padding: @--padding-md;
+  }
+  &-spin {
+    position: absolute;
+    top: 44px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.65);
+    z-index: 9999;
+    .ant-spin-text {
+      margin-top: 4px;
+    }
+  }
+  // ------ size ------
+  // 52  48  44
+  &--lg {
+    .ant-modal-header {
+      height: 48px;
+    }
+    .ant-modal-close {
+      top: 5px;
+    }
+    .qm-modal-spin {
+      top: 48px;
+    }
+  }
+  &--sm {
+    .ant-modal-header {
+      height: 40px;
+    }
+    .ant-modal-close {
+      top: 1px;
+    }
+    .qm-modal-spin {
+      top: 40px;
+    }
+  }
+}

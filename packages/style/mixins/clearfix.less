@@ -1,0 +1,21 @@
+/*
+ * @Author: 焦质晔
+ * @Date: 2021-07-23 18:58:15
+ * @Last Modified by:   焦质晔
+ * @Last Modified time: 2021-07-23 18:58:15
+ */
+// mixins for clearfix
+// ------------------------
+.clearfix() {
+  // https://github.com/ant-design/ant-design/issues/21301#issuecomment-583955229
+  &::before {
+    display: table;
+    content: '';
+  }
+  &::after {
+    // https://github.com/ant-design/ant-design/issues/21864
+    display: table;
+    clear: both;
+    content: '';
+  }
+}
