@@ -2,7 +2,7 @@
  * @Author: 焦质晔
  * @Date: 2021-07-23 14:05:48
  * @Last Modified by: 焦质晔
- * @Last Modified time: 2022-02-28 13:39:19
+ * @Last Modified time: 2022-04-09 17:26:42
  */
 import React, { Component } from 'react';
 import classNames from 'classnames';
@@ -157,12 +157,13 @@ class QmForm extends Component<IProps, IState> {
 
   // resize 事件处理函数
   resizeObserveHandler = () => {
-    const w: number = this.wrapperRef.current!.offsetWidth;
-    if (w === 0 || this.props.cols! > 0) return;
+    const w = this.wrapperRef.current?.offsetWidth;
+    if (typeof w === 'undefined' || w === 0 || this.props.cols! > 0) return;
     let cols = Math.floor(w / DEFAULT_COL_WIDTH);
     cols = 24 % cols === 0 ? cols : cols - 1;
     cols = cols < 1 ? 1 : cols;
     cols = cols > 8 ? 8 : cols;
+    if (cols === this.state.flexCols) return;
     this.setState({ flexCols: cols });
   };
 
