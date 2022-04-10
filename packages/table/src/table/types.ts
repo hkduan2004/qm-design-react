@@ -45,7 +45,7 @@ export const DEFAULT_DISTANCE = 10;
 export const DEFAULT_TRUE_VALUE = '1';
 export const DEFAULT_FALSE_VALUE = '0';
 
-export const EMPTY_MIN_HEIGHT = 150;
+export const EMPTY_MIN_HEIGHT = 100;
 export const MIN_POPPER_WIDTH = 150;
 
 export const DATE_FORMAT = 'YYYY-MM-DD';
