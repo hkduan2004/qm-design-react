@@ -19,6 +19,7 @@ type IExtra = {
   tableElementRef: React.RefObject<HTMLDivElement>;
   tableBodyRef: React.RefObject<TableBodyRef>;
   resizableBarRef: React.RefObject<HTMLDivElement>;
+  scrollX: boolean;
   pagination: IPagination;
   selectionKeys: IRowKey[];
   rowExpandedKeys: IRowKey[];
@@ -37,6 +38,7 @@ type IExtra = {
   setRowExpandedKeys: (rowKeys: IRowKey[]) => void;
   setHighlightKey: (rowKey: IRowKey) => void;
   setResizeState: (option: ITableRef['resizeState']) => void;
+  setPingRight: (value: boolean) => void;
   calcTableHeight: () => void;
   createSelectionKeys: (rowKeys?: IRowKey[]) => IRowKey[];
   createSelectionRows: (rowKeys: IRowKey[]) => IRecord[];
@@ -56,6 +58,7 @@ const useTableEffect = <T extends ITableProps>(props: T, extra: IExtra) => {
     tableElementRef,
     tableBodyRef,
     resizableBarRef,
+    scrollX,
     pagination,
     selectionKeys,
     rowExpandedKeys,
@@ -74,6 +77,7 @@ const useTableEffect = <T extends ITableProps>(props: T, extra: IExtra) => {
     setRowExpandedKeys,
     setHighlightKey,
     setResizeState,
+    setPingRight,
     calcTableHeight,
     createSelectionKeys,
     createSelectionRows,
@@ -169,6 +173,10 @@ const useTableEffect = <T extends ITableProps>(props: T, extra: IExtra) => {
       triggerScrollYEvent((elementStore[`$tableBody`]!.parentNode as HTMLElement).scrollTop);
     }
   }, [scrollYLoad]);
+
+  useUpdateEffect(() => {
+    setPingRight(scrollX);
+  }, [scrollX]);
 
   useUpdateEffect(() => {
     if (scrollYLoad) {
