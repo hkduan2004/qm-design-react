@@ -118,7 +118,9 @@ const CellEdit: React.FC<ICellEditProps> = (props) => {
           value={prevValue}
           maxLength={extra.maxLength}
           showCount={extra.showCount}
+          readOnly={extra.readOnly}
           disabled={extra.disabled}
+          suffix={extra.suffix}
           onChange={(ev) => {
             const val = ev.target.value ?? '';
             setCellValue(row, dataIndex, val);
@@ -157,6 +159,7 @@ const CellEdit: React.FC<ICellEditProps> = (props) => {
           max={extra.max}
           precision={precision}
           maxLength={extra.maxLength}
+          readOnly={extra.readOnly}
           disabled={extra.disabled}
           onChange={(val) => {
             setCellValue(row, dataIndex, val);
@@ -297,7 +300,7 @@ const CellEdit: React.FC<ICellEditProps> = (props) => {
     checkbox: (row: IRecord, column: IColumn) => {
       const { dataIndex } = column;
       const { type, extra = {}, onChange } = options;
-      const { trueValue = DEFAULT_TRUE_VALUE, falseValue = DEFAULT_FALSE_VALUE, text = '', disabled } = extra;
+      const { trueValue = DEFAULT_TRUE_VALUE, falseValue = DEFAULT_FALSE_VALUE, disabled } = extra;
       const prevValue = getCellValue(row, dataIndex);
       return (
         <Checkbox
@@ -317,7 +320,7 @@ const CellEdit: React.FC<ICellEditProps> = (props) => {
     switch: (row: IRecord, column: IColumn) => {
       const { dataIndex } = column;
       const { type, extra = {}, onChange } = options;
-      const { trueValue = DEFAULT_TRUE_VALUE, falseValue = DEFAULT_FALSE_VALUE, text = '', disabled } = extra;
+      const { trueValue = DEFAULT_TRUE_VALUE, falseValue = DEFAULT_FALSE_VALUE, disabled } = extra;
       const prevValue = getCellValue(row, dataIndex);
       return (
         <Switch

@@ -2,7 +2,7 @@
  * @Author: 焦质晔
  * @Date: 2021-03-01 17:49:11
  * @Last Modified by: 焦质晔
- * @Last Modified time: 2022-02-27 22:08:01
+ * @Last Modified time: 2022-04-12 18:38:20
  */
 import { notification, message } from '../../index';
 
@@ -46,19 +46,19 @@ function needCLodop() {
 
 // ====页面引用CLodop云打印必须的JS文件,用双端口(8000和18000）避免其中某个被占用：====
 if (needCLodop()) {
-  var src1 = 'http://localhost:8000/CLodopfuncs.js?priority=1';
-  var src2 = 'http://localhost:18000/CLodopfuncs.js?priority=0';
-
-  var head = document.head || document.getElementsByTagName('head')[0] || document.documentElement;
-  var oscript = document.createElement('script');
-  oscript.async = 'async';
-  oscript.src = src1;
-  head.insertBefore(oscript, head.firstChild);
-  oscript = document.createElement('script');
-  oscript.async = 'async';
-  oscript.src = src2;
-  head.insertBefore(oscript, head.firstChild);
-  CLodopIsLocal = !!(src1 + src2).match(/\/\/localho|\/\/127.0.0./i);
+  // 暂时先注释
+  // var src1 = 'http://localhost:8000/CLodopfuncs.js?priority=1';
+  // var src2 = 'http://localhost:18000/CLodopfuncs.js?priority=0';
+  // var head = document.head || document.getElementsByTagName('head')[0] || document.documentElement;
+  // var oscript = document.createElement('script');
+  // oscript.async = 'async';
+  // oscript.src = src1;
+  // head.insertBefore(oscript, head.firstChild);
+  // oscript = document.createElement('script');
+  // oscript.async = 'async';
+  // oscript.src = src2;
+  // head.insertBefore(oscript, head.firstChild);
+  // CLodopIsLocal = !!(src1 + src2).match(/\/\/localho|\/\/127.0.0./i);
 }
 
 // ====获取LODOP对象的主过程：====

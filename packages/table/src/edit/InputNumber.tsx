@@ -19,6 +19,7 @@ type INumberProps = {
   max?: number;
   maxLength?: number;
   precision?: number;
+  readOnly?: boolean;
   disabled?: boolean;
   onChange?: (value: number | string) => void;
   onBlur?: (value: number | string) => void;
@@ -26,7 +27,7 @@ type INumberProps = {
 };
 
 const InputNumber = React.forwardRef<any, INumberProps>((props, ref) => {
-  const { size, defaultValue, value, min, max, maxLength, precision, disabled } = props;
+  const { size, defaultValue, value, min, max, maxLength, precision, readOnly, disabled } = props;
 
   const formatValue = (value: string | number) => {
     // 临时变量
@@ -96,7 +97,17 @@ const InputNumber = React.forwardRef<any, INumberProps>((props, ref) => {
   };
 
   return (
-    <Input ref={ref} size={size} value={inputValue} maxLength={maxLength} disabled={disabled} onChange={onChange} onBlur={onBlur} onKeyUp={onKeyUp} />
+    <Input
+      ref={ref}
+      size={size}
+      value={inputValue}
+      maxLength={maxLength}
+      readOnly={readOnly}
+      disabled={disabled}
+      onChange={onChange}
+      onBlur={onBlur}
+      onKeyUp={onKeyUp}
+    />
   );
 });
 

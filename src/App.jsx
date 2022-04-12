@@ -10,7 +10,7 @@ import { sleep } from '../packages/_utils/util';
 import { getTableData, getTableKeys, getSummationData, getSelectData, getTreeData, getRegionData, getTableAuth } from './api/test';
 
 import { QmConfigProvider, QmTable, QmButton, QmForm, QmSplit, QmDrawer, QmPrint, Button } from '../packages';
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined, FormOutlined } from '@ant-design/icons';
 
 import tableData from '@/mock/tableData';
 import PrintTemplate from './print-template';
@@ -558,6 +558,16 @@ const App = () => {
         editRender: (row) => {
           return {
             type: 'text',
+            editable: true,
+            extra: {
+              suffix: (
+                <FormOutlined
+                  onClick={() => {
+                    console.log(123, row.address);
+                  }}
+                />
+              ),
+            },
           };
         },
       },

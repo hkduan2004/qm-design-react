@@ -148,14 +148,14 @@ export type IEditerReturn = {
   extra?: {
     maxLength?: number;
     showCount?: boolean;
-    readOnly?: boolean;
     max?: number;
     min?: number;
     trueValue?: string | number;
     falseValue?: string | number;
     minDateTime?: string;
     maxDateTime?: string;
-    text?: string;
+    suffix?: React.ReactNode;
+    readOnly?: boolean;
     disabled?: boolean;
     allowClear?: boolean;
   };
@@ -179,7 +179,7 @@ export type IEditerReturn = {
   onInput?: (value: Record<string, string | number>) => void;
   onChange?: (value: Record<string, string | number | Array<string | number>>, record: IRecord) => void;
   onEnter?: (value: Record<string, string | number | Array<string | number>>, record: IRecord) => void;
-  onClick?: () => void;
+  onClick?: (event: React.MouseEvent<HTMLInputElement>) => void;
 };
 
 export type IFetchFn = (params?: Record<string, unknown>) => Promise<AjaxResponse>;

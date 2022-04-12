@@ -2,7 +2,7 @@
  * @Author: 焦质晔
  * @Date: 2021-07-23 14:05:48
  * @Last Modified by: 焦质晔
- * @Last Modified time: 2022-03-01 13:48:32
+ * @Last Modified time: 2022-04-12 18:05:29
  */
 import React, { Component } from 'react';
 import localforage from 'localforage';
@@ -95,27 +95,6 @@ class Preview extends Component<IProps, IState> {
     totalPage: 0,
   };
 
-  async componentDidMount() {
-    if (!this.props.uniqueKey) return;
-    try {
-      let res: any = await localforage.getItem(this.printerKey);
-      if (!res) {
-        res = await this.getPrintConfig(this.printerKey);
-        if (isObject(res)) {
-          await localforage.setItem(this.printerKey, res);
-        }
-      }
-      if (isObject(res) && Object.keys(res).length) {
-        merge(this.state.form, {
-          ...res,
-          printerName: this.printerItems.find((x) => x.text === res.printerName)?.value ?? -1,
-        });
-      }
-    } catch (err) {
-      // ...
-    }
-  }
-
   get printerTypeItems(): IDict[] {
     return [
       { text: t('qm.print.laserPrinter'), value: 'laser' },
@@ -152,6 +131,27 @@ class Preview extends Component<IProps, IState> {
 
   get printerKey() {
     return this.props.uniqueKey ? `print_${this.props.uniqueKey}` : '';
+  }
+
+  async componentDidMount() {
+    if (!this.props.uniqueKey) return;
+    try {
+      let res: any = await localforage.getItem(this.printerKey);
+      if (!res) {
+        res = await this.getPrintConfig(this.printerKey);
+        if (isObject(res)) {
+          await localforage.setItem(this.printerKey, res);
+        }
+      }
+      if (isObject(res) && Object.keys(res).length) {
+        merge(this.state.form, {
+          ...res,
+          printerName: this.printerItems.find((x) => x.text === res.printerName)?.value ?? -1,
+        });
+      }
+    } catch (err) {
+      // ...
+    }
   }
 
   pageChangeHandle = (val: number) => {

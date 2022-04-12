@@ -199,12 +199,12 @@
 | max         | 最大值                               | number           | -      |
 | min         | 最小值                               | number           | 0      |
 | showCount   | 是否展示字数                         | boolean          | -      |
-| readOnly    | 是否只读，search-helper 生效         | boolean          | -      |
+| readOnly    | 是否只读                             | boolean          | -      |
 | trueValue   | 选中的值，checkbox 生效              | string \| number | -      |
 | falseValue  | 非选中值，checkbox 生效              | string \| number | -      |
 | minDateTime | 最小日期，小于该时间的日期段将被禁用 | string           | -      |
 | maxDateTime | 最大日期，大于该时间的日期段将被禁用 | string           | -      |
-| text        | 显示的文本，checkbox 生效            | string           | -      |
+| suffix      | 带有后缀图标的 input                 | ReactNode        | -      |
 | disabled    | 表单禁用状态                         | boolean          | -      |
 | allowClear  | 是否显示清除按钮                     | boolean          | true   |
 
