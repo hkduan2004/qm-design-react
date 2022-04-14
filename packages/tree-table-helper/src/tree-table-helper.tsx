@@ -71,16 +71,16 @@ const getAllParentKey = (tree: IRecord[]) => {
   });
   return result;
 };
-const deepFind = (arr: IRecord[], value: string): Nullable<IRecord> => {
+const deepFind = (arr: IRecord[], fn: (node: IRecord) => boolean): Nullable<IRecord> => {
   let res: Nullable<IRecord> = null;
   for (let i = 0; i < arr.length; i++) {
     if (Array.isArray(arr[i].children)) {
-      res = deepFind(arr[i].children, value);
+      res = deepFind(arr[i].children, fn);
     }
     if (res) {
       return res;
     }
-    if (arr[i].value === value) {
+    if (fn(arr[i])) {
       return arr[i];
     }
   }
@@ -179,6 +179,7 @@ const TreeTableHelper: React.FC<IProps> = (props) => {
   const [treeData, setTreeData] = React.useState<IRecord[]>([]);
   const [expandedKeys, setExpandedKeys] = React.useState<string[]>([]);
   const treeDataOrigin = React.useRef<IRecord[]>(treeData);
+  const responseList = React.useRef<IRecord[]>([]);
 
   const getTreeData = async () => {
     if (!tree?.fetch) return;
@@ -190,13 +191,14 @@ const TreeTableHelper: React.FC<IProps> = (props) => {
         const results = deepMapList(dataList, valueKey, textKey);
         setTreeData(results);
         treeDataOrigin.current = results;
+        responseList.current = dataList;
       }
     } catch (err) {
       // ...
     }
   };
 
-  const doTableSearch = (row: IRecord) => {
+  const doTableFetch = (row: IRecord) => {
     if (!tree?.tableParamsMap) {
       return warn('QmTreeTableHelper', '需要配置 `tree.tableParamsMap` 选项');
     }
@@ -263,9 +265,11 @@ const TreeTableHelper: React.FC<IProps> = (props) => {
             treeData={treeData}
             onExpand={expandHandle}
             onSelect={(selectedKeys: string[]) => {
-              const row = deepFind(treeData, selectedKeys[0]);
+              if (!tree?.fetch) return;
+              const { valueKey = 'value' } = tree.fetch;
+              const row = deepFind(responseList.current, (node) => get(node, valueKey) === selectedKeys[0]);
               if (!row) return;
-              doTableSearch(row);
+              doTableFetch(row);
             }}
           />
         </QmSplit.Pane>
