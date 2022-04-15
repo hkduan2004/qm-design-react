@@ -401,7 +401,7 @@ export type ITableProps = {
   onDataLoad?: (tableData: IRecord[]) => void;
   onRowClick?: (row: IRecord, column: IColumn, event: React.MouseEvent<HTMLTableCellElement>) => void;
   onRowDblclick?: (row: IRecord, column: IColumn, event: React.MouseEvent<HTMLTableCellElement>) => void;
-  onRowContextMenu?: (row: IRecord, column: IColumn, event: React.MouseEvent<HTMLTableCellElement>) => void;
+  onRowContextmenu?: (row: IRecord, column: IColumn, event: React.MouseEvent<HTMLTableCellElement>) => void;
   onRowEnter?: (row: IRecord, event: KeyboardEvent) => void;
   onScrollEnd?: (event: React.SyntheticEvent<HTMLDivElement>) => void;
 };

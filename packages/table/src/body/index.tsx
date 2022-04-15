@@ -95,7 +95,7 @@ const TableBody = React.forwardRef<TableBodyRef, IBodyProps>((props, ref) => {
     rowDraggable,
     onRowClick,
     onRowDblclick,
-    onRowContextMenu,
+    onRowContextmenu,
     onRowEnter,
   } = tableProps;
 
@@ -317,10 +317,10 @@ const TableBody = React.forwardRef<TableBodyRef, IBodyProps>((props, ref) => {
     onRowDblclick?.(row, column, ev);
   };
 
-  const cellContextMenuHandle = (ev: React.MouseEvent<HTMLTableCellElement>, row: IRecord, column: IColumn) => {
+  const cellContextmenuHandle = (ev: React.MouseEvent<HTMLTableCellElement>, row: IRecord, column: IColumn) => {
     const { dataIndex } = column;
     if ([config.expandableColumn, config.selectionColumn, config.operationColumn].includes(dataIndex)) return;
-    onRowContextMenu?.(row, column, ev);
+    onRowContextmenu?.(row, column, ev);
   };
 
   const setClickedValues = (arr: IClicked) => {
@@ -458,7 +458,7 @@ const TableBody = React.forwardRef<TableBodyRef, IBodyProps>((props, ref) => {
         style={{ ...stys, ...groupStys, ...trExtraStys, ...tdExtraStys }}
         onClick={(ev) => cellClickHandle(ev, row, column)}
         onDoubleClick={(ev) => cellDbclickHandle(ev, row, column)}
-        onContextMenu={(ev) => cellContextMenuHandle(ev, row, column)}
+        onContextMenu={(ev) => cellContextmenuHandle(ev, row, column)}
       >
         <div className={`cell`}>{renderCell(column, row, rowIndex, columnIndex, rowKey, depth)}</div>
       </td>

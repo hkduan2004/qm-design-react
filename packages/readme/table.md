@@ -60,7 +60,7 @@
 | onDataLoad       | 表格数据加载后触发                                | function(tableData)                                                                   |
 | onRowClick       | 行单击事件                                        | function(row, column, event)                                                          |
 | onRowDblclick    | 行双击事件                                        | function(row, column, event)                                                          |
-| onRowContextMenu | 行右键单击事件                                    | function(row, column, event)                                                          |
+| onRowContextmenu | 行右键单击事件                                    | function(row, column, event)                                                          |
 | onRowEnter       | 行选中(单选)或行高亮的回车事件                    | function(row, event)                                                                  |
 | onScrollEnd      | 滚动条滚动至底部时触发                            | function(event)                                                                       |
 
