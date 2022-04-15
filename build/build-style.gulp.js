@@ -2,7 +2,7 @@
  * @Author: 焦质晔
  * @Date: 2021-02-11 15:05:17
  * @Last Modified by: 焦质晔
- * @Last Modified time: 2021-07-23 16:21:42
+ * @Last Modified time: 2022-04-15 21:25:39
  */
 'use strict';
 
@@ -15,14 +15,14 @@ const rename = require('gulp-rename');
 const utils = require('./utils');
 
 function compile() {
-  return (
-    src(utils.resolve('packages/style/index.less'))
-      .pipe(less({ javascriptEnabled: true }))
-      .pipe(autoprefixer({ cascade: false }))
-      .pipe(cssmin())
-      .pipe(rename('index.css'))
-      .pipe(dest(utils.resolve('lib/style')))
-  );
+  return src(utils.resolve('packages/style/index.less'))
+    .pipe(less({ javascriptEnabled: true }))
+    .pipe(autoprefixer({ cascade: false }))
+    .pipe(rename('index.css'))
+    .pipe(dest(utils.resolve('lib/style')))
+    .pipe(cssmin({ keepSpecialComments: false }))
+    .pipe(rename('index.min.css'))
+    .pipe(dest(utils.resolve('lib/style')));
 }
 
 function copyfont() {
