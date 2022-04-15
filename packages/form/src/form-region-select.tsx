@@ -151,12 +151,12 @@ class VRegionSelect extends Component<IRegionSelectProps, IState> {
 
   async getStreetList(code: string) {
     const { request = {} } = this.props.option;
-    const { fetchApi, dataKey = '', valueKey = 'value', textKey = 'text' } = request;
+    const { fetchApi, dataKey, valueKey = 'value', textKey = 'text' } = request;
     if (!fetchApi) return;
     try {
       const res = await fetchApi({ code });
       if (res.code === 200) {
-        const dataList = !dataKey ? res.data : get(res.data, dataKey, []);
+        const dataList = Array.isArray(res.data) ? res.data : get(res.data, dataKey!) ?? [];
         this.setState((prevState) => {
           return { tabs: [...prevState.tabs, dataList.map((x) => ({ text: x[textKey], value: x[valueKey] }))] };
         });

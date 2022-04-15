@@ -137,13 +137,13 @@ class FormCascader extends Component<IProps, IState> {
 
   async getItemList() {
     const { request = {} } = this.props.option;
-    const { fetchApi, params = {}, dataKey = '', valueKey = 'value', textKey = 'text' } = request;
+    const { fetchApi, params = {}, dataKey, valueKey = 'value', textKey = 'text' } = request;
     if (!fetchApi) return;
     this.setState({ loading: true });
     try {
       const res = await fetchApi(params);
       if (res.code === 200) {
-        const dataList = !dataKey ? res.data : get(res.data, dataKey, []);
+        const dataList = Array.isArray(res.data) ? res.data : get(res.data, dataKey!) ?? [];
         const results = deepMapList(dataList, valueKey, textKey);
         this.setState({ results });
       }

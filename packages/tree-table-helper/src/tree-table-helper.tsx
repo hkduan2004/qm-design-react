@@ -187,7 +187,7 @@ const TreeTableHelper: React.FC<IProps> = (props) => {
     try {
       const res = await fetchApi(params);
       if (res.code === 200) {
-        const dataList = !dataKey ? res.data : get(res.data, dataKey, []);
+        const dataList = Array.isArray(res.data) ? res.data : get(res.data, dataKey!) ?? [];
         const results = deepMapList(dataList, valueKey, textKey);
         setTreeData(results);
         treeDataOrigin.current = results;
