@@ -95,6 +95,7 @@ const TableBody = React.forwardRef<TableBodyRef, IBodyProps>((props, ref) => {
     rowDraggable,
     onRowClick,
     onRowDblclick,
+    onRowContextMenu,
     onRowEnter,
   } = tableProps;
 
@@ -316,6 +317,12 @@ const TableBody = React.forwardRef<TableBodyRef, IBodyProps>((props, ref) => {
     onRowDblclick?.(row, column, ev);
   };
 
+  const cellContextMenuHandle = (ev: React.MouseEvent<HTMLTableCellElement>, row: IRecord, column: IColumn) => {
+    const { dataIndex } = column;
+    if ([config.expandableColumn, config.selectionColumn, config.operationColumn].includes(dataIndex)) return;
+    onRowContextMenu?.(row, column, ev);
+  };
+
   const setClickedValues = (arr: IClicked) => {
     if (isEqual(arr, clicked)) return;
     setClicked(arr);
@@ -451,6 +458,7 @@ const TableBody = React.forwardRef<TableBodyRef, IBodyProps>((props, ref) => {
         style={{ ...stys, ...groupStys, ...trExtraStys, ...tdExtraStys }}
         onClick={(ev) => cellClickHandle(ev, row, column)}
         onDoubleClick={(ev) => cellDbclickHandle(ev, row, column)}
+        onContextMenu={(ev) => cellContextMenuHandle(ev, row, column)}
       >
         <div className={`cell`}>{renderCell(column, row, rowIndex, columnIndex, rowKey, depth)}</div>
       </td>

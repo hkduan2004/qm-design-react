@@ -316,6 +316,7 @@ export const propTypes = {
   onDataLoad: PropTypes.func,
   onRowClick: PropTypes.func,
   onRowDblclick: PropTypes.func,
+  onRowContextMenu: PropTypes.func,
   onRowEnter: PropTypes.func,
   onScrollEnd: PropTypes.func,
 };
@@ -347,6 +348,7 @@ export const defaultProps: ITableProps = {
  * onDataLoad: 表格数据加载后触发，参数 tableData
  * onRowClick: 行单击事件，参数 row, column, event
  * onRowDblclick: 行双击事件，参数 row, column, event
+ * onRowContextMenu: 行右键单击事件，row, column, event
  * onRowEnter: 行选中(单选) 或 行高亮 回车时触发，参数 row, event
  * onScrollEnd: 滚动条滚动至底部时触发，参数 event
  */

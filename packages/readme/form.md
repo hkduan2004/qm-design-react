@@ -111,7 +111,7 @@
 | placeholder  | 表单元素的 placeholder 原生属性                        | string \| string[]               | -      |
 | allowClear   | 是否显示清空按钮                                       | boolean                          | -      |
 | rules        | 校验规则，[配置项](#rules)                             | array                            | -      |
-| selfCols     | 自身占据的列数，数值 24 表示占据整行                   | number                           | 1      |
+| selfCol      | 自身占据的列数，数值 24 表示占据整行                   | number                           | 1      |
 | offsetLeft   | 左侧的偏移列数                                         | number                           | -      |
 | offsetRight  | 右侧的偏移列数                                         | number                           | -      |
 | style        | 设置 css 样式                                          | styleObject                      | -      |
