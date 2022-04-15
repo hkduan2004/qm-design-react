@@ -120,7 +120,7 @@ class QmDownload extends Component<IProps, IState> {
       const { action, beforeDownload = () => true } = this.props;
       const actionUrl: string = isString(action) ? (action as string) : await this.getActionUrl();
       if (!actionUrl) {
-        return warn('QmDownload', '参数 `action` 有误');
+        return warn('QmDownload', '参数 `action` 有误!');
       }
       if (!beforeDownload(actionUrl)) return;
       await this.downloadFile(actionUrl);

@@ -10,7 +10,7 @@ import memoize from 'memoize-one';
 import ConfigContext from '../../config-provider/context';
 import FormContext from './context';
 import { addResizeListener, removeResizeListener } from '../../_utils/resize-event';
-import { getParserWidth, debounce, get, noop, isEmpty, isObject, isFunction } from '../../_utils/util';
+import { getParserWidth, debounce, nextTick, get, noop, isEmpty, isObject, isFunction } from '../../_utils/util';
 import { isEmptyValue } from './utils';
 import { warn } from '../../_utils/error';
 import { t } from '../../locale';
@@ -309,7 +309,7 @@ class QmForm extends Component<IProps, IState> {
     if (!isAutoFocus) return;
     const { type, fieldName } = this.formItems.filter((x) => x.fieldName)[0] || {};
     if ((type === 'INPUT' || type === 'INPUT_NUMBER') && fieldName) {
-      this[`${fieldName}_Ref`].focus();
+      nextTick(() => this[`${fieldName}_Ref`].focus());
     }
   }
 
