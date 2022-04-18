@@ -257,6 +257,7 @@
 | tree             | 左侧树组件配置，[配置项](#helper_tree)                                        | object                           | -      |
 | initialValue     | 筛选条件初始值                                                                | object                           | -      |
 | width            | 搜索帮助面板宽度                                                              | number \| string                 | -      |
+| onlySelect       | 是否只能选择                                                                  | boolean                          | true   |
 | closeRemoteMatch | 关闭服务端匹配功能                                                            | boolean                          | -      |
 | fieldAliasMap    | 表单字段与回传数据字段的映射，[配置项](#field_alias)， 必要参数               | function(): object \| object     | -      |
 | filterAliasMap   | 输入框与筛选器条件的映射，返回 筛选器 fieldName 列表                          | function(): string[] \| string[] | -      |

@@ -234,6 +234,7 @@ export type IFormItem = {
     };
     width?: number | string;
     initialValue?: IFormData;
+    onlySelect?: boolean;
     closeRemoteMatch?: boolean;
     fieldAliasMap?: (() => Record<string, string>) | Record<string, string>;
     extraAliasMap?: (() => Record<string, string>) | Record<string, string>;

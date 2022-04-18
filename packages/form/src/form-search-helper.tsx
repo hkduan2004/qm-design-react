@@ -190,8 +190,9 @@ class VSearch extends Component<ISearchProps, IState> {
 
   // 关闭但是没选择数据
   closeButNotSelect = () => {
+    const { closeRemoteMatch, onlySelect = true } = this.searchHelper!;
     if (this._is_change) {
-      !this.searchHelper!.closeRemoteMatch ? this.clearSearchHelperValue() : this.searchHelperChangeHandle(this.props.value);
+      !closeRemoteMatch && onlySelect ? this.clearSearchHelperValue() : this.searchHelperChangeHandle(this.props.value);
     }
     this._is_change = false;
     this.setVisible(false);
@@ -345,18 +346,7 @@ class FormSearchHelper extends Component<IProps> {
 
   render(): React.ReactElement {
     const { $$form } = this.context;
-    const {
-      type,
-      label,
-      tooltip,
-      fieldName,
-      invisible,
-      options = {},
-      labelWidth = $$form.props.labelWidth,
-      extra,
-      rules = [],
-      onChange = noop,
-    } = this.props.option;
+    const { type, label, tooltip, fieldName, invisible, options = {}, labelWidth = $$form.props.labelWidth, extra, rules = [] } = this.props.option;
 
     return (
       <Form.Item
@@ -379,7 +369,6 @@ class FormSearchHelper extends Component<IProps> {
               <VSearch
                 option={this.props.option}
                 onValuesChange={(value = '') => {
-                  onChange(value);
                   $$form.setViewValue(fieldName, value);
                 }}
               />
