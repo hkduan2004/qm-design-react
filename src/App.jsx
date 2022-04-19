@@ -2,7 +2,7 @@
  * @Author: 焦质晔
  * @Date: 2021-07-23 13:39:52
  * @Last Modified by: 焦质晔
- * @Last Modified time: 2022-03-17 10:33:10
+ * @Last Modified time: 2022-04-19 12:22:08
  */
 import React from 'react';
 import classNames from 'classnames';
@@ -577,6 +577,7 @@ const App = () => {
   const [columns, setColumns] = React.useState(createTableColumns());
   const [fetchParams, setFetchParams] = React.useState({});
   const [visible, setVisible] = React.useState(false);
+  const [visible2, setVisible2] = React.useState(false);
 
   const printClick = async () => {
     await sleep(1000);
@@ -633,7 +634,12 @@ const App = () => {
           </QmButton>
         </QmTable>
         <QmDrawer visible={visible} title="新建信息" onClose={() => setVisible(false)}>
-          <div style={{ height: 1000 }}>asdasd</div>
+          <div style={{ height: 1000 }}>
+            <QmButton onClick={() => setVisible2(true)}>按钮</QmButton>
+            <QmDrawer visible={visible2} title="新建信息" onClose={() => setVisible2(false)}>
+              <div>asdasd</div>
+            </QmDrawer>
+          </div>
         </QmDrawer>
       </div>
     </QmConfigProvider>

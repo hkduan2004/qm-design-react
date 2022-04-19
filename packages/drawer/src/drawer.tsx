@@ -2,7 +2,7 @@
  * @Author: 焦质晔
  * @Date: 2021-07-23 14:05:48
  * @Last Modified by: 焦质晔
- * @Last Modified time: 2022-03-17 20:57:12
+ * @Last Modified time: 2022-04-19 12:14:03
  */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
@@ -27,6 +27,7 @@ type EventType = React.MouseEvent<HTMLElement>;
 type IProps = DrawerProps & {
   size?: ComponentSize;
   loading?: boolean;
+  showFullScreen?: boolean;
   onClose?: (e: EventType) => void;
   onClosed?: () => void;
 };
@@ -55,6 +56,7 @@ class QmDrawer extends Component<IProps, IState> {
 
   static defaultProps = {
     width: DEFAULT_WIDTH,
+    showFullScreen: true,
     destroyOnClose: true,
   };
 
@@ -109,16 +111,17 @@ class QmDrawer extends Component<IProps, IState> {
 
   renderTitle() {
     const { fullscreen } = this.state;
+    const { showFullScreen } = this.props;
     return (
       <>
         <span ref={this.titleRef} className={classNames('text')}>
           {this.props.title}
         </span>
-        <span className={classNames('full-screen')}>
-          {React.createElement(fullscreen ? FullscreenExitOutlined : FullscreenOutlined, {
-            onClick: this.toggleHandle,
-          })}
-        </span>
+        {showFullScreen && (
+          <span className={classNames('full-screen')} onClick={this.toggleHandle}>
+            {React.createElement(fullscreen ? FullscreenExitOutlined : FullscreenOutlined)}
+          </span>
+        )}
       </>
     );
   }
@@ -147,7 +150,7 @@ class QmDrawer extends Component<IProps, IState> {
 
     return (
       <Drawer
-        {...omit(this.props, ['loading', 'maskClosable', 'onClosed'])}
+        {...omit(this.props, ['showFullScreen', 'loading', 'maskClosable', 'onClosed'])}
         maskClosable={maskClosable ?? $global?.['maskClosable'] ?? false}
         className={classNames(cls, className)}
         title={this.renderTitle()}

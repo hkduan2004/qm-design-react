@@ -2,7 +2,7 @@
  * @Author: 焦质晔
  * @Date: 2021-07-23 14:05:48
  * @Last Modified by: 焦质晔
- * @Last Modified time: 2022-03-17 20:57:25
+ * @Last Modified time: 2022-04-19 12:12:59
  */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
@@ -30,6 +30,7 @@ type IProps = ModalProps & {
   size?: ComponentSize;
   loading?: boolean;
   draggable?: boolean;
+  showFullScreen?: boolean;
   onClose?: (e: EventType) => void;
   onClosed?: () => void;
 };
@@ -76,6 +77,7 @@ class QmModal extends Component<IProps, IState> {
 
   static defaultProps = {
     width: DEFAULT_WIDTH,
+    showFullScreen: true,
     destroyOnClose: true,
     draggable: true,
     footer: null,
@@ -158,6 +160,7 @@ class QmModal extends Component<IProps, IState> {
 
   renderTitle() {
     const { fullscreen, disabled } = this.state;
+    const { showFullScreen } = this.props;
     return (
       <div
         onMouseOver={() => {
@@ -170,11 +173,11 @@ class QmModal extends Component<IProps, IState> {
         }}
       >
         <span className={classNames('text')}>{this.props.title}</span>
-        <span className={classNames('full-screen')}>
-          {React.createElement(fullscreen ? FullscreenExitOutlined : FullscreenOutlined, {
-            onClick: this.toggleHandle,
-          })}
-        </span>
+        {showFullScreen && (
+          <span className={classNames('full-screen')} onClick={this.toggleHandle}>
+            {React.createElement(fullscreen ? FullscreenExitOutlined : FullscreenOutlined)}
+          </span>
+        )}
       </div>
     );
   }
@@ -208,7 +211,7 @@ class QmModal extends Component<IProps, IState> {
 
     return (
       <Modal
-        {...omit(this.props, ['loading', 'maskClosable', 'onClose', 'onClosed'])}
+        {...omit(this.props, ['showFullScreen', 'loading', 'maskClosable', 'onClose', 'onClosed'])}
         maskClosable={maskClosable ?? $global?.['maskClosable'] ?? false}
         className={classNames(cls, className)}
         title={this.renderTitle()}
