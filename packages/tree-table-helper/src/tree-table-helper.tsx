@@ -157,6 +157,7 @@ const TreeTableHelper: React.FC<IProps> = (props) => {
       const res = await fetchApi(fetchParams);
       if (res.code === 200) {
         const items = Array.isArray(res.data) ? res.data : get(res.data, dataKey!) ?? [];
+        setRowKeys([]);
         setTableList(items);
       }
     } catch (err) {
