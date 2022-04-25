@@ -47,9 +47,10 @@ class VInput extends Component<IInputProps> {
       onBlur = noop,
       onEnter = noop,
     } = this.props.option;
-    const { prefix, suffix, maxLength, toUpper } = options;
+    const { prefix, suffix, password, maxLength, toUpper } = options;
+    const C = !password ? Input : Input.Password;
     return (
-      <Input
+      <C
         ref={(ref) => (this[type] = ref)}
         value={value}
         placeholder={placeholder}

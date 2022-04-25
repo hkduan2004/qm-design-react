@@ -167,6 +167,7 @@ export type IFormItem = {
     prefix?: React.ReactNode;
     suffix?: React.ReactNode;
     maxLength?: number;
+    password?: boolean;
     toUpper?: boolean;
     secretType?: ISecretType;
     // input-number

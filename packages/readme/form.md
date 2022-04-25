@@ -145,6 +145,7 @@
 | prefix           | 带有前缀图标                                       | INPUT                                | ReactNode                       | -                    |
 | suffix           | 带有后缀图标                                       | INPUT                                | ReactNode                       | -                    |
 | maxLength        | 内容最大长度                                       | INPUT                                | number                          | -                    |
+| password         | 是否为密码类型                                     | INPUT                                | boolean                         | -                    |
 | toUpper          | 输入框文本自动转大写                               | INPUT                                | boolean                         | -                    |
 | secretType       | 值保密类型，[配置项](#secret_type)                 | INPUT                                | string                          | -                    |
 | step             | 每次改变步数                                       | INPUT_NUMBER                         | number                          | 1                    |
