@@ -117,7 +117,7 @@ class FormRangeDate extends Component<IProps> {
         label={$$form.renderFormLabel(label)}
         tooltip={tooltip}
         hidden={invisible}
-        labelCol={{ flex: getParserWidth(labelWidth) }}
+        labelCol={{ flex: !$$form.verticalLayout ? getParserWidth(labelWidth) : 'initial' }}
         required={$$form.getFormItemRequired(rules)}
       >
         <Row wrap={false} gutter={8}>

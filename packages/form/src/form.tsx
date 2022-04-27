@@ -112,6 +112,10 @@ class QmForm extends Component<IProps, IState> {
     return this.props.size ?? this.context.size ?? '';
   }
 
+  get verticalLayout() {
+    return this.props.layout === 'vertical';
+  }
+
   get formItems() {
     return this.getFormItems(this.props.items);
   }
@@ -872,7 +876,7 @@ class QmForm extends Component<IProps, IState> {
   };
 
   render(): React.ReactElement {
-    const { className, style, formType, labelWidth, customClass } = this.props;
+    const { className, style, formType, layout, labelWidth, customClass } = this.props;
     const prefixCls = getPrefixCls('form');
 
     const validateMessages = {
@@ -893,8 +897,9 @@ class QmForm extends Component<IProps, IState> {
           ref={this.formRef}
           size={this.$size}
           initialValues={this._initialValues}
+          layout={layout}
           colon={false}
-          labelCol={{ flex: getParserWidth(labelWidth!) }}
+          labelCol={{ flex: !this.verticalLayout ? getParserWidth(labelWidth!) : 'initial' }}
           scrollToFirstError={true}
           validateMessages={validateMessages}
           onValuesChange={this.valuesChangeHandle}
@@ -903,7 +908,7 @@ class QmForm extends Component<IProps, IState> {
           onFinishFailed={this.finishFailedHandle}
         >
           <FormContext.Provider value={this.provide}>
-            <Row gutter={0}>{this.createFormLayout()}</Row>
+            <Row gutter={!this.verticalLayout ? 0 : 20}>{this.createFormLayout()}</Row>
             {this.createFormButtonLayout()}
           </FormContext.Provider>
         </Form>

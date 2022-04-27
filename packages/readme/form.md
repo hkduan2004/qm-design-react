@@ -2,26 +2,27 @@
 
 ### Form
 
-| 参数           | 说明                                           | 类型                     | 默认值  |
-| -------------- | ---------------------------------------------- | ------------------------ | ------- |
-| formType       | 表单类型，[配置项](#form_type)                 | string                   | default |
-| items          | 表单配置项列表，[配置项](#form_item)，必要参数 | array                    | -       |
-| fieldsChange   | 表单配置项变化回调，必要参数                   | function(fields)         | -       |
-| initialValues  | 表单初始值                                     | object                   | -       |
-| initialExtras  | 表单项的尾部信息初始值                         | object                   | -       |
-| size           | 尺寸                                           | large \| middle \| small | -       |
-| labelWidth     | label 标签宽度                                 | number \| string         | 80      |
-| labelAlign     | label 标签文本对齐方式                         | left \| right            | right   |
-| cols           | 每行显示的列数(被 24 整除)，不设置默认为自适应 | number                   | -       |
-| uniqueKey      | 用于表单配置项的本地缓存，不能重复             | string                   | -       |
-| customClass    | 自定义选择器类名                               | string                   | -       |
-| defaultRows    | 收起状态默认显示的行数 - 筛选器有效            | number                   | 1       |
-| authConfig     | 表单权限配置，[配置项](#auth_config)           | object                   | -       |
-| isAutoFocus    | 是否自动获得焦点                               | boolean                  | true    |
-| isFieldsDefine | 是否显示列定义功能                             | boolean                  | -       |
-| isCollapse     | 是否显示 展开/收起 功能 - 筛选器有效           | boolean                  | true    |
-| isSearchBtn    | 是否显示 搜索/重置 按钮                        | boolean                  | true    |
-| isSubmitBtn    | 是否显示 保存/重置 按钮                        | boolean                  | -       |
+| 参数           | 说明                                           | 类型                     | 默认值     |
+| -------------- | ---------------------------------------------- | ------------------------ | ---------- |
+| formType       | 表单类型，[配置项](#form_type)                 | string                   | default    |
+| items          | 表单配置项列表，[配置项](#form_item)，必要参数 | array                    | -          |
+| fieldsChange   | 表单配置项变化回调，必要参数                   | function(fields)         | -          |
+| initialValues  | 表单初始值                                     | object                   | -          |
+| initialExtras  | 表单项的尾部信息初始值                         | object                   | -          |
+| size           | 尺寸                                           | large \| middle \| small | -          |
+| layout         | 表单布局                                       | horizontal \| vertical   | horizontal |
+| labelWidth     | label 标签宽度                                 | number \| string         | 80         |
+| labelAlign     | label 标签文本对齐方式                         | left \| right            | right      |
+| cols           | 每行显示的列数(被 24 整除)，不设置默认为自适应 | number                   | -          |
+| uniqueKey      | 用于表单配置项的本地缓存，不能重复             | string                   | -          |
+| customClass    | 自定义选择器类名                               | string                   | -          |
+| defaultRows    | 收起状态默认显示的行数 - 筛选器有效            | number                   | 1          |
+| authConfig     | 表单权限配置，[配置项](#auth_config)           | object                   | -          |
+| isAutoFocus    | 是否自动获得焦点                               | boolean                  | true       |
+| isFieldsDefine | 是否显示列定义功能                             | boolean                  | -          |
+| isCollapse     | 是否显示 展开/收起 功能 - 筛选器有效           | boolean                  | true       |
+| isSearchBtn    | 是否显示 搜索/重置 按钮                        | boolean                  | true       |
+| isSubmitBtn    | 是否显示 保存/重置 按钮                        | boolean                  | -          |
 
 ### 事件
 

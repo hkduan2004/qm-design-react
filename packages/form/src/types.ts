@@ -20,6 +20,8 @@ export const DEFAULT_COL_WIDTH = 300;
 export const DEFAULT_TRUE_VALUE = '1';
 export const DEFAULT_FALSE_VALUE = '0';
 
+export type IFormLayout = 'horizontal' | 'vertical';
+
 export type ILabelAlign = 'left' | 'right';
 
 export type IFormType = 'default' | 'search' | 'onlyShow';
@@ -281,6 +283,7 @@ export type IFormProps = {
   items: IFormItem[];
   initialValues?: IFormData;
   initialExtras?: IExtraData;
+  layout?: IFormLayout;
   size?: ComponentSize;
   cols?: number;
   customClass?: string;
@@ -312,6 +315,7 @@ export const propTypes = {
   ), // 配置项
   initialValues: PropTypes.object, // 表单项的初始值
   initialExtras: PropTypes.object, // 表单项的尾部信息初始值
+  layout: PropTypes.oneOf(['horizontal', 'vertical']), // 表单布局
   size: (props, propName, componentName) => {
     if (!isValidComponentSize(props[propName] || '')) {
       return throwError('QmForm', 'Invalid prop `' + propName + '` supplied to' + ' `' + componentName + '`. Validation failed.');
@@ -346,6 +350,7 @@ export const propTypes = {
 };
 
 export const defaultProps = {
+  layout: 'horizontal',
   labelWidth: DEFAULT_LABEL_WIDTH,
   labelAlign: 'right',
   formType: 'default',
