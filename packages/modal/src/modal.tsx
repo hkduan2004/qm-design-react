@@ -28,6 +28,7 @@ type EventType = React.MouseEvent<HTMLElement>;
 
 type IProps = ModalProps & {
   size?: ComponentSize;
+  height?: number | string;
   loading?: boolean;
   draggable?: boolean;
   showFullScreen?: boolean;
@@ -87,6 +88,15 @@ class QmModal extends Component<IProps, IState> {
   public draggleRef = React.createRef<HTMLDivElement>();
   private opened = false;
 
+  get $size() {
+    const { size } = this.props;
+    return size || this.context.size || '';
+  }
+
+  get defaultHeight() {
+    return `calc(100vh - ${DEFAULT_TOP} - ${DEFAULT_TOP} - ${headerHeight[this.$size]}px)`;
+  }
+
   state: IState = {
     fullscreen: false,
     spinning: false,
@@ -133,19 +143,21 @@ class QmModal extends Component<IProps, IState> {
     const modalWrapperDom = getParentNode(ev.target as HTMLElement, 'ant-modal');
     if (!modalWrapperDom) return;
     const modalBodyDom = modalWrapperDom.querySelector('.ant-modal-body') as HTMLElement;
+    const { height } = this.props;
     const { fullscreen } = this.state;
-    const { size } = this.props;
-    const $size = size || this.context.size || '';
     if (!fullscreen) {
       setStyle(modalWrapperDom, { width: '100%', height: '100%', top: 0, maxWidth: '100%' });
-      setStyle(modalBodyDom, { height: `calc(100vh - ${headerHeight[$size]}px)` });
+      setStyle(modalBodyDom, { height: `calc(100vh - ${headerHeight[this.$size]}px)`, maxHeight: '' });
     } else {
       setStyle(modalWrapperDom, {
         width: getParserWidth(this.props.width || DEFAULT_WIDTH),
         height: 'auto',
         top: DEFAULT_TOP,
       });
-      setStyle(modalBodyDom, { height: `calc(100vh - ${DEFAULT_TOP} - ${DEFAULT_TOP} - ${headerHeight[$size]}px)` });
+      setStyle(modalBodyDom, {
+        height: !height ? this.defaultHeight : getParserWidth(height),
+        maxHeight: height === 'auto' ? this.defaultHeight : '',
+      });
     }
     this.setState((prevState: IState) => {
       return { fullscreen: !prevState.fullscreen };
@@ -192,21 +204,21 @@ class QmModal extends Component<IProps, IState> {
   };
 
   render(): React.ReactElement {
-    const { spinning, sloading, disabled, bounds, position } = this.state;
-    const { size, className, loading, draggable, maskClosable, bodyStyle, onClose } = this.props;
+    const { spinning, sloading, fullscreen, disabled, bounds, position } = this.state;
+    const { height, className, loading, draggable, maskClosable, bodyStyle, onClose } = this.props;
     const $global = this.context.global;
-    const $size = size || this.context.size || '';
     const prefixCls = getPrefixCls('modal');
 
     const defaultBodyStyle = {
-      height: `calc(100vh - ${DEFAULT_TOP} - ${DEFAULT_TOP} - ${headerHeight[$size]}px)`,
+      height: !height ? this.defaultHeight : getParserWidth(height),
+      maxHeight: height === 'auto' ? this.defaultHeight : '',
       overflow: 'auto',
     };
 
     const cls = {
       [prefixCls]: true,
-      [`${prefixCls}--lg`]: $size === 'large',
-      [`${prefixCls}--sm`]: $size === 'small',
+      [`${prefixCls}--lg`]: this.$size === 'large',
+      [`${prefixCls}--sm`]: this.$size === 'small',
     };
 
     return (
@@ -215,11 +227,17 @@ class QmModal extends Component<IProps, IState> {
         maskClosable={maskClosable ?? $global?.['maskClosable'] ?? false}
         className={classNames(cls, className)}
         title={this.renderTitle()}
+        footer={null}
         bodyStyle={Object.assign({}, defaultBodyStyle, bodyStyle)}
         onCancel={onClose}
         afterClose={this.afterVisibleChange}
         modalRender={(modal) => (
-          <Draggable disabled={!draggable || disabled} bounds={bounds} position={position} onStart={(ev, uiData) => this.onStart(ev, uiData)}>
+          <Draggable
+            disabled={!draggable || disabled || fullscreen}
+            bounds={bounds}
+            position={position}
+            onStart={(ev, uiData) => this.onStart(ev, uiData)}
+          >
             <div ref={this.draggleRef}>{modal}</div>
           </Draggable>
         )}
