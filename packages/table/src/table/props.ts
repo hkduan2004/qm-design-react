@@ -334,7 +334,7 @@ export const defaultProps: ITableProps = {
   showAlert: true,
   showFullScreen: true,
   showRefresh: true,
-  showTableImport: false,
+  showTableImport: true,
   showSelectCollection: true,
   showSuperSearch: true,
   showFastSearch: true,

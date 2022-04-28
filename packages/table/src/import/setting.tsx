@@ -25,13 +25,15 @@ type ISettingProps = {
 
 const Setting: React.FC<ISettingProps> = (props) => {
   const { columns, onClose } = props;
-  const { tableRef } = React.useContext(TableContext)!;
+  const { tableRef, createTableData } = React.useContext(TableContext)!;
 
   const { importXLSX } = useExport();
 
   const formRef = React.useRef<QmForm>(null);
 
   const [loading, setLoading] = React.useState<boolean>(false);
+
+  const [disabled, setDisabled] = React.useState<boolean>(true);
 
   const createColumns = (columns: IColumn[]) => {
     return columns.filter(
@@ -43,7 +45,7 @@ const Setting: React.FC<ISettingProps> = (props) => {
     return [
       {
         type: 'INPUT',
-        label: '文件名',
+        label: t('qm.table.export.fileName'),
         fieldName: 'fileName',
         render: (_, instance) => {
           const { fileName } = instance.GET_FIELDS_VALUE(['fileName']);
@@ -54,6 +56,7 @@ const Setting: React.FC<ISettingProps> = (props) => {
                   fileType={instance.state.formData.fileType}
                   onChange={(fileName, file) => {
                     instance.SET_FIELDS_VALUE({ fileName, file });
+                    file && setDisabled(false);
                   }}
                 />
               ) : (
@@ -65,7 +68,7 @@ const Setting: React.FC<ISettingProps> = (props) => {
       },
       {
         type: 'SELECT',
-        label: '文件类型',
+        label: t('qm.table.export.fileType'),
         fieldName: 'fileType',
         allowClear: false,
         options: {
@@ -74,26 +77,29 @@ const Setting: React.FC<ISettingProps> = (props) => {
       },
       {
         type: 'SELECT',
-        label: '导入模式',
+        label: t('qm.table.import.importType'),
         fieldName: 'importType',
         allowClear: false,
         options: {
           itemList: [
-            { text: '新增', value: 'add' },
-            { text: '插入', value: 'insert' },
+            { text: t('qm.table.import.fillText'), value: 'fill' },
+            { text: t('qm.table.import.addText'), value: 'add' },
+            { text: t('qm.table.import.insertText'), value: 'insert' },
           ],
         },
         onChange: (val) => {
-          formItems.find((x) => x.fieldName === 'posIndex')!.hidden = val === 'add';
+          formItems.find((x) => x.fieldName === 'posIndex')!.hidden = val !== 'insert';
           setFormItems([...formItems]);
         },
       },
       {
         type: 'INPUT_NUMBER',
-        label: '插入位置',
+        label: t('qm.table.import.insertPos'),
         fieldName: 'posIndex',
         hidden: true,
+        rules: [{ required: true }],
         options: {
+          min: 1,
           max: tableRef.current!.tableFullData.length,
           formatter: (value) => `第 ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ','),
           parser: (value) => value.replace(/第\s?|(,*)/g, ''),
@@ -107,7 +113,7 @@ const Setting: React.FC<ISettingProps> = (props) => {
 
   const initialValue: Record<string, any> = {
     fileType: 'xlsx',
-    importType: 'add',
+    importType: 'fill',
   };
   const initialExtra: Record<string, string> = {
     posIndex: '条',
@@ -120,7 +126,22 @@ const Setting: React.FC<ISettingProps> = (props) => {
     if (err) return;
     setLoading(true);
     importXLSX({ columns: createColumns(columns), file: data.file }, (records: IRecord[]) => {
-      // console.log(22, records);
+      if (data.importType === 'fill') {
+        createTableData(records);
+      }
+      if (data.importType === 'add') {
+        const { tableFullData } = tableRef.current!;
+        createTableData([...tableFullData, ...records]);
+      }
+      if (data.importType === 'insert') {
+        const { tableFullData } = tableRef.current!;
+        const v = data.posIndex;
+        for (let i = 0; i < tableFullData.length; i++) {
+          delete tableFullData[i].pageIndex;
+        }
+        const results: IRecord[] = tableFullData.slice(0, v).concat(records).concat(tableFullData.slice(v));
+        createTableData(results);
+      }
     });
     await sleep(1000);
     setLoading(false);
@@ -132,6 +153,7 @@ const Setting: React.FC<ISettingProps> = (props) => {
   return (
     <div className={`${prefixCls}-import__setting`}>
       <QmForm ref={formRef} initialValues={initialValue} initialExtras={initialExtra} items={formItems} cols={1} labelWidth={100} />
+      <div style={{ height: 20 }}></div>
       <div
         style={{
           position: 'absolute',
@@ -148,7 +170,7 @@ const Setting: React.FC<ISettingProps> = (props) => {
         <QmButton onClick={() => onClose()} style={{ marginRight: 8 }}>
           {t('qm.table.export.closeButton')}
         </QmButton>
-        <QmButton type="primary" loading={loading} onClick={() => confirmHandle()}>
+        <QmButton type="primary" loading={loading} disabled={disabled} onClick={() => confirmHandle()}>
           {t('qm.table.import.text')}
         </QmButton>
       </div>

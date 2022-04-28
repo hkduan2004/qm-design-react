@@ -34,6 +34,7 @@ const TableImport: React.FC<ITableImportProps> = (props) => {
     visible,
     title: t('qm.table.import.settingTitle'),
     width: 600,
+    height: 'auto',
     loading: false,
     bodyStyle: { paddingBottom: '52px' },
     onClose: () => setVisible(false),

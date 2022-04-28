@@ -175,6 +175,11 @@ export default {
         success: 'Successfully imported {total} records',
         error: 'Import failed, please check that the field name and data format are correct.',
         settingTitle: 'Import setting',
+        importType: 'Import type',
+        insertPos: 'Insertion position',
+        fillText: 'fill',
+        addText: 'add',
+        insertText: 'insert',
       },
       export: {
         text: 'Export',

@@ -174,7 +174,12 @@ export default {
         text: '导 入',
         success: '成功导入 {total} 条记录',
         error: '导入失败，请检查字段名和数据格式是否正确',
-        settingTitle: '导出设置',
+        settingTitle: '导入设置',
+        importType: '导入模式',
+        insertPos: '插入位置',
+        fillText: '新增',
+        addText: '追加',
+        insertText: '插入',
       },
       export: {
         text: '导 出',

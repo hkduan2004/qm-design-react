@@ -83,6 +83,7 @@ export type ITableContext = {
   setFullScreen: (value: boolean) => void;
   setShouldToTop: (value: boolean) => void;
   doFieldValidate: (rules: IRule[], val: unknown, rowKey: IRowKey, columnKey: string) => void;
+  createTableData: (list: IRecord[]) => void;
   createGroupData: (records: IRecord[]) => IRecord[];
   findParentRowKeys: (deriveRowKeys: IDerivedRowKey[], key: IRowKey) => IRowKey[];
   getAllChildRowKeys: (deriveRowKeys: IDerivedRowKey[]) => IRowKey[];

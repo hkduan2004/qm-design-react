@@ -51,7 +51,6 @@ const readLocalFile = (options): Promise<File> => {
       const { files } = ev.target;
       const file = files[0];
       let errType = '';
-      // 校验类型
       if (!isAllType) {
         for (let fIndex = 0; fIndex < files.length; fIndex++) {
           const { type } = parseFile(files[fIndex]);
@@ -64,7 +63,7 @@ const readLocalFile = (options): Promise<File> => {
       if (!errType) {
         resolve(file);
       } else {
-        message.success(t('qm.upload.notType', { type: errType }));
+        message.warning(t('qm.upload.notType', { type: errType }));
         reject();
       }
       document.body.removeChild(fileForm);

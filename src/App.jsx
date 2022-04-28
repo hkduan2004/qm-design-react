@@ -604,15 +604,15 @@ const App = () => {
           ref={tableRef}
           uniqueKey="demo"
           height={'auto'}
-          rowKey={(row) => row.id}
+          rowKey={'index'}
           columns={columns}
-          dataSource={tableData.data.items}
+          // dataSource={tableData.data.items}
           // webPagination
-          // fetch={{
-          //   api: getTableData,
-          //   params: fetchParams,
-          //   dataKey: 'records',
-          // }}
+          fetch={{
+            api: getTableData,
+            params: fetchParams,
+            dataKey: 'records',
+          }}
           rowSelection={{
             type: 'checkbox',
             // selectedRowKeys: [],
@@ -622,7 +622,6 @@ const App = () => {
             // },
             // onChange: (val, rows) => {},
           }}
-          showTableImport={true}
           exportExcel={{ fileName: '导出文件.xlsx' }}
           tablePrint={{}}
           columnsChange={(columns) => setColumns(columns)}

@@ -400,6 +400,7 @@ const Table = React.forwardRef<TableRef, ITableProps>((props, ref) => {
       setFullScreen,
       setShouldToTop,
       doFieldValidate,
+      createTableData,
       createGroupData,
       findParentRowKeys,
       getAllChildRowKeys,

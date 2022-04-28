@@ -389,7 +389,6 @@ const useExport = () => {
     };
     fileReader.onload = (ev) => {
       const tableFields: string[] = flatColumns.map((column) => column.title);
-      const dataIndexes: string[] = flatColumns.map((column) => column.dataIndex);
       const workbook = new ExcelJS.Workbook();
       const readerTarget = ev.target;
       if (readerTarget) {
@@ -408,7 +407,11 @@ const useExport = () => {
                 });
                 const record: IRecord = {};
                 tableFields.forEach((field, index) => {
-                  setCellValue(record, dataIndexes[index], item[field]);
+                  const { dataIndex, dictItems } = flatColumns[index];
+                  if (Array.isArray(dictItems)) {
+                    item[field] = dictItems.find((x) => x.text == item[field])?.value ?? item[field];
+                  }
+                  setCellValue(record, dataIndex, item[field]);
                 });
                 return record;
               });
