@@ -2,7 +2,7 @@
  * @Author: 焦质晔
  * @Date: 2021-07-23 13:39:52
  * @Last Modified by: 焦质晔
- * @Last Modified time: 2022-04-28 08:54:42
+ * @Last Modified time: 2022-04-28 14:05:04
  */
 import React from 'react';
 import classNames from 'classnames';
@@ -622,6 +622,7 @@ const App = () => {
             // },
             // onChange: (val, rows) => {},
           }}
+          showTableImport={true}
           exportExcel={{ fileName: '导出文件.xlsx' }}
           tablePrint={{}}
           columnsChange={(columns) => setColumns(columns)}

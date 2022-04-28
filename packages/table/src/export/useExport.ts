@@ -2,12 +2,12 @@
  * @Author: 焦质晔
  * @Date: 2022-01-10 08:31:36
  * @Last Modified by: 焦质晔
- * @Last Modified time: 2022-01-10 10:17:36
+ * @Last Modified time: 2022-04-28 13:52:11
  */
 import React from 'react';
 import ExcelJS from 'exceljs';
 import TableContext from '../context';
-import { getCellValue, convertToRows, getVNodeText, columnsFlatMap, deepFindColumn } from '../utils';
+import { getCellValue, setCellValue, convertToRows, getVNodeText, columnsFlatMap, deepFindColumn } from '../utils';
 import { isValidElement } from '../../../_utils/util';
 import { t } from '../../../locale';
 import { message } from '../../../antd';
@@ -106,11 +106,11 @@ const formatCellValue = (column: IColumn): Nullable<INumFmt> => {
   return null;
 };
 
-const useExport = (calcSummationValues: IParamsFn1, renderCell: IParamsFn2) => {
+const useExport = () => {
   const { tableRef, tableProps, getSpan, showSummary, isHeadGroup } = React.useContext(TableContext)!;
   const { spanMethod, showHeader } = tableProps;
 
-  const exportXLSX = async (options: IOptions, dataList: IRecord[]): Promise<Blob> => {
+  const exportXLSX = async (options: IOptions, dataList: IRecord[], calcSummationValues: IParamsFn1, renderCell: IParamsFn2): Promise<Blob> => {
     const { columns, footSummation } = options;
     const {
       scrollYStore: { rowHeight },
@@ -388,7 +388,8 @@ const useExport = (calcSummationValues: IParamsFn1, renderCell: IParamsFn2) => {
       message.error(t('qm.table.import.error'));
     };
     fileReader.onload = (ev) => {
-      const tableFields: string[] = flatColumns.map((column) => column.dataIndex);
+      const tableFields: string[] = flatColumns.map((column) => column.title);
+      const dataIndexes: string[] = flatColumns.map((column) => column.dataIndex);
       const workbook = new ExcelJS.Workbook();
       const readerTarget = ev.target;
       if (readerTarget) {
@@ -400,14 +401,14 @@ const useExport = (calcSummationValues: IParamsFn1, renderCell: IParamsFn2) => {
             const fields = sheetValues[fieldIndex] as string[];
             const status = checkImportData(tableFields, fields);
             if (status) {
-              const records = sheetValues.slice(fieldIndex).map((list) => {
+              const records = sheetValues.slice(fieldIndex + 1).map((list) => {
                 const item: Record<string, unknown> = {};
                 list.forEach((cellValue, cIndex) => {
                   item[fields[cIndex]] = cellValue;
                 });
                 const record: IRecord = {};
-                tableFields.forEach((field) => {
-                  record[field] = typeof item[field] === 'undefined' ? null : item[field];
+                tableFields.forEach((field, index) => {
+                  setCellValue(record, dataIndexes[index], item[field]);
                 });
                 return record;
               });

@@ -2,7 +2,7 @@
  * @Author: 焦质晔
  * @Date: 2021-06-19 08:45:54
  * @Last Modified by: 焦质晔
- * @Last Modified time: 2022-03-17 15:36:15
+ * @Last Modified time: 2022-04-28 11:16:28
  */
 export default {
   name: 'zh-cn',
@@ -56,6 +56,7 @@ export default {
     },
     upload: {
       tooltip: '只能上传 {type} 格式',
+      notType: '不支持的文件类型 {type}',
       sizeLimit: '大小不能超过 {size}M',
       uploadError: '文件上传失败！',
       downError: '文件下载失败！',

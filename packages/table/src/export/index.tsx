@@ -2,7 +2,7 @@
  * @Author: 焦质晔
  * @Date: 2022-01-09 11:07:34
  * @Last Modified by: 焦质晔
- * @Last Modified time: 2022-01-10 10:17:26
+ * @Last Modified time: 2022-04-28 12:33:19
  */
 import React from 'react';
 import classNames from 'classnames';
@@ -125,7 +125,7 @@ const TableExport: React.FC<ITableExportProps> = (props) => {
     return result;
   };
 
-  const { exportXLSX, exportCSV } = useExport(calcSummationValues, renderCell);
+  const { exportXLSX, exportCSV } = useExport();
 
   const getTableData = async (options: IOptions) => {
     const { fileName, fileType, exportType, startIndex = 1, endIndex } = options;
@@ -155,7 +155,7 @@ const TableExport: React.FC<ITableExportProps> = (props) => {
       tableList = tableList.slice(startIndex - 1, endIndex ? endIndex : undefined);
     }
     if (fileType === 'xlsx') {
-      const blob = await exportXLSX(options, tableList);
+      const blob = await exportXLSX(options, tableList, calcSummationValues, renderCell);
       download(blob, `${fileName}.xlsx`);
       recordExportLog(`${fileName}.xlsx`);
     }

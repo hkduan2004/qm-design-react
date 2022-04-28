@@ -2,11 +2,10 @@
  * @Author: 焦质晔
  * @Date: 2022-01-09 11:07:34
  * @Last Modified by: 焦质晔
- * @Last Modified time: 2022-04-28 08:30:49
+ * @Last Modified time: 2022-04-28 12:35:11
  */
 import React from 'react';
 import classNames from 'classnames';
-
 import { t } from '../../../locale';
 import { getPrefixCls } from '../../../_utils/prefix';
 
@@ -48,12 +47,7 @@ const TableImport: React.FC<ITableImportProps> = (props) => {
         </i>
       </span>
       <QmModal {...wrapProps}>
-        <Setting
-          onClose={() => setVisible(false)}
-          onOk={(data) => {
-            // ...
-          }}
-        />
+        <Setting columns={tableColumns} onClose={() => setVisible(false)} />
       </QmModal>
     </>
   );
