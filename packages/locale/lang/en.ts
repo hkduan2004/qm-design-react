@@ -169,6 +169,12 @@ export default {
         full: 'Full Screen',
         cancelFull: 'Cancel Full Screen',
       },
+      import: {
+        text: 'Import',
+        success: 'Successfully imported {total} records',
+        error: 'Import failed, please check that the field name and data format are correct.',
+        settingTitle: 'Import setting',
+      },
       export: {
         text: 'Export',
         closeButton: 'Close',

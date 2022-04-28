@@ -2,7 +2,7 @@
  * @Author: 焦质晔
  * @Date: 2021-03-06 15:11:01
  * @Last Modified by: 焦质晔
- * @Last Modified time: 2022-03-16 19:06:50
+ * @Last Modified time: 2022-04-28 08:49:53
  */
 import React from 'react';
 import type { BuildInPlacements } from 'rc-trigger';
@@ -383,6 +383,7 @@ export type ITableProps = {
   authConfig?: IAuthConfig;
   showFullScreen?: boolean;
   showRefresh?: boolean;
+  showTableImport?: boolean;
   showSelectCollection?: boolean;
   showSuperSearch?: boolean;
   showFastSearch?: boolean;

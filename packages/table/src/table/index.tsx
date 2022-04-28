@@ -2,7 +2,7 @@
  * @Author: 焦质晔
  * @Date: 2022-01-12 16:14:11
  * @Last Modified by: 焦质晔
- * @Last Modified time: 2022-03-19 21:01:10
+ * @Last Modified time: 2022-04-28 08:54:02
  */
 import React from 'react';
 import classNames from 'classnames';
@@ -30,6 +30,7 @@ import Alert from '../alert';
 import FullScreen from '../full-screen';
 import Reload from '../reload';
 import TablePrint from '../print';
+import TableImport from '../import';
 import TableExport from '../export';
 import SelectCollection from '../select-collection';
 import GroupSummary from '../group-summary';
@@ -168,6 +169,7 @@ const Table = React.forwardRef<TableRef, ITableProps>((props, ref) => {
     isHeadFilter,
     isServiceSummation,
     isSelectCollection,
+    isTableImport,
     isSuperSearch,
     isFastSearch,
     isGroupSummary,
@@ -535,6 +537,8 @@ const Table = React.forwardRef<TableRef, ITableProps>((props, ref) => {
             {showRefresh && isFetch && <Reload />}
             {/* 打印 */}
             {permission.print && tablePrint && <TablePrint tableColumns={tableColumns} />}
+            {/* 导入 */}
+            {isTableImport && <TableImport tableColumns={tableColumns} />}
             {/* 导出 */}
             {permission.export && exportExcel && <TableExport tableColumns={tableColumns} />}
             {/* 多选集合 */}

@@ -169,6 +169,12 @@ export default {
         full: '全屏',
         cancelFull: '取消全屏',
       },
+      import: {
+        text: '导 入',
+        success: '成功导入 {total} 条记录',
+        error: '导入失败，请检查字段名和数据格式是否正确',
+        settingTitle: '导出设置',
+      },
       export: {
         text: '导 出',
         closeButton: '关 闭',

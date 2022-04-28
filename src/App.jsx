@@ -2,7 +2,7 @@
  * @Author: 焦质晔
  * @Date: 2021-07-23 13:39:52
  * @Last Modified by: 焦质晔
- * @Last Modified time: 2022-04-19 12:22:08
+ * @Last Modified time: 2022-04-28 08:54:42
  */
 import React from 'react';
 import classNames from 'classnames';
@@ -606,13 +606,13 @@ const App = () => {
           height={'auto'}
           rowKey={(row) => row.id}
           columns={columns}
-          // dataSource={tableData.data.items}
-          webPagination
-          fetch={{
-            api: getTableData,
-            params: fetchParams,
-            dataKey: 'records',
-          }}
+          dataSource={tableData.data.items}
+          // webPagination
+          // fetch={{
+          //   api: getTableData,
+          //   params: fetchParams,
+          //   dataKey: 'records',
+          // }}
           rowSelection={{
             type: 'checkbox',
             // selectedRowKeys: [],

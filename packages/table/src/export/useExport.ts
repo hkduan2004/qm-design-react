@@ -10,6 +10,7 @@ import TableContext from '../context';
 import { getCellValue, convertToRows, getVNodeText, columnsFlatMap, deepFindColumn } from '../utils';
 import { isValidElement } from '../../../_utils/util';
 import { t } from '../../../locale';
+import { message } from '../../../antd';
 
 import type { IAlign, IColumn, IRecord } from '../table/types';
 import type { AnyObject, Nullable } from '../../../_utils/types';
@@ -375,7 +376,59 @@ const useExport = (calcSummationValues: IParamsFn1, renderCell: IParamsFn2) => {
     return blob;
   };
 
-  return { exportXLSX, exportCSV };
+  const checkImportData = (tableFields: string[], fields: string[]) => {
+    return fields.some((field) => tableFields.indexOf(field) > -1);
+  };
+
+  const importXLSX = (options: { columns: IColumn[]; file: Blob }, callback?: (records: IRecord[]) => void) => {
+    const { columns, file } = options;
+    const flatColumns = columnsFlatMap(columns);
+    const fileReader = new FileReader();
+    fileReader.onerror = () => {
+      message.error(t('qm.table.import.error'));
+    };
+    fileReader.onload = (ev) => {
+      const tableFields: string[] = flatColumns.map((column) => column.dataIndex);
+      const workbook = new ExcelJS.Workbook();
+      const readerTarget = ev.target;
+      if (readerTarget) {
+        workbook.xlsx.load(readerTarget.result as ArrayBuffer).then((wb) => {
+          const firstSheet = wb.worksheets[0];
+          if (firstSheet) {
+            const sheetValues = firstSheet.getSheetValues() as string[][];
+            const fieldIndex = sheetValues.findIndex((list) => list && list.length > 0);
+            const fields = sheetValues[fieldIndex] as string[];
+            const status = checkImportData(tableFields, fields);
+            if (status) {
+              const records = sheetValues.slice(fieldIndex).map((list) => {
+                const item: Record<string, unknown> = {};
+                list.forEach((cellValue, cIndex) => {
+                  item[fields[cIndex]] = cellValue;
+                });
+                const record: IRecord = {};
+                tableFields.forEach((field) => {
+                  record[field] = typeof item[field] === 'undefined' ? null : item[field];
+                });
+                return record;
+              });
+              // 执行回调
+              callback?.(records);
+              message.success(t('qm.table.import.success', { total: records.length }));
+            } else {
+              message.error(t('qm.table.import.error'));
+            }
+          } else {
+            message.error(t('qm.table.import.error'));
+          }
+        });
+      } else {
+        message.error(t('qm.table.import.error'));
+      }
+    };
+    fileReader.readAsArrayBuffer(file);
+  };
+
+  return { exportXLSX, exportCSV, importXLSX };
 };
 
 export default useExport;

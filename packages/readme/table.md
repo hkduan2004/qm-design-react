@@ -44,6 +44,7 @@
 | showRefresh          | 是否显示刷新按钮                                       | boolean                                                | true   |
 | exportExcel          | 导出表格数据，[配置项](#export_excel)                  | object                                                 | -      |
 | tablePrint           | 表格打印，[配置项](#table_print)                       | object                                                 | -      |
+| showTableImport      | 是否显示表格导入                                       | boolean                                                | true   |
 | showSelectCollection | 是否显示行选合集                                       | boolean                                                | true   |
 | showSuperSearch      | 是否显示高级检索                                       | boolean                                                | true   |
 | showFastSearch       | 是否显示数据定位查找                                   | boolean                                                | true   |

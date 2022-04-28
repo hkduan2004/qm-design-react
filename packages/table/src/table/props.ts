@@ -2,7 +2,7 @@
  * @Author: 焦质晔
  * @Date: 2020-02-28 23:04:58
  * @Last Modified by: 焦质晔
- * @Last Modified time: 2022-03-16 19:07:26
+ * @Last Modified time: 2022-04-28 08:50:17
  */
 import PropTypes from 'prop-types';
 import { isNumber } from '../../../_utils/util';
@@ -334,6 +334,7 @@ export const defaultProps: ITableProps = {
   showAlert: true,
   showFullScreen: true,
   showRefresh: true,
+  showTableImport: true,
   showSelectCollection: true,
   showSuperSearch: true,
   showFastSearch: true,

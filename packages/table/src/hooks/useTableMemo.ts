@@ -2,7 +2,7 @@
  * @Author: 焦质晔
  * @Date: 2021-12-25 20:09:42
  * @Last Modified by: 焦质晔
- * @Last Modified time: 2022-03-18 19:22:07
+ * @Last Modified time: 2022-04-28 08:53:32
  */
 import React from 'react';
 import {
@@ -163,6 +163,7 @@ const useTableMemo = <T extends ITableProps>(props: T, extra: IExtra) => {
     scrollPagination,
     showSuperSearch,
     showFastSearch,
+    showTableImport,
     showSelectCollection,
     footRender,
   } = props;
@@ -249,6 +250,8 @@ const useTableMemo = <T extends ITableProps>(props: T, extra: IExtra) => {
 
   const isServiceSummation = React.useMemo(() => summationColumns.some((x) => !!x.summation!.dataKey), [summationColumns]);
 
+  const isTableImport = React.useMemo(() => !isFetch && !!showTableImport, [isFetch, showTableImport]);
+
   const isSelectCollection = React.useMemo(() => !!showSelectCollection && rowSelection?.type === 'checkbox', [showSelectCollection, rowSelection]);
 
   const isSuperSearch = React.useMemo(() => !!showSuperSearch && isHeadFilter, [showSuperSearch, isHeadFilter]);
@@ -306,6 +309,7 @@ const useTableMemo = <T extends ITableProps>(props: T, extra: IExtra) => {
     isHeadFilter,
     isServiceSummation,
     isSelectCollection,
+    isTableImport,
     isSuperSearch,
     isFastSearch,
     isGroupSummary,
