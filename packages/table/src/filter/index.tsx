@@ -55,7 +55,7 @@ const HeadFilter: React.FC<IHeadFilterProps> = (props) => {
   React.useEffect(() => {
     if (visible) {
       isEmpty(filters[dataKey]) && clearFilter();
-      setTimeout(() => createFocus(), 10);
+      setTimeout(() => createFocus(), 50);
     }
   }, [visible]);
 
