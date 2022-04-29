@@ -24,7 +24,7 @@ import type { DrawerProps } from '../../antd';
 
 type EventType = React.MouseEvent<HTMLElement>;
 
-type IProps = DrawerProps & {
+type IProps = Omit<DrawerProps, 'size'> & {
   size?: ComponentSize;
   loading?: boolean;
   showFullScreen?: boolean;
@@ -150,7 +150,7 @@ class QmDrawer extends Component<IProps, IState> {
 
     return (
       <Drawer
-        {...omit(this.props, ['showFullScreen', 'loading', 'maskClosable', 'onClosed'])}
+        {...omit(this.props, ['size', 'showFullScreen', 'loading', 'maskClosable', 'onClosed'])}
         maskClosable={maskClosable ?? $global?.['maskClosable'] ?? false}
         className={classNames(cls, className)}
         title={this.renderTitle()}

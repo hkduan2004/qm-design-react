@@ -55,7 +55,7 @@ type IState = {
 
 export type QmModalProps = IProps;
 
-const DEFAULT_WIDTH = '72%';
+const DEFAULT_WIDTH = '60%';
 const DEFAULT_TOP = '10vh';
 
 enum headerHeight {

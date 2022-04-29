@@ -13,7 +13,7 @@
 | layout         | 表单布局                                       | horizontal \| vertical   | horizontal |
 | labelWidth     | label 标签宽度                                 | number \| string         | 80         |
 | labelAlign     | label 标签文本对齐方式                         | left \| right            | right      |
-| cols           | 每行显示的列数(被 24 整除)，不设置默认为自适应 | number                   | -          |
+| cols           | 每行显示的列数，不设置默认为自适应             | number                   | -          |
 | uniqueKey      | 用于表单配置项的本地缓存，不能重复             | string                   | -          |
 | customClass    | 自定义选择器类名                               | string                   | -          |
 | defaultRows    | 收起状态默认显示的行数 - 筛选器有效            | number                   | 1          |
