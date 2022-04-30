@@ -12,8 +12,8 @@ import { getPrefixCls } from '../../../_utils/prefix';
 import type { IColumn } from '../table/types';
 
 import { QmModal } from '../../../index';
+import { ImportOutlined } from '@ant-design/icons';
 import Setting from './setting';
-import { UploadOutlined } from '@ant-design/icons';
 
 type ITableImportProps = {
   tableColumns: IColumn[];
@@ -44,7 +44,7 @@ const TableImport: React.FC<ITableImportProps> = (props) => {
     <>
       <span className={classNames(cls)} title={t('qm.table.import.text')} onClick={() => setVisible(true)}>
         <i className={`svgicon icon`}>
-          <UploadOutlined />
+          <ImportOutlined />
         </i>
       </span>
       <QmModal {...wrapProps}>

@@ -85,6 +85,7 @@ const Result: React.FC<IResultProps> = (props) => {
         }}
         webPagination={true}
         showFastSearch={false}
+        showTableImport={false}
         showSelectCollection={false}
         showFullScreen={false}
         showColumnDefine={false}

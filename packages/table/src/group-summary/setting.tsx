@@ -294,6 +294,7 @@ const Setting: React.FC<ISettingProps> = (props) => {
             rowKey={(record) => record.index}
             height={350}
             showFastSearch={false}
+            showTableImport={false}
             showFullScreen={false}
             showColumnDefine={false}
             columnsChange={(columns) => setGroupColumns(columns)}
@@ -320,6 +321,7 @@ const Setting: React.FC<ISettingProps> = (props) => {
             rowKey={(record) => record.index}
             height={350}
             showFastSearch={false}
+            showTableImport={false}
             showFullScreen={false}
             showColumnDefine={false}
             columnsChange={(columns) => setSummaryColumns(columns)}

@@ -147,6 +147,7 @@ const Result: React.FC<IResultProps> = (props) => {
     columns: tableColumns,
     rowKey: (record) => record.index,
     showFastSearch: false,
+    showTableImport: false,
     exportExcel: {
       fileName: `${dayjs().format('YYYYMMDDHHmmss')}.xlsx`,
     },

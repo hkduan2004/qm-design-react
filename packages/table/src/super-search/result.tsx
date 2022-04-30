@@ -379,6 +379,7 @@ const Result: React.FC<IResultProps> = (props) => {
             rowKey={(record) => record.index}
             height={350}
             showFastSearch={false}
+            showTableImport={false}
             showFullScreen={false}
             showColumnDefine={false}
             columnsChange={(columns) => setColumns(columns)}
