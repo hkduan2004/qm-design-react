@@ -661,9 +661,7 @@ const useTableCore = <T extends ITableProps>(props: T, extra: IExtra) => {
         // 数据索引
         record.index = index;
         // 分页索引
-        if (typeof record.pageIndex === 'undefined') {
-          record.pageIndex = createPageIndex(index);
-        }
+        record.pageIndex = createPageIndex(index);
         return record;
       });
     };

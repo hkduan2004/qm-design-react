@@ -75,6 +75,21 @@ const useImperativeMethod = <T extends React.ForwardedRef<TableRef>>(ref: T, ext
     clearTableLog,
   } = extra;
 
+  const deepForeach = (tableList: IRecord[], rowKeys: IRowKey[], callback?: (row: IRecord, rowKey: IRowKey) => void) => {
+    for (let i = 0; i < tableList.length; i++) {
+      const row = tableList[i];
+      const rowKey = getRowKey(row, row.index);
+      if (Array.isArray(row.children)) {
+        deepForeach(row.children, rowKeys, callback);
+      }
+      if (rowKeys.includes(rowKey)) {
+        callback?.(row, rowKey);
+        tableList.splice(i, 1);
+        i = i - 1;
+      }
+    }
+  };
+
   React.useImperativeHandle(ref, () => {
     return {
       // 计算表格高度
@@ -165,32 +180,26 @@ const useImperativeMethod = <T extends React.ForwardedRef<TableRef>>(ref: T, ext
       REMOVE_RECORDS: <T extends IRecord | IRowKey>(records: T | T[]) => {
         const { store, tableFullData } = tableRef.current;
         const rows = Array.isArray(records) ? records : [records];
-        const rowKeys = rows.map((x) => (isObject(x) ? getRowKey(x as IRecord, (x as IRecord).index) : x));
+        const rowKeys = rows.map((x) => (isObject(x) ? getRowKey(x as IRecord, (x as IRecord).index) : x)) as IRowKey[];
         if (!rowKeys.length) return;
         let isRemoved = false;
-        for (let i = 0; i < tableFullData.length; i++) {
-          const row = tableFullData[i];
-          const rowKey = getRowKey(row, row.index);
-          if (rowKeys.includes(rowKey)) {
-            store.addToRemoved(row);
-            // 移除表单校验记录
-            editableColumns.forEach((column) => {
-              const { dataIndex, editRender } = column;
-              const options = editRender?.(row, column);
-              if (!options) return;
-              const { rules = [], disabled } = options;
-              if (!disabled && rules.length) {
-                store.removeFromRequired({ x: rowKey, y: dataIndex });
-                store.removeFromValidate({ x: rowKey, y: dataIndex });
-              }
-            });
-            tableFullData.splice(i, 1);
-            i = i - 1;
-            isRemoved = true;
-          }
-        }
+        deepForeach(tableFullData, rowKeys, (row, rowKey) => {
+          store.addToRemoved(row);
+          // 移除表单校验记录
+          editableColumns.forEach((column) => {
+            const { dataIndex, editRender } = column;
+            const options = editRender?.(row, column);
+            if (!options) return;
+            const { rules = [], disabled } = options;
+            if (!disabled && rules.length) {
+              store.removeFromRequired({ x: rowKey, y: dataIndex });
+              store.removeFromValidate({ x: rowKey, y: dataIndex });
+            }
+          });
+          isRemoved = true;
+        });
         if (isRemoved) {
-          createTableData([...tableFullData]);
+          createTableData(tableFullData);
           setHandleState(Object.assign({}, tableRef.current.handleState, { remove: true }));
           dataChange();
         }

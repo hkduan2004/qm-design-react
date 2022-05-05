@@ -136,9 +136,6 @@ const Setting: React.FC<ISettingProps> = (props) => {
       if (data.importType === 'insert') {
         const { tableFullData } = tableRef.current!;
         const v = data.posIndex;
-        for (let i = 0; i < tableFullData.length; i++) {
-          delete tableFullData[i].pageIndex;
-        }
         const results: IRecord[] = tableFullData.slice(0, v).concat(records).concat(tableFullData.slice(v));
         createTableData(results);
       }

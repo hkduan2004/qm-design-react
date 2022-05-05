@@ -45,7 +45,7 @@ const Result: React.FC<IResultProps> = (props) => {
     return [
       {
         title: t('qm.table.groupSummary.index'),
-        dataIndex: 'index',
+        dataIndex: 'pageIndex',
         width: 80,
         render: (text: number) => {
           return text + 1;
@@ -59,16 +59,19 @@ const Result: React.FC<IResultProps> = (props) => {
     ];
   };
 
-  const createTableData = () => {
+  const createTableList = () => {
     return tableRef.current.selectionRows.map((row) => {
-      delete row.children;
-      return row;
+      const item = {
+        ...row,
+        children: undefined,
+      };
+      return item;
     });
   };
 
   const [tableColumns, setTableColumns] = React.useState<IColumn[]>(createColumns());
 
-  const [tableList] = React.useState(createTableData());
+  const [tableList] = React.useState(createTableList());
 
   return (
     <>

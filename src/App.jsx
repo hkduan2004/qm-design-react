@@ -604,7 +604,7 @@ const App = () => {
           ref={tableRef}
           uniqueKey="demo"
           height={'auto'}
-          rowKey={'index'}
+          rowKey={'id'}
           columns={columns}
           // dataSource={tableData.data.items}
           // webPagination
