@@ -453,17 +453,12 @@ const useTableCore = <T extends ITableProps>(props: T, extra: IExtra) => {
     return result;
   };
 
-  // 判断是否为树结构
-  const mayTreeTable = () => {
-    return tableRef.current.deriveRowKeys.some((x) => Array.isArray(x.children) && x.children.length);
-  };
-
   // 选择列已选中 keys
   const createSelectionKeys = (rowKeys?: IRowKey[]) => {
     const { type, checkStrictly = !0 } = rowSelection || {};
     const selectedKeys = Array.isArray(rowKeys) ? rowKeys : selectionKeys;
     let result: IRowKey[] = [];
-    if (mayTreeTable() && !checkStrictly) {
+    if (tableRef.current.treeTable && !checkStrictly) {
       selectedKeys.forEach((x) => {
         result.push(...createTreeSelectionKeys(x, selectedKeys));
       });
@@ -477,7 +472,7 @@ const useTableCore = <T extends ITableProps>(props: T, extra: IExtra) => {
     const { allRowKeys, deriveRowKeys, flattenRowKeys } = tableRef.current;
     const { defaultExpandAllRows, expandedRowKeys = [], expandedRowRender } = expandable || {};
     // 树结构
-    if (mayTreeTable()) {
+    if (tableRef.current.treeTable) {
       if (expandedRowRender) {
         warn('Table', '树结构表格不能再设置展开行的 `expandedRowRender` 参数');
       }
@@ -768,7 +763,7 @@ const useTableCore = <T extends ITableProps>(props: T, extra: IExtra) => {
   // 更新表格数据
   const updateTableData = () => {
     let dataList = createTableList();
-    if (isTreeTable && treeConfig?.virtual) {
+    if (tableRef.current.treeTable && treeConfig?.virtual) {
       dataList = createVirtualTree();
     }
     setScrollYLoad(dataList.length > config.virtualScrollY);

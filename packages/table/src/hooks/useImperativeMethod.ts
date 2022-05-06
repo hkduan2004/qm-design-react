@@ -19,6 +19,9 @@ type IExtra = {
   editableColumns: IColumn[];
   pagination: IPagination;
   fetchParams: IFetchParams;
+  selectionKeys: IRowKey[];
+  rowExpandedKeys: IRowKey[];
+  highlightKey: IRowKey;
   isFetch: boolean;
   dataChange: () => void;
   getTableData: () => Promise<void>;
@@ -30,6 +33,7 @@ type IExtra = {
   setHandleState: (option: ITableRef['handleState']) => void;
   forceUpdate: () => void;
   setSelectionKeys: (rowKeys: IRowKey[]) => void;
+  setRowExpandedKeys: (rowKeys: IRowKey[]) => void;
   setHighlightKey: (rowKey: IRowKey) => void;
   getTableLog: () => {
     required: IValidItem[];
@@ -54,6 +58,9 @@ const useImperativeMethod = <T extends React.ForwardedRef<TableRef>>(ref: T, ext
     editableColumns,
     pagination,
     fetchParams,
+    selectionKeys,
+    rowExpandedKeys,
+    highlightKey,
     isFetch,
     dataChange,
     getTableData,
@@ -64,6 +71,7 @@ const useImperativeMethod = <T extends React.ForwardedRef<TableRef>>(ref: T, ext
     doFieldValidate,
     setHandleState,
     setSelectionKeys,
+    setRowExpandedKeys,
     setHighlightKey,
     forceUpdate,
     getTableLog,
@@ -158,6 +166,10 @@ const useImperativeMethod = <T extends React.ForwardedRef<TableRef>>(ref: T, ext
       SET_HIGHLIGHT(rowKey: IRowKey) {
         setHighlightKey(rowKey);
       },
+      // 设置展开行
+      SET_EXPANDABLE(rowKeys: IRowKey[]) {
+        setRowExpandedKeys(rowKeys);
+      },
       // 表格数据插入
       INSERT_RECORDS: <T extends IRecord>(records: T | T[]) => {
         const { store, tableFullData } = tableRef.current;
@@ -196,6 +208,18 @@ const useImperativeMethod = <T extends React.ForwardedRef<TableRef>>(ref: T, ext
               store.removeFromValidate({ x: rowKey, y: dataIndex });
             }
           });
+          // 移除选择列数据
+          if (selectionKeys.includes(rowKey)) {
+            setSelectionKeys(selectionKeys.filter((x) => x !== rowKey));
+          }
+          // 移除高亮行数据
+          if (rowKey === highlightKey) {
+            clearRowHighlight();
+          }
+          // 移除展开行数据
+          if (rowExpandedKeys.includes(rowKey)) {
+            setRowExpandedKeys(rowExpandedKeys.filter((x) => x !== rowKey));
+          }
           isRemoved = true;
         });
         if (isRemoved) {

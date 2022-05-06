@@ -579,6 +579,8 @@ const App = () => {
   const [visible, setVisible] = React.useState(false);
   const [visible2, setVisible2] = React.useState(false);
 
+  const [tableList, setTableList] = React.useState(tableData.data.items);
+
   const printClick = async () => {
     await sleep(1000);
   };
@@ -606,13 +608,13 @@ const App = () => {
           height={'auto'}
           rowKey={'id'}
           columns={columns}
-          // dataSource={tableData.data.items}
+          dataSource={tableList}
           // webPagination
-          fetch={{
-            api: getTableData,
-            params: fetchParams,
-            dataKey: 'records',
-          }}
+          // fetch={{
+          //   api: getTableData,
+          //   params: fetchParams,
+          //   dataKey: 'records',
+          // }}
           rowSelection={{
             type: 'checkbox',
             // selectedRowKeys: [],
@@ -620,7 +622,9 @@ const App = () => {
             //   api: getTableKeys,
             //   dataKey: 'recordKeys',
             // },
-            // onChange: (val, rows) => {},
+            onChange: (val, rows) => {
+              console.log(123, val, rows);
+            },
           }}
           exportExcel={{ fileName: '导出文件.xlsx' }}
           tablePrint={{}}
@@ -629,7 +633,16 @@ const App = () => {
           <QmPrint templateRender={() => <PrintTemplate dataSource={printList} />} click={printClick}>
             打印
           </QmPrint>
-          <QmButton type="primary" icon={<PlusOutlined />} onClick={() => setVisible(true)}>
+          <QmButton
+            type="primary"
+            icon={<PlusOutlined />}
+            onClick={() => {
+              setTableList((prev) => {
+                tableRef.current.SET_SELECTION([]);
+                return [{ id: 100 }, { id: 101, children: [{ id: 102 }] }];
+              });
+            }}
+          >
             新建
           </QmButton>
         </QmTable>

@@ -94,19 +94,24 @@ const AllSelection: React.FC<IAllSelectionProps> = (props) => {
   };
 
   const renderContent = () => {
-    return (
-      <Menu>
-        <Menu.Item key="1" onClick={() => selectAllHandle()}>
-          {t('qm.table.selection.all')}
-        </Menu.Item>
-        <Menu.Item key="2" onClick={() => invertHandle()}>
-          {t('qm.table.selection.invert')}
-        </Menu.Item>
-        <Menu.Item key="3" onClick={() => clearAllHandle()}>
-          {t('qm.table.selection.clear')}
-        </Menu.Item>
-      </Menu>
-    );
+    const items = [
+      {
+        key: 1,
+        label: t('qm.table.selection.all'),
+        onClick: () => selectAllHandle(),
+      },
+      {
+        key: 2,
+        label: t('qm.table.selection.invert'),
+        onClick: () => invertHandle(),
+      },
+      {
+        key: 3,
+        label: t('qm.table.selection.clear'),
+        onClick: () => clearAllHandle(),
+      },
+    ];
+    return <Menu items={items} />;
   };
 
   return (

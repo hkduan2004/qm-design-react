@@ -41,6 +41,7 @@ export type ITableRef = {
     remove: boolean;
   };
   summaries: Record<string, number>;
+  treeTable: boolean;
   scrollYLoad: boolean;
   shouldToTop: boolean;
   selectionRows: IRecord[];
@@ -96,6 +97,8 @@ const useTableRef = <T extends ITableProps>(props: T, { getRowKey, $size }: IExt
     },
     // 服务端合计
     summaries: {},
+    // 树表格
+    treeTable: false,
     // 虚拟滚动
     scrollYLoad: false,
     // 滚动条是否返回顶部
@@ -164,6 +167,7 @@ const useTableRef = <T extends ITableProps>(props: T, { getRowKey, $size }: IExt
   const setDeriveRowKeys = (records: IRecord[]) => {
     tableRef.current.deriveRowKeys = createDeriveRowKeys(records, '', '');
     tableRef.current.flattenRowKeys = createFlatRowKeys(tableRef.current.deriveRowKeys);
+    tableRef.current.treeTable = tableRef.current.deriveRowKeys.some((x) => Array.isArray(x.children) && x.children.length);
   };
 
   const setScrollYStore = (option: ITableRef['scrollYStore']) => {
