@@ -20,11 +20,9 @@ export type QmSplitPaneProps = IProps;
 
 const QmSplitPane: React.FC<IProps & { offset?: string }> = (props) => {
   const { offset, className, style } = props;
-
   const { direction, dragging } = React.useContext(SplitContext)!;
 
   const property = direction === 'vertical' ? 'height' : 'width';
-
   const prefixCls = getPrefixCls('split-pane');
 
   const cls = {
@@ -34,8 +32,15 @@ const QmSplitPane: React.FC<IProps & { offset?: string }> = (props) => {
     vertical: direction === 'vertical',
     [className!]: !!className,
   };
-
-  const styles: React.CSSProperties = typeof offset !== 'undefined' ? { [property]: getParserWidth(offset) } : { flex: 1 };
+  const styles: React.CSSProperties =
+    typeof offset !== 'undefined'
+      ? {
+          [property]: getParserWidth(offset),
+        }
+      : {
+          flex: 1,
+          [property]: 0,
+        };
 
   return (
     <div className={classNames(cls)} style={{ ...styles, ...style }}>
