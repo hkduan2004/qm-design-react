@@ -19,10 +19,12 @@ type IAlertProps = {
 const Alert: React.FC<IAlertProps> = (props) => {
   const { total } = props;
   const {
+    tableRef,
     tableProps,
     selectionKeys,
     isHeadSorter,
     isHeadFilter,
+    isTreeTable,
     clearTableSorter,
     clearTableFilter,
     clearSuperFilters,
@@ -30,6 +32,7 @@ const Alert: React.FC<IAlertProps> = (props) => {
     clearRowHighlight,
   } = React.useContext(TableContext)!;
   const { rowSelection, rowHighlight } = tableProps;
+  const { allTableData } = tableRef.current;
 
   const showClear = React.useMemo(() => {
     return !!(isHeadSorter || isHeadFilter || rowSelection || rowHighlight);
@@ -49,6 +52,7 @@ const Alert: React.FC<IAlertProps> = (props) => {
   };
 
   const prefixCls = getPrefixCls('table');
+
   const cls = {
     [`${prefixCls}__alert`]: true,
   };
@@ -59,7 +63,7 @@ const Alert: React.FC<IAlertProps> = (props) => {
         <InfoCircleFilled />
       </i>
       <span>
-        {t('qm.table.alert.total', { total })}
+        {t('qm.table.alert.total', { total: !isTreeTable ? total : allTableData.length })}
         {rowSelection ? `，${t('qm.table.alert.selected', { total: selectionKeys.length })}` : ''}
       </span>
       {showClear && <em onClick={clearHandle}>{t('qm.table.alert.clear')}</em>}
