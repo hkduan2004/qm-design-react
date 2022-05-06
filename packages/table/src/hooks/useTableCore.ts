@@ -468,28 +468,29 @@ const useTableCore = <T extends ITableProps>(props: T, extra: IExtra) => {
   };
 
   // 展开行，已展开的 keys
-  const createRowExpandedKeys = () => {
+  const createRowExpandedKeys = (rowKeys?: IRowKey[]) => {
     const { allRowKeys, deriveRowKeys, flattenRowKeys } = tableRef.current;
-    const { defaultExpandAllRows, expandedRowKeys = [], expandedRowRender } = expandable || {};
+    const { defaultExpandAllRows, expandedRowRender } = expandable || {};
     // 树结构
     if (tableRef.current.treeTable) {
       if (expandedRowRender) {
         warn('Table', '树结构表格不能再设置展开行的 `expandedRowRender` 参数');
       }
-      const mergedRowKeys = [...selectionKeys, ...expandedRowKeys];
+      const mergedRowKeys = [...selectionKeys, ...(rowKeys || [])];
       if (highlightKey) {
         mergedRowKeys.unshift(highlightKey);
       }
       let result: IRowKey[] = [];
       mergedRowKeys.forEach((key) => {
-        result.push(...(deepGetRowkey(deriveRowKeys, key)?.slice(0, -1).reverse() || []));
+        const _rowKeys = deepGetRowkey(deriveRowKeys, key) || [];
+        result.push(...(_rowKeys.length > 1 ? _rowKeys.slice(0, -1).reverse() : _rowKeys));
       });
-      result = defaultExpandAllRows && !expandedRowKeys.length ? allRowKeys : [...new Set([...expandedRowKeys, ...result])];
+      result = defaultExpandAllRows ? allRowKeys : [...new Set([...rowExpandedKeys, ...result])];
       return result.filter((key) => !flattenRowKeys.includes(key));
     }
     // 展开行
     if (expandable) {
-      return defaultExpandAllRows && !expandedRowKeys.length ? allRowKeys.slice(0) : [...expandedRowKeys];
+      return defaultExpandAllRows ? allRowKeys.slice(0) : [...rowExpandedKeys];
     }
     return [];
   };

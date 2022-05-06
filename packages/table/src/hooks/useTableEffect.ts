@@ -42,7 +42,7 @@ type IExtra = {
   calcTableHeight: () => void;
   createSelectionKeys: (rowKeys?: IRowKey[]) => IRowKey[];
   createSelectionRows: (rowKeys: IRowKey[]) => IRecord[];
-  createRowExpandedKeys: () => IRowKey[];
+  createRowExpandedKeys: (rowKeys?: IRowKey[]) => IRowKey[];
   createElementStore: (option: Record<string, HTMLElement>) => void;
   triggerScrollYEvent: (st: number) => void;
   forceUpdate: () => void;
@@ -144,7 +144,7 @@ const useTableEffect = <T extends ITableProps>(props: T, extra: IExtra) => {
   }, [rowSelection?.selectedRowKeys]);
 
   useUpdateEffect(() => {
-    const _rowExpandedKeys = createRowExpandedKeys();
+    const _rowExpandedKeys = createRowExpandedKeys(expandable!.expandedRowKeys);
     if (isEqual(_rowExpandedKeys, rowExpandedKeys)) return;
     setRowExpandedKeys(_rowExpandedKeys);
   }, [expandable?.expandedRowKeys]);
