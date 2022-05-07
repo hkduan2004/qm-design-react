@@ -291,7 +291,7 @@ const Setting: React.FC<ISettingProps> = (props) => {
             size={$size}
             columns={groupColumns}
             dataSource={groupList}
-            rowKey={(record) => record.index}
+            rowKey={'index'}
             height={350}
             showFastSearch={false}
             showTableImport={false}
@@ -318,7 +318,7 @@ const Setting: React.FC<ISettingProps> = (props) => {
             size={$size}
             columns={summaryColumns}
             dataSource={summaryList}
-            rowKey={(record) => record.index}
+            rowKey={'index'}
             height={350}
             showFastSearch={false}
             showTableImport={false}

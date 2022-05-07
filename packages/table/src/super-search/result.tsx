@@ -376,7 +376,7 @@ const Result: React.FC<IResultProps> = (props) => {
             size={$size}
             columns={columns}
             dataSource={tableData}
-            rowKey={(record) => record.index}
+            rowKey={'index'}
             height={350}
             showFastSearch={false}
             showTableImport={false}

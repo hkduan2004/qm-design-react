@@ -373,6 +373,7 @@ export type ITableProps = {
   summation?: ISummation;
   footRender?: (flattenColumns: IColumn[], tableData: IRecord[]) => React.ReactNode;
   multipleSort?: boolean;
+  ignorePageIndex?: boolean;
   scrollPagination?: boolean;
   webPagination?: boolean;
   paginationConfig?: IPaginationConfig;

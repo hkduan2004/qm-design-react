@@ -107,6 +107,7 @@ const useTableCore = <T extends ITableProps>(props: T, extra: IExtra) => {
     expandable,
     treeConfig,
     authConfig,
+    ignorePageIndex,
     columnsChange,
     onScrollEnd,
     onDataChange,
@@ -657,8 +658,10 @@ const useTableCore = <T extends ITableProps>(props: T, extra: IExtra) => {
         }
         // 数据索引
         record.index = index;
-        // 分页索引
-        record.pageIndex = createPageIndex(index);
+        if (!ignorePageIndex) {
+          // 分页索引
+          record.pageIndex = createPageIndex(index);
+        }
         return record;
       });
     };

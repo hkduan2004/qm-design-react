@@ -87,6 +87,7 @@ const Result: React.FC<IResultProps> = (props) => {
           onChange: (val) => setSelectionKeys(val),
         }}
         webPagination={true}
+        ignorePageIndex={true}
         showFastSearch={false}
         showTableImport={false}
         showSelectCollection={false}

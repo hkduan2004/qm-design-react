@@ -253,6 +253,8 @@ export const propTypes = {
   }),
   // 底部自定义渲染
   footRender: PropTypes.func,
+  // 忽略行数据 pageIndex 的创建
+  ignorePageIndex: PropTypes.bool,
   // 多列排序
   multipleSort: PropTypes.bool,
   // 是否为滚动分页
