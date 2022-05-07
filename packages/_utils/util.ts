@@ -131,5 +131,4 @@ export const getAuthValue = (code: string): Record<string, any> | undefined => {
   } catch (err) {
     // ...
   }
-  return {};
 };
