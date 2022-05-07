@@ -54,6 +54,7 @@ import '../packages/style/index.less';
 //             dataIndex: 'a',
 //             visible: 1,
 //             disabled: 0,
+//             secretName: 'name',
 //           },
 //           {
 //             dataIndex: 'b',

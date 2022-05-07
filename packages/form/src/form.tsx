@@ -10,7 +10,7 @@ import memoize from 'memoize-one';
 import ConfigContext from '../../config-provider/context';
 import FormContext from './context';
 import { addResizeListener, removeResizeListener } from '../../_utils/resize-event';
-import { getParserWidth, debounce, get, noop, isEmpty, isObject, isFunction } from '../../_utils/util';
+import { getParserWidth, getAuthValue, debounce, get, noop, isEmpty, isObject, isFunction } from '../../_utils/util';
 import { isEmptyValue } from './utils';
 import { warn } from '../../_utils/error';
 import { t } from '../../locale';
@@ -396,7 +396,31 @@ class QmForm extends Component<IProps, IState> {
   }
 
   // 设置表单权限
-  createFormAuth() {}
+  createFormAuth() {
+    if (!this.props.authCode) return;
+    const auth = getAuthValue(this.props.authCode);
+    if (auth) {
+      const { fieldList = [] } = auth;
+      const items = this.props.items.map((item: IFormItem) => {
+        const { fieldName } = item;
+        const target = fieldList.find((x) => x.dataIndex === fieldName);
+        if (target) {
+          const { visible = 1, disabled, secretName } = target;
+          if (!visible) {
+            item.noAuth = true;
+          }
+          if (disabled) {
+            item.disabled = true;
+          }
+          if (secretName) {
+            // ...
+          }
+        }
+        return item;
+      });
+      this.props.fieldsChange?.(items);
+    }
+  }
 
   // 获取表单权限
   async getFormAuth() {
