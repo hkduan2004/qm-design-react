@@ -123,3 +123,13 @@ export const flatJson = <T extends Record<string, any>>(jsonObject: T): T => {
 
   return flatten;
 };
+
+export const getAuthValue = (code: string): Record<string, any> | undefined => {
+  try {
+    const _data = JSON.parse(localStorage.getItem('auths') || '{}');
+    return get(_data, code);
+  } catch (err) {
+    // ...
+  }
+  return {};
+};

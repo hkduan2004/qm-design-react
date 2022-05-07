@@ -634,6 +634,7 @@ const App = () => {
             打印
           </QmPrint>
           <QmButton
+            authCode="spa1001.button.b01"
             type="primary"
             icon={<PlusOutlined />}
             onClick={() => {

@@ -9,13 +9,14 @@ import PropTypes from 'prop-types';
 import omit from 'omit.js';
 import ConfigContext from '../../config-provider/context';
 import { t } from '../../locale';
-import { noop, isFunction } from '../../_utils/util';
+import { getAuthValue, noop, isFunction } from '../../_utils/util';
 import { warn } from '../../_utils/error';
 
 import { Button, Popconfirm } from '../../antd';
 import type { ButtonProps } from '../../antd';
 
 type IProps = ButtonProps & {
+  authCode?: string;
   click?: () => Promise<void> | void;
   confirm?: {
     title?: string;
@@ -56,18 +57,28 @@ class QmButton extends Component<IProps, IState> {
     this.setState({ isLoading: false });
   };
 
-  render(): React.ReactElement {
-    const { size, loading, click, confirm } = this.props;
+  render() {
+    const { size, loading, authCode, click, confirm } = this.props;
     const { isLoading } = this.state;
     const $size = size || this.context.size || '';
     const clickConf = isFunction(click) ? { onClick: this.clickHandle } : null;
 
     const wrapProps: IProps = {
-      ...omit(this.props, ['click', 'confirm']),
+      ...omit(this.props, ['authCode', 'click', 'confirm']),
       size: $size,
       loading: isLoading || loading || false,
       ...clickConf,
     };
+
+    if (authCode) {
+      const auth = getAuthValue(authCode);
+      if (auth && !auth.visible) {
+        return null;
+      }
+      if (auth && auth.disabled) {
+        wrapProps.disabled = true;
+      }
+    }
 
     if (!confirm) {
       return <Button {...wrapProps}>{this.props.children}</Button>;

@@ -10,6 +10,76 @@ import App from './App';
 
 import '../packages/style/index.less';
 
+// const data = {
+//   spa1001: {
+//     button: {
+//       b01: {
+//         visible: 0,
+//         disabled: 1,
+//       },
+//       b02: {
+//         visible: 0,
+//         disabled: 0,
+//       },
+//     },
+//     table: {
+//       t01: {
+//         fieldList: [
+//           {
+//             dataIndex: 'a',
+//             visible: 1,
+//             disabled: 0,
+//           },
+//           {
+//             dataIndex: 'b',
+//             visible: 1,
+//             disabled: 1,
+//           },
+//           {
+//             dataIndex: 'c',
+//             visible: 0,
+//             disabled: 0,
+//           },
+//         ],
+//         isExport: 1,
+//         isImport: 1,
+//       },
+//     },
+//     form: {
+//       f01: {
+//         fieldList: [
+//           {
+//             dataIndex: 'a',
+//             visible: 1,
+//             disabled: 0,
+//           },
+//           {
+//             dataIndex: 'b',
+//             visible: 1,
+//             disabled: 1,
+//           },
+//         ],
+//       },
+//       f02: {
+//         fieldList: [
+//           {
+//             dataIndex: 'a',
+//             visible: 1,
+//             disabled: 0,
+//           },
+//           {
+//             dataIndex: 'b',
+//             visible: 1,
+//             disabled: 1,
+//           },
+//         ],
+//       },
+//     },
+//   },
+// };
+
+// localStorage.setItem('auths', JSON.stringify(data));
+
 // 同步渲染模式
 ReactDOM.render(<App />, document.getElementById('app'));
 
