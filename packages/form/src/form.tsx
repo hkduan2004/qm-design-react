@@ -365,7 +365,7 @@ class QmForm extends Component<IProps, IState> {
   }
 
   // 格式化表单数据
-  formatFormValue = (values: IFormData) => {
+  formatFormValue(values: IFormData) {
     for (const key in values) {
       const val = values[key];
       if (isEmptyValue(val)) {
@@ -393,7 +393,10 @@ class QmForm extends Component<IProps, IState> {
       }
     }
     return values;
-  };
+  }
+
+  // 设置表单权限
+  createFormAuth() {}
 
   // 获取表单权限
   async getFormAuth() {
@@ -762,17 +765,17 @@ class QmForm extends Component<IProps, IState> {
   }
 
   // 列定义
-  createFieldsDefine = () => {
+  createFieldsDefine() {
     const { uniqueKey, items, fieldsChange } = this.props;
     return <FieldsFilter uniqueKey={uniqueKey} items={items} fieldsChange={fieldsChange} />;
-  };
+  }
 
   // 切换 展开/收起 状态
-  setExpandHandle = (collapse: boolean) => {
+  setExpandHandle(collapse: boolean) {
     this.setState({ collapse }, () => {
       this.props.onCollapse?.(this.state.collapse);
     });
-  };
+  }
 
   // 字段值更新时触发回调事件
   valuesChangeHandle = (changedValues: IFormData, allValues: IFormData) => {
@@ -829,7 +832,7 @@ class QmForm extends Component<IProps, IState> {
   }
 
   // 获取表单的值，异步方法，错误前置的原则
-  GET_FORM_DATA = async () => {
+  async GET_FORM_DATA() {
     try {
       const res = await this.formRef.current!.validateFields();
       return [null, Object.assign({}, this.get_fields_other(), this.formatFormValue(res))];
@@ -837,7 +840,7 @@ class QmForm extends Component<IProps, IState> {
       this.formRef.current!.scrollToField(errorFields[0].name);
       return [errorFields, null];
     }
-  };
+  }
 
   // 设置表单项描述值
   SET_FIELDS_EXTRA(values: IExtraData) {
@@ -864,16 +867,16 @@ class QmForm extends Component<IProps, IState> {
   }
 
   // 提交表单
-  SUBMIT_FORM = () => {
+  SUBMIT_FORM() {
     this.formRef.current!.submit();
-  };
+  }
 
   // 重置表单
-  RESET_FORM = () => {
+  RESET_FORM() {
     this.formRef.current!.resetFields();
     this.setState({ other: this._initialOthers });
     this.setState({ extra: this._initialExtras });
-  };
+  }
 
   render(): React.ReactElement {
     const { className, style, formType, layout, labelWidth, customClass } = this.props;
