@@ -291,6 +291,7 @@ export type IFormProps = {
   labelAlign?: ILabelAlign;
   formType?: IFormType;
   uniqueKey?: string;
+  authCode?: string;
   defaultRows?: number;
   authConfig?: IAuthConfig;
   isAutoFocus?: boolean;
@@ -327,6 +328,7 @@ export const propTypes = {
   labelAlign: PropTypes.oneOf(['left', 'right']), // label 标签文本对齐方式
   formType: PropTypes.oneOf(['default', 'search', 'onlyShow']), // 表单类型
   uniqueKey: PropTypes.string, // 唯一标记
+  authCode: PropTypes.string, // 控制表单权限的 code，和平台相关
   defaultRows: PropTypes.number, // 默认展示几行
   // 表单字段权限
   authConfig: PropTypes.shape({

@@ -354,6 +354,7 @@ export type ITableProps = {
   loading?: boolean;
   resizable?: boolean;
   uniqueKey?: string;
+  authCode?: string;
   customClass?: string;
   showHeader?: boolean;
   ellipsis?: boolean;

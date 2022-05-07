@@ -26,23 +26,25 @@ import '../packages/style/index.less';
 //       t01: {
 //         fieldList: [
 //           {
-//             dataIndex: 'a',
+//             dataIndex: 'person.name',
 //             visible: 1,
 //             disabled: 0,
+//             secretName: 'name',
 //           },
 //           {
-//             dataIndex: 'b',
-//             visible: 1,
-//             disabled: 1,
-//           },
-//           {
-//             dataIndex: 'c',
+//             dataIndex: 'address',
 //             visible: 0,
 //             disabled: 0,
 //           },
+//           {
+//             dataIndex: 'c',
+//             visible: 1,
+//             disabled: 1,
+//           },
 //         ],
-//         isExport: 1,
-//         isImport: 1,
+//         isExport: 0,
+//         isImport: 0,
+//         isPrint: 0,
 //       },
 //     },
 //     form: {

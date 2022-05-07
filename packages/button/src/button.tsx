@@ -72,11 +72,14 @@ class QmButton extends Component<IProps, IState> {
 
     if (authCode) {
       const auth = getAuthValue(authCode);
-      if (auth && !auth.visible) {
-        return null;
-      }
-      if (auth && auth.disabled) {
-        wrapProps.disabled = true;
+      if (auth) {
+        const { visible = 1, disabled } = auth;
+        if (!visible) {
+          return null;
+        }
+        if (disabled) {
+          wrapProps.disabled = true;
+        }
       }
     }
 

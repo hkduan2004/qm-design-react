@@ -52,7 +52,7 @@ export const getAllColumns = (columns: IColumn[]): IColumn[] => {
 export const mapTableColumns = (columns: IColumn[], callback?: (column: IColumn) => void): IColumn[] => {
   return columns.map((column) => {
     if (column.children) {
-      column.children = mapTableColumns(column.children);
+      column.children = mapTableColumns(column.children, callback);
     }
     callback?.(column);
     return column;

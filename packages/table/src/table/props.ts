@@ -173,6 +173,8 @@ export const propTypes = {
   resizable: PropTypes.bool,
   // 各种配置的本地存储，值不能重复
   uniqueKey: PropTypes.string,
+  // 控制表格权限的 code，和平台相关
+  authCode: PropTypes.string,
   // 自定义类选择器名
   customClass: PropTypes.string,
   // 是否显示表头

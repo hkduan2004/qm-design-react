@@ -604,6 +604,7 @@ const App = () => {
         />
         <QmTable
           ref={tableRef}
+          authCode={'spa1001.table.t01'}
           uniqueKey="demo"
           height={'auto'}
           rowKey={'id'}

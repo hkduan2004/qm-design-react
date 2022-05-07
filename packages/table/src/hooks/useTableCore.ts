@@ -19,7 +19,7 @@ import {
   isArrayContain,
   deepGetRowkey,
 } from '../utils';
-import { trueNoop, debounce, isEmpty } from '../../../_utils/util';
+import { debounce, getAuthValue, trueNoop, isEmpty } from '../../../_utils/util';
 import { warn } from '../../../_utils/error';
 import TableManager from '../manager';
 import useUpdateEffect from '../../../hooks/useUpdateEffect';
@@ -34,6 +34,7 @@ import type {
   IDerivedRowKey,
   IFetchParams,
   IFilter,
+  IFormatType,
   IPagination,
   IRecord,
   IRowKey,
@@ -100,6 +101,7 @@ type IExtra = {
 const useTableCore = <T extends ITableProps>(props: T, extra: IExtra) => {
   const {
     rowKey,
+    authCode,
     dataSource,
     summation,
     fetch,
@@ -229,6 +231,7 @@ const useTableCore = <T extends ITableProps>(props: T, extra: IExtra) => {
   const initialTable = () => {
     getTableAuth();
     setTableFocus();
+    createTableAuth();
     if (isFetch) {
       getTableData();
     } else {
@@ -562,7 +565,35 @@ const useTableCore = <T extends ITableProps>(props: T, extra: IExtra) => {
     return diff.length === 1 && (diff.includes(config.currentPageName) || diff.includes(config.pageSizeName));
   };
 
-  // ajax 获取权限
+  // 设置表格权限
+  const createTableAuth = () => {
+    if (!authCode) return;
+    const auth = getAuthValue(authCode);
+    if (auth) {
+      const { fieldList = [], isExport = 1, isImport = 1, isPrint = 1 } = auth;
+      const { originColumns } = tableRef.current;
+      const columns = mapTableColumns(props.columns, (column) => {
+        const { dataIndex } = column;
+        const target = fieldList.find((x) => x.dataIndex === dataIndex);
+        if (target) {
+          const { visible = 1, disabled, secretName } = target;
+          const originColumn = deepFindColumn(originColumns, dataIndex) as IColumn;
+          if (!visible) {
+            column.noAuth = true;
+            originColumn.noAuth = true;
+          }
+          if (secretName) {
+            column.formatType = `secret-${secretName}` as IFormatType;
+            originColumn.formatType = `secret-${secretName}` as IFormatType;
+          }
+        }
+      });
+      setPermission((prev) => Object.assign({}, prev, { export: !!isExport, import: !!isImport, print: !!isPrint }));
+      setTimeout(() => columnsChange?.(columns));
+    }
+  };
+
+  // ajax 获取表格权限
   const getTableAuth = async () => {
     if (!authConfig?.fetch) return;
     const { originColumns } = tableRef.current;
@@ -579,8 +610,8 @@ const useTableCore = <T extends ITableProps>(props: T, extra: IExtra) => {
             const { dataIndex } = column;
             if (!reverse ? fieldNames.includes(dataIndex) : !fieldNames.includes(dataIndex)) {
               const originColumn = deepFindColumn(originColumns, dataIndex) as IColumn;
-              column.noAuth = !0;
-              originColumn.noAuth = !0;
+              column.noAuth = true;
+              originColumn.noAuth = true;
             }
           });
           columnsChange?.(columns);
