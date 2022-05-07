@@ -543,7 +543,7 @@ const Table = React.forwardRef<TableRef, ITableProps>((props, ref) => {
             {/* 打印 */}
             {permission.print && tablePrint && <TablePrint tableColumns={tableColumns} />}
             {/* 导入 */}
-            {isTableImport && <TableImport tableColumns={tableColumns} />}
+            {permission.import && isTableImport && <TableImport tableColumns={tableColumns} />}
             {/* 导出 */}
             {permission.export && exportExcel && <TableExport tableColumns={tableColumns} />}
             {/* 多选集合 */}

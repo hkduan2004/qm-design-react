@@ -34,6 +34,7 @@ export type ITableState = {
   };
   permission: {
     export: boolean;
+    import: boolean;
     print: boolean;
   };
   spinning: boolean;
@@ -123,6 +124,7 @@ const useTableState = <T extends ITableProps>(props: T) => {
 
   const [permission, setPermission] = React.useState<ITableState['permission']>({
     export: true,
+    import: true,
     print: true,
   });
 

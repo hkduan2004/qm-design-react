@@ -278,6 +278,7 @@ export type IAuthConfig = {
     params?: IFetchParams;
     columnDataKey?: string;
     exportDataKey?: string;
+    importDataKey?: string;
     printDataKey?: string;
   };
 };

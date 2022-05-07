@@ -566,7 +566,7 @@ const useTableCore = <T extends ITableProps>(props: T, extra: IExtra) => {
   const getTableAuth = async () => {
     if (!authConfig?.fetch) return;
     const { originColumns } = tableRef.current;
-    const { api, params, columnDataKey, exportDataKey, printDataKey } = authConfig.fetch!;
+    const { api, params, columnDataKey, exportDataKey, importDataKey, printDataKey } = authConfig.fetch!;
     try {
       const res = await api(params);
       if (res.code === 200) {
@@ -587,6 +587,9 @@ const useTableCore = <T extends ITableProps>(props: T, extra: IExtra) => {
         }
         if (exportDataKey) {
           setPermission((prev) => Object.assign({}, prev, { export: !!get(res.data, exportDataKey) }));
+        }
+        if (importDataKey) {
+          setPermission((prev) => Object.assign({}, prev, { import: !!get(res.data, importDataKey) }));
         }
         if (printDataKey) {
           setPermission((prev) => Object.assign({}, prev, { print: !!get(res.data, printDataKey) }));
