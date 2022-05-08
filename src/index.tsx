@@ -29,7 +29,7 @@ import '../packages/style/index.less';
 //             dataIndex: 'person.name',
 //             visible: 1,
 //             disabled: 0,
-//             secretName: 'name',
+//             secretName: 'name', // 'name' | 'phone' | 'IDnumber' | 'bankCard'
 //           },
 //           {
 //             dataIndex: 'choice',
