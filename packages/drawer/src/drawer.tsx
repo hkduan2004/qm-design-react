@@ -14,7 +14,6 @@ import { getParentNode, setStyle } from '../../_utils/dom';
 import { getPrefixCls } from '../../_utils/prefix';
 import { throwError } from '../../_utils/error';
 import { isValidComponentSize } from '../../_utils/validators';
-
 import type { ComponentSize, Nullable } from '../../_utils/types';
 
 import { FullscreenOutlined, FullscreenExitOutlined } from '@ant-design/icons';
@@ -58,6 +57,7 @@ class QmDrawer extends Component<IProps, IState> {
     width: DEFAULT_WIDTH,
     showFullScreen: true,
     destroyOnClose: true,
+    footer: null,
   };
 
   public titleRef = React.createRef<HTMLSpanElement>();
@@ -154,6 +154,7 @@ class QmDrawer extends Component<IProps, IState> {
         maskClosable={maskClosable ?? $global?.['maskClosable'] ?? false}
         className={classNames(cls, className)}
         title={this.renderTitle()}
+        footer={null}
         onClose={onClose}
         afterVisibleChange={this.afterVisibleChange}
       >
