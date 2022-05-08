@@ -295,7 +295,7 @@ class VCitySelect extends Component<ICitySelectProps, IState> {
     ));
   }
 
-  render() {
+  render(): React.ReactElement {
     const { visible } = this.state;
     const { value } = this.props;
     const {

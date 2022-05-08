@@ -218,7 +218,7 @@ class VRegionSelect extends Component<IRegionSelectProps, IState> {
     );
   }
 
-  render() {
+  render(): React.ReactElement {
     const { visible } = this.state;
     const { value } = this.props;
     const {

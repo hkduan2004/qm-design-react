@@ -33,7 +33,7 @@ class RangeInput extends Component<IRangeInputProps> {
     onValuesChange(changedValue);
   };
 
-  render() {
+  render(): React.ReactElement {
     const { value = [] } = this.props;
     const {
       options = {},

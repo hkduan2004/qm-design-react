@@ -57,7 +57,7 @@ class QmButton extends Component<IProps, IState> {
     this.setState({ isLoading: false });
   };
 
-  render() {
+  render(): React.ReactElement | null {
     const { size, loading, authCode, click, confirm } = this.props;
     const { isLoading } = this.state;
     const $size = size || this.context.size || '';

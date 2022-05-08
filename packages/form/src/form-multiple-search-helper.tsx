@@ -121,7 +121,7 @@ class VMultipleSearch extends Component<IMultipleSearchProps, IState> {
     onValuesChange(value, this.createViewText());
   };
 
-  render() {
+  render(): React.ReactElement {
     const { $$form } = this.context;
     const { visible, itemList } = this.state;
     const { value } = this.props;

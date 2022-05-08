@@ -32,7 +32,7 @@ class VInput extends Component<IInputProps> {
     onValuesChange(value);
   };
 
-  render() {
+  render(): React.ReactElement {
     const { $$form } = this.context;
     const { value } = this.props;
     const {

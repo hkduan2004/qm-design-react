@@ -134,7 +134,7 @@ class VTreeTableHelper extends Component<ITreeTableHelperProps, IState> {
     onValuesChange(value);
   };
 
-  render() {
+  render(): React.ReactElement {
     const { $$form } = this.context;
     const { visible } = this.state;
     const { value } = this.props;

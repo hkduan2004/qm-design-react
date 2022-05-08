@@ -102,7 +102,7 @@ class VSearch extends Component<ISerachProps, IState> {
     cb && cb();
   };
 
-  render() {
+  render(): React.ReactElement {
     const { visible, loading, results } = this.state;
     const { value } = this.props;
     const {
