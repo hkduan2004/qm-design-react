@@ -589,9 +589,11 @@ const App = () => {
     <QmConfigProvider size={'middle'} locale={'zh-cn'}>
       <div style={{ padding: 10, paddingBottom: 0 }}>
         <QmForm
+          authCode="spa1001.form.f01"
           uniqueKey="demo"
           formType="search"
           items={filterList}
+          initialValues={{ a: '张无忌' }}
           fieldsChange={(items) => setFilterList(items)}
           onFinish={(values) => {
             console.log(111, values);

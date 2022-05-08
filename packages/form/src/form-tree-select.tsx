@@ -40,6 +40,10 @@ class FormTreeSelect extends Component<IProps, IState> {
     this.getItemList();
   }
 
+  componentWillUnmount() {
+    this.setState = () => false;
+  }
+
   componentDidUpdate(prevProps: IProps) {
     const prevParams = prevProps.option.request?.params;
     const params = this.props.option.request?.params;

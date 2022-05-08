@@ -106,6 +106,7 @@ class QmForm extends Component<IProps, IState> {
     this.createInitialOthers();
     this.createInitialExtras();
     this.getFormAuth();
+    this.createFormAuth();
   }
 
   get $size() {
@@ -413,7 +414,7 @@ class QmForm extends Component<IProps, IState> {
             item.disabled = true;
           }
           if (secretName) {
-            // ...
+            item.options ? (item.options.secretType = secretName) : (item.options = { secretType: secretName });
           }
         }
         return item;

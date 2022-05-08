@@ -7,7 +7,7 @@
 import React, { Component } from 'react';
 import { get, merge } from 'lodash-es';
 import FormContext from './context';
-import { getParserWidth, nextTick, noop, trueNoop } from '../../_utils/util';
+import { getParserWidth, nextTick, trueNoop } from '../../_utils/util';
 import { t } from '../../locale';
 import { warn } from '../../_utils/error';
 import { SizeHeight } from '../../_utils/types';

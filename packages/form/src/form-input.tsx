@@ -8,6 +8,7 @@ import React, { Component } from 'react';
 import FormContext from './context';
 import { noop, getParserWidth } from '../../_utils/util';
 import { t } from '../../locale';
+import { secretFormat } from './utils';
 import { DEFAULT_LABEL_WIDTH } from './types';
 import type { IFormItem } from './types';
 
@@ -47,12 +48,13 @@ class VInput extends Component<IInputProps> {
       onBlur = noop,
       onEnter = noop,
     } = this.props.option;
-    const { prefix, suffix, password, maxLength, toUpper } = options;
+    const { prefix, suffix, password, maxLength, toUpper, secretType } = options;
+    const showSecretType = secretType && (readOnly || disabled);
     const C = !password ? Input : Input.Password;
     return (
       <C
         ref={(ref) => (this[type] = ref)}
-        value={value}
+        value={showSecretType ? secretFormat(value, secretType) : value}
         placeholder={placeholder}
         style={style}
         prefix={prefix}
