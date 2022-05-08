@@ -32,14 +32,14 @@ import '../packages/style/index.less';
 //             secretName: 'name',
 //           },
 //           {
-//             dataIndex: 'address',
+//             dataIndex: 'choice',
 //             visible: 0,
 //             disabled: 0,
 //           },
 //           {
-//             dataIndex: 'c',
-//             visible: 1,
-//             disabled: 1,
+//             dataIndex: 'state',
+//             visible: 0,
+//             disabled: 0,
 //           },
 //         ],
 //         isExport: 0,

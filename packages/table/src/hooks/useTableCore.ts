@@ -230,8 +230,8 @@ const useTableCore = <T extends ITableProps>(props: T, extra: IExtra) => {
   // 组件初始化
   const initialTable = () => {
     getTableAuth();
-    setTableFocus();
     createTableAuth();
+    setTableFocus();
     if (isFetch) {
       getTableData();
     } else {

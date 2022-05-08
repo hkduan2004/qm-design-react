@@ -113,7 +113,6 @@ class QmModal extends Component<IProps, IState> {
       if (destroyOnClose || !this.opened) {
         isUndefined(loading) && this.setState({ spinning: true });
       }
-
       if (!destroyOnClose && this.opened) return;
       setTimeout(() => {
         this.opened = true;
