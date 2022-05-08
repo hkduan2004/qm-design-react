@@ -350,6 +350,7 @@
 | params        | 接口参数                                              | object | -      |
 | columnDataKey | 列权限的数据路径，值为不可见列 `dataIndex` 组成的数组 | string | -      |
 | exportDataKey | 导出权限的数据路径，值为数字 1 或 0                   | string | -      |
+| importDataKey | 导入权限的数据路径，值为数字 1 或 0                   | string | -      |
 | printDataKey  | 打印权限的数据路径，为数字 1 或 0                     | string | -      |
 
 ### export_excel
