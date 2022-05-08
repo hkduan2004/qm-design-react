@@ -20,6 +20,7 @@
 | loading              | 页面是否加载中                                         | boolean                                                | -      |
 | resizable            | 所有列是否允许拖动列宽调整大小                         | boolean                                                | true   |
 | uniqueKey            | 设置表格各种配置信息的本地缓存，不能重复               | string                                                 | -      |
+| authCode             | 控制表格列权限的 tableID，和平台相关                   | string                                                 | -      |
 | customClass          | 自定义选择器类名                                       | string                                                 | -      |
 | showHeader           | 是否显示表头                                           | boolean                                                | true   |
 | ellipsis             | 设置所有内容过长时显示为省略号                         | boolean                                                | true   |

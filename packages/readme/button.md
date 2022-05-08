@@ -2,10 +2,11 @@
 
 ### Button
 
-| 参数    | 说明                                     | 类型     | 默认值 |
-| ------- | ---------------------------------------- | -------- | ------ |
-| click   | 点击时执行的方法，用于防止 ajax 重复提交 | function | -      |
-| confirm | 点击操作，确认提示，[配置项](#confirm)   | object   | -      |
+| 参数     | 说明                                     | 类型     | 默认值 |
+| -------- | ---------------------------------------- | -------- | ------ |
+| authCode | 控制按钮权限的 buttonID，和平台相关      | string   | -      |
+| click    | 点击时执行的方法，用于防止 ajax 重复提交 | function | -      |
+| confirm  | 点击操作，确认提示，[配置项](#confirm)   | object   | -      |
 
 说明：其他参数与 antd Button 组件一样，参考地址：https://ant.design/components/button-cn/#API
 
