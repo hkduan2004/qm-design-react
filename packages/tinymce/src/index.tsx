@@ -54,9 +54,10 @@ class QmTinymce extends Component<IProps> {
 
   static defaultProps = {
     height: 400,
-    plugins: 'lists image link media table textcolor wordcount contextmenu fullscreen',
+    plugins:
+      'preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons',
     toolbar:
-      'undo redo |  formatselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | lists link unlink image media table | removeformat | fullscreen',
+      'undo redo | formatselect | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | lists image media table template link unlink anchor codesample code | ltr rtl',
   };
 
   render(): React.ReactElement {
@@ -77,8 +78,8 @@ class QmTinymce extends Component<IProps> {
       height,
       plugins,
       toolbar,
+      menubar: 'file edit view insert format tools table help',
       language: ELocale[$locale],
-      menubar: false,
       images_upload_handler: (blobInfo, success, failure): void => {
         const formData: FormData = new FormData();
         formData.append('file', blobInfo.blob(), blobInfo.filename());
