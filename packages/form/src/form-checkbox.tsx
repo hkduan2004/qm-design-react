@@ -26,7 +26,7 @@ type ICheckboxProps<T = string | number> = IProps & {
 const VCheckbox: React.FC<ICheckboxProps> = (props) => {
   const { value, onChange, onValuesChange } = props;
   const { options = {}, style = {}, disabled } = props.option;
-  const { falseValue = DEFAULT_TRUE_VALUE, trueValue = DEFAULT_FALSE_VALUE } = options;
+  const { falseValue = DEFAULT_FALSE_VALUE, trueValue = DEFAULT_TRUE_VALUE } = options;
 
   return (
     <Checkbox
@@ -60,7 +60,7 @@ class FormCheckbox extends Component<IProps> {
       rules = [],
       onChange = noop,
     } = this.props.option;
-    const { falseValue = DEFAULT_TRUE_VALUE, trueValue = DEFAULT_FALSE_VALUE } = options;
+    const { falseValue = DEFAULT_FALSE_VALUE, trueValue = DEFAULT_TRUE_VALUE } = options;
     return (
       <Form.Item
         label={$$form.renderFormLabel(label)}
