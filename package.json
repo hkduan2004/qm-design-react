@@ -52,7 +52,7 @@
   },
   "dependencies": {
     "add-dom-event-listener": "^1.1.0",
-    "antd": "^4.20.2",
+    "antd": "^4.20.3",
     "axios": "^0.26.0",
     "china-area-data": "^5.0.1",
     "classnames": "^2.3.1",
