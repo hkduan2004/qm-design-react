@@ -416,9 +416,9 @@ export type TableRef = {
   GET_LOG: () => {
     required: IValidItem[];
     validate: IValidItem[];
-    inserted: IValidItem[];
-    updated: IValidItem[];
-    removed: IValidItem[];
+    inserted: IRecord[];
+    updated: IRecord[];
+    removed: IRecord[];
   };
   GET_FETCH_PARAMS: () => IFetchParams;
   CLEAR_TABLE_DATA: () => void;

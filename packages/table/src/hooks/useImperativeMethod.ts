@@ -38,9 +38,9 @@ type IExtra = {
   getTableLog: () => {
     required: IValidItem[];
     validate: IValidItem[];
-    inserted: IValidItem[];
-    updated: IValidItem[];
-    removed: IValidItem[];
+    inserted: IRecord[];
+    updated: IRecord[];
+    removed: IRecord[];
   };
   clearRowSelection: () => void;
   clearRowHighlight: () => void;

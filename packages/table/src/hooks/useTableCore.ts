@@ -840,9 +840,9 @@ const useTableCore = <T extends ITableProps>(props: T, extra: IExtra) => {
     return {
       required: format(required),
       validate: format(validate),
-      inserted: format(inserted.filter((row) => !intersections.includes(row))),
-      updated: format(updated.filter((row) => ![...intersection(updated, inserted), ...intersection(updated, removed)].includes(row))),
-      removed: format(removed.filter((row) => !intersections.includes(row))),
+      inserted: inserted.filter((row) => !intersections.includes(row)),
+      updated: updated.filter((row) => ![...intersection(updated, inserted), ...intersection(updated, removed)].includes(row)),
+      removed: removed.filter((row) => !intersections.includes(row)),
     };
   };
 
