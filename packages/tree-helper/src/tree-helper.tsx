@@ -18,7 +18,7 @@ import useUpdateEffect from '../../hooks/useUpdateEffect';
 import type { IFetch, IRecord } from '../../table/src/table/types';
 import type { ComponentSize } from '../../_utils/types';
 
-import { QmButton, Tree, Input } from '../../index';
+import { QmButton, QmSpin, Tree, Input } from '../../index';
 
 type IProps = {
   size?: ComponentSize;
@@ -93,6 +93,7 @@ const TreeHelper: React.FC<IProps> = (props) => {
 
   const [record, setRecord] = React.useState<IRecord | IRecord[]>();
   const [treeHeight, setTreeHeight] = React.useState<number>(300);
+  const [loading, setLoading] = React.useState<boolean>(false);
 
   const calcTableHeight = () => {
     const $outer = wrapperRef.current!.parentNode!.children[0] as HTMLElement;
@@ -118,6 +119,7 @@ const TreeHelper: React.FC<IProps> = (props) => {
     if (!tree?.fetch) return;
     const { api: fetchApi, params, dataKey, valueKey = 'value', textKey = 'text' } = tree.fetch;
     try {
+      setLoading(true);
       const res = await fetchApi(params);
       if (res.code === 200) {
         const dataList = Array.isArray(res.data) ? res.data : get(res.data, dataKey!) ?? [];
@@ -129,6 +131,7 @@ const TreeHelper: React.FC<IProps> = (props) => {
     } catch (err) {
       // ...
     }
+    setLoading(false);
   };
 
   useUpdateEffect(() => {
@@ -163,27 +166,29 @@ const TreeHelper: React.FC<IProps> = (props) => {
         placeholder={t('qm.form.inputPlaceholder')}
         onChange={(ev) => changeHandle(ev.target.value)}
       />
-      <Tree
-        fieldNames={{ title: 'text', key: 'value', children: 'children' }}
-        multiple={multiple}
-        height={treeHeight}
-        defaultExpandAll
-        expandedKeys={expandedKeys}
-        treeData={treeData}
-        filterTreeNode={(node: any) => {
-          if (!inputValue) {
-            return false;
-          }
-          return node.text.indexOf(inputValue) !== -1;
-        }}
-        onExpand={expandHandle}
-        onSelect={(selectedKeys: string[]) => {
-          if (!tree?.fetch) return;
-          const { valueKey = 'value' } = tree.fetch;
-          const rows = deepFind(responseList.current, (node) => selectedKeys.includes(get(node, valueKey)));
-          setRecord(!multiple ? rows[0] : rows);
-        }}
-      />
+      <QmSpin spinning={loading}>
+        <Tree
+          fieldNames={{ title: 'text', key: 'value', children: 'children' }}
+          multiple={multiple}
+          height={treeHeight}
+          defaultExpandAll
+          expandedKeys={expandedKeys}
+          treeData={treeData}
+          filterTreeNode={(node: any) => {
+            if (!inputValue) {
+              return false;
+            }
+            return node.text.indexOf(inputValue) !== -1;
+          }}
+          onExpand={expandHandle}
+          onSelect={(selectedKeys: string[]) => {
+            if (!tree?.fetch) return;
+            const { valueKey = 'value' } = tree.fetch;
+            const rows = deepFind(responseList.current, (node) => selectedKeys.includes(get(node, valueKey)));
+            setRecord(!multiple ? rows[0] : rows);
+          }}
+        />
+      </QmSpin>
       <div
         style={{
           position: 'absolute',
