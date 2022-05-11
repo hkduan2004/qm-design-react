@@ -26,6 +26,7 @@ export type IEditerType =
   | 'switch'
   | 'search-helper'
   | 'search-helper-multiple'
+  | 'tree-helper'
   | 'date'
   | 'datetime'
   | 'time';

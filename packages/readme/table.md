@@ -171,6 +171,7 @@
 | switch                 | 开关            |
 | search-helper          | 搜索帮助        |
 | search-helper-multiple | 搜索帮助 - 多选 |
+| tree-helper            | 树搜索帮助      |
 | date                   | 日期类型        |
 | datetime               | 日期-时间类型   |
 | time                   | 时间类型        |
@@ -218,6 +219,7 @@
 | ---------------- | ----------------------------------------------------------------------------- | -------------------------------- | ------ |
 | filters          | 顶部筛选条件配置，参考 TopFilter 组件，必要参数                               | array                            | -      |
 | table            | 列表组件配置，[配置项](#helper_table)，必要参数                               | array                            | -      |
+| tree             | 树组件配置，[配置项](#helper_tree)，必要参数                                  | object                           | -      |
 | initialValue     | 筛选条件初始值                                                                | object                           | -      |
 | width            | 搜索帮助面板宽度                                                              | number \| string                 | -      |
 | closeRemoteMatch | 关闭服务端匹配功能                                                            | boolean                          | -      |
@@ -232,6 +234,12 @@
 | ------- | --------------------------- | ------ | ------ |
 | columns | 同 Table，[配置项](#column) | array  | -      |
 | fetch   | 同 Table，[配置项](#fetch)  | object | -      |
+
+### helper_tree
+
+| 参数  | 说明                       | 类型   | 默认值 |
+| ----- | -------------------------- | ------ | ------ |
+| fetch | 同 Table，[配置项](#fetch) | object | -      |
 
 ### field_alias
 

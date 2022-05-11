@@ -123,6 +123,7 @@ const TreeTableHelper: React.FC<IProps> = (props) => {
   const [record, setRecord] = React.useState<IRecord | IRecord[]>();
   const [rowKeys, setRowKeys] = React.useState<IRowKey[]>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
+  const [treeHeight, setTreeHeight] = React.useState<number>(300);
   const [tableHeight, setTableHeight] = React.useState<number>(300);
   const [formItems, setFormItems] = React.useState<IFormItem[]>(filters);
   const [columns, setColumns] = React.useState<IColumn[]>(createColumns());
@@ -130,9 +131,11 @@ const TreeTableHelper: React.FC<IProps> = (props) => {
   const [tableList, setTableList] = React.useState<IRecord[]>([]);
 
   const calcTableHeight = () => {
-    const $outer = wrapperRef.current!.parentNode as HTMLElement;
+    const $outer = wrapperRef.current!.parentNode!.children[0] as HTMLElement;
     const $former = $outer.querySelector('.form-wrap') as HTMLElement;
-    setTableHeight($outer.offsetHeight - $former.offsetHeight - SizeHeight[$size] * 2 - (SizeHeight[$size] + 20) - 10 * 4);
+    const $filter = $outer.querySelector('.input-wrap') as HTMLElement;
+    setTreeHeight($outer.offsetHeight - $filter.offsetHeight - 10);
+    setTableHeight($outer.offsetHeight - $former.offsetHeight - SizeHeight[$size] * 2 - 10 * 3);
   };
 
   const resizeObserveHandler = debounce(calcTableHeight, 5);
@@ -179,6 +182,7 @@ const TreeTableHelper: React.FC<IProps> = (props) => {
   // =========================================
   const [treeData, setTreeData] = React.useState<IRecord[]>([]);
   const [expandedKeys, setExpandedKeys] = React.useState<string[]>([]);
+  const [inputValue, setInputValue] = React.useState<string>('');
   const treeDataOrigin = React.useRef<IRecord[]>(treeData);
   const responseList = React.useRef<IRecord[]>([]);
 
@@ -229,6 +233,7 @@ const TreeTableHelper: React.FC<IProps> = (props) => {
       if (!value) return true;
       return node.text.indexOf(value) !== -1;
     });
+    setInputValue(value);
     setTreeData(results);
   };
 
@@ -258,19 +263,31 @@ const TreeTableHelper: React.FC<IProps> = (props) => {
     <div ref={wrapperRef} className={`${prefixCls}--wrapper`}>
       <QmSplit defaultValue={200} style={{ height: '100%' }}>
         <QmSplit.Pane min={100} style={{ overflowY: 'auto' }}>
-          <Input.Search style={{ marginBottom: 8 }} placeholder={t('qm.form.inputPlaceholder')} onChange={(ev) => changeHandle(ev.target.value)} />
+          <Input.Search
+            className={`input-wrap`}
+            value={inputValue}
+            style={{ marginBottom: 8 }}
+            placeholder={t('qm.form.inputPlaceholder')}
+            onChange={(ev) => changeHandle(ev.target.value)}
+          />
           <Tree
             fieldNames={{ title: 'text', key: 'value', children: 'children' }}
+            height={treeHeight}
             defaultExpandAll
             expandedKeys={expandedKeys}
             treeData={treeData}
+            filterTreeNode={(node: any) => {
+              if (!inputValue) {
+                return false;
+              }
+              return node.text.indexOf(inputValue) !== -1;
+            }}
             onExpand={expandHandle}
             onSelect={(selectedKeys: string[]) => {
               if (!tree?.fetch) return;
               const { valueKey = 'value' } = tree.fetch;
               const row = deepFind(responseList.current, (node) => get(node, valueKey) === selectedKeys[0]);
-              if (!row) return;
-              doTableFetch(row);
+              doTableFetch(row || {});
             }}
           />
         </QmSplit.Pane>

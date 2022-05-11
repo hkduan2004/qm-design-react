@@ -6,12 +6,16 @@
  */
 @import '../../style/common';
 
-@prefix-tree-table: ~'@{qm-prefix}-tree-table';
+@prefix-tree-helper: ~'@{qm-prefix}-tree-helper';
 
-.@{prefix-tree-table}--wrapper {
+.@{prefix-tree-helper}--wrapper {
   .reset-component();
   height: 100%;
-  .split-pane {
-    overflow: hidden;
+  .ant-tree {
+    &-list {
+      .filter-node {
+        // color: @--primary-color;
+      }
+    }
   }
 }

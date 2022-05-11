@@ -24,14 +24,11 @@
       position: relative;
       display: flex;
       align-items: center;
-      .ant-input {
-        border-color: @v-danger-color;
-        &:focus {
-          box-shadow: 0 0 0 2px @--error-color-outline;
-        }
-      }
       .ant-input-search {
-        .ant-input {
+        .ant-input,
+        .ant-input-affix-wrapper {
+          border-color: @v-danger-color;
+          box-shadow: none;
           z-index: 1;
         }
         & + .cell-error {

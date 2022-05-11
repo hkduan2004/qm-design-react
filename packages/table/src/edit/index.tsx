@@ -19,7 +19,7 @@ import useForceUpdate from '../../../hooks/useForceUpdate';
 import type { IColumn, IRecord, IRowKey, IEditerReturn } from '../table/types';
 import type { IDict } from '../../../_utils/types';
 
-import { QmModal, QmSearchHelper, Button } from '../../../index';
+import { QmModal, QmSearchHelper, QmTreeHelper, Button } from '../../../index';
 import { Input, Select, DatePicker, TimePicker, Checkbox, Switch } from '../../../antd';
 import { SearchOutlined } from '@ant-design/icons';
 import InputNumber from './InputNumber';
@@ -418,7 +418,7 @@ const CellEdit: React.FC<ICellEditProps> = (props) => {
         }
       };
 
-      const closeHelperHandle = (data: any) => {
+      const closeHelperHandle = (data: Record<string, any>) => {
         // 其他字段的集合
         const others: Record<string, unknown> = {};
         for (const key in alias) {
@@ -681,6 +681,143 @@ const CellEdit: React.FC<ICellEditProps> = (props) => {
           </span>
           <QmModal {...dialogProps}>
             <QmSearchHelper {...helperProps} />
+          </QmModal>
+        </>
+      );
+    },
+    [`tree-helper`]: (row: IRecord, column: IColumn) => {
+      const { dataIndex, precision } = column;
+      const { type, extra = {}, rules = [], helper = {}, onChange, onEnter } = options;
+      const prevValue = getCellValue(row, dataIndex);
+
+      const fieldAliasMap = helper.fieldAliasMap;
+      if (!fieldAliasMap) {
+        warn('Table', 'helper 需要配置 `fieldAliasMap` 选项');
+      }
+
+      const alias = typeof fieldAliasMap === 'function' ? fieldAliasMap() : fieldAliasMap || {};
+      if (!Object.keys(alias).includes(dataIndex)) {
+        warn('Table', 'fieldAliasMap 选项必须包含自身 `dataIndex` 值');
+      }
+
+      // 打开搜索帮助面板
+      const openSearchHelper = (cb?: () => void) => {
+        const { beforeOpen } = helper;
+        // 打开的前置钩子
+        const open = beforeOpen ?? trueNoop;
+        const before = open({ [dataKey]: prevValue }, row, column);
+        if ((before as Promise<void>)?.then) {
+          (before as Promise<void>)
+            .then(() => {
+              setVisible(true);
+              cb?.();
+            })
+            .catch(() => {});
+        } else if (before !== false) {
+          setVisible(true);
+          cb?.();
+        }
+      };
+
+      // 搜索帮助关闭，回显值事件
+      const closeSearchHelper = (data: Record<string, any>) => {
+        // 其他字段的集合
+        const others: Record<string, unknown> = {};
+        for (const key in alias) {
+          const dataKey = alias[key];
+          if (key === dataIndex) continue;
+          others[key] = data[dataKey];
+        }
+        const current = alias[dataIndex] ? data[alias[dataIndex]] : '';
+        setHelperValues(current, others);
+        const { closed } = helper;
+        setVisibleEffect(false, () => createElementClick(editCellRef.current!));
+        closed?.(data);
+      };
+
+      const closeButNotSelect = () => {
+        setVisibleEffect(false, () => createElementClick(editCellRef.current!));
+      };
+
+      const setHelperValues = (val = '', others?: any) => {
+        // 对其他单元格赋值 & 校验
+        if (isObject(others) && Object.keys(others).length) {
+          for (const otherDataIndex in others) {
+            const otherValue = others[otherDataIndex];
+            const otherColumn = flattenColumns.find((column) => column.dataIndex === otherDataIndex);
+            if (!otherColumn) continue;
+            setCellValue(row, otherDataIndex, otherValue, otherColumn.precision);
+            const otherOptions = otherColumn.editRender?.(row, otherColumn);
+            if (!Array.isArray(otherOptions?.rules)) continue;
+            doFieldValidate(otherOptions!.rules, otherValue, rowKey, otherDataIndex);
+          }
+          // 更新父组件，更新其他单元格值
+          tableBodyRef.current!.forceUpdate();
+        }
+        // 修改当前单元格的值
+        setCellValue(row, dataIndex, val, precision);
+        doFieldValidate(rules, val, rowKey, columnKey);
+        store.addToUpdated(row);
+        onChange?.({ [dataKey]: val }, row);
+        dataChange();
+      };
+
+      const dialogProps = {
+        visible,
+        title: t('qm.searchHelper.text'),
+        width: helper.width ?? '30%',
+        loading: false,
+        bodyStyle: { paddingBottom: `${SizeHeight[$size] + 20}px` },
+        onClose: () => {
+          closeButNotSelect();
+        },
+      };
+
+      const helperProps = {
+        ...helper,
+        size: $size,
+        onClose: (data) => {
+          if (data) {
+            closeSearchHelper(data);
+          } else {
+            closeButNotSelect();
+          }
+        },
+      };
+
+      return (
+        <>
+          <Search
+            value={prevValue}
+            allowClear={extra.allowClear ?? true}
+            readOnly={extra.readOnly}
+            disabled={extra.disabled}
+            onChange={(ev) => {
+              const { value } = ev.target;
+              if (value) return;
+              forceUpdate();
+            }}
+            onKeyUp={(ev: any) => {
+              if (ev.keyCode === 13) {
+                const val = ev.target.value ?? '';
+                onEnter?.({ [dataKey]: val }, row);
+              }
+            }}
+            onDoubleClick={() => {
+              openSearchHelper();
+            }}
+            onSearch={(_, ev) => {
+              if (ev?.type !== 'click') return;
+              // 放大镜
+              if ((ev.target as HTMLElement).tagName !== 'INPUT') {
+                openSearchHelper();
+              } else {
+                setHelperValues('');
+              }
+            }}
+          />
+          <QmModal {...dialogProps}>
+            <QmTreeHelper {...helperProps} />
           </QmModal>
         </>
       );

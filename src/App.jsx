@@ -355,47 +355,19 @@ const App = () => {
             },
             editRender: (row) => {
               const obj = {
-                type: 'search-helper',
-                // editable: true,
-                extra: {
-                  readonly: false,
-                  maxlength: 10,
-                  disabled: row.id === 3,
-                },
+                type: 'tree-helper',
                 helper: {
-                  filters: [
-                    {
-                      type: 'INPUT',
-                      label: '条件1',
-                      fieldName: 'a1',
-                    },
-                  ],
-                  table: {
-                    columns: [
-                      {
-                        title: '创建时间',
-                        dataIndex: 'date',
-                        filter: {
-                          type: 'date',
-                        },
-                      },
-                      {
-                        title: '姓名',
-                        dataIndex: 'person.name',
-                      },
-                    ],
-                    rowKey: (record) => record.id,
+                  tree: {
                     fetch: {
-                      api: getTableData,
+                      api: getTreeData,
                       params: {},
                       dataKey: 'records',
+                      valueKey: 'value',
+                      textKey: 'text',
                     },
                   },
                   fieldAliasMap: () => {
-                    return { 'person.name': 'date', 'person.age': 'date' };
-                  },
-                  filterAliasMap: () => {
-                    return ['a1'];
+                    return { 'person.name': 'text', 'person.age': 'value' };
                   },
                 },
                 rules: [{ required: true, message: '姓名不能为空' }],

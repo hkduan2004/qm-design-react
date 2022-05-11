@@ -68,6 +68,9 @@ export { default as QmSearchHelper } from './search-helper';
 export type { QmTreeTableHelperProps } from './tree-table-helper';
 export { default as QmTreeTableHelper } from './tree-table-helper';
 
+export type { QmTreeHelperProps } from './tree-helper';
+export { default as QmTreeHelper } from './tree-helper';
+
 export type { QmPrintProps } from './print';
 export { default as QmPrint } from './print';
 

@@ -70,9 +70,9 @@ const SearchHelper: React.FC<IProps> = (props) => {
   const [tableList, setTableList] = React.useState<IRecord[]>([]);
 
   const calcTableHeight = () => {
-    const $outer = wrapperRef.current!.parentNode as HTMLElement;
+    const $outer = wrapperRef.current!.parentNode!.children[0] as HTMLElement;
     const $former = $outer.querySelector('.form-wrap') as HTMLElement;
-    setTableHeight($outer.offsetHeight - $former.offsetHeight - SizeHeight[$size] * 2 - (SizeHeight[$size] + 20) - 10 * 4);
+    setTableHeight($outer.offsetHeight - $former.offsetHeight - SizeHeight[$size] * 2 - 10 * 3);
   };
 
   const resizeObserveHandler = debounce(calcTableHeight, 5);
