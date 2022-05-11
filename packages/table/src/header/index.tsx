@@ -284,7 +284,11 @@ const TableHeader: React.FC<IHeaderProps> = (props) => {
     const validSorter = pickBy(sorter, (val) => val !== null) as Record<string, string>;
     for (const key in validSorter) {
       const column = flattenColumns.find((column) => column.dataIndex === key);
-      doSortHandle(column!, validSorter[key]);
+      if (!column) {
+        delete validSorter[key];
+        continue;
+      }
+      doSortHandle(column, validSorter[key]);
     }
     if (noRest) return;
     // 还原排序数据
