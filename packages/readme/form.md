@@ -42,7 +42,7 @@
 | SUBMIT_FORM        | 表单提交                 | -                                | -                                    |
 | RESET_FORM         | 重置表单                 | -                                | -                                    |
 | GET_FORM_DATA      | 获取表单数据，异步方法   | -                                | 返回错误前置的数组 [error, formData] |
-| GET_FIELDS_VALUE   | 对表单字段进行校验       | function(fieldNames[]: string[]) | fieldValues                          |
+| GET_FIELDS_VALUE   | 获取表单项的值           | function(fieldNames[]: string[]) | fieldValues                          |
 | SET_FIELDS_VALUE   | 设置表单字段的值         | function(values:object)          | -                                    |
 | GET_FIELDS_EXTRA   | 获取表单项尾部描述值     | function(fieldNames[]: string[]) | extraValues                          |
 | SET_FIELDS_EXTRA   | 设置表单项尾部描述值     | function(values:object)          | -                                    |

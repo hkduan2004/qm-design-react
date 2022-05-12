@@ -25,7 +25,7 @@ type IProps = {
   multiple?: boolean;
   tree?: {
     fetch?: IFetch & { valueKey?: string; textKey?: string };
-    loadFetch?: IFetch & { valueKey?: string; textKey?: string }; // 按需加载
+    asyncLoad?: boolean; // 按需加载
   };
   onClose: (data: IRecord | null) => void;
 };
@@ -81,6 +81,23 @@ const treeFilter = (tree: IRecord[], fn: (node: IRecord) => boolean) => {
       return fn(node) || (node.children && node.children.length);
     });
 };
+const updateTreeData = (list: IRecord[], key: React.Key, valueKey: string, children: IRecord[]): IRecord[] => {
+  return list.map((node) => {
+    if (node[valueKey] === key) {
+      return {
+        ...node,
+        children,
+      };
+    }
+    if (node.children) {
+      return {
+        ...node,
+        children: updateTreeData(node.children, key, valueKey, children),
+      };
+    }
+    return node;
+  });
+};
 // ===========================
 
 const TreeHelper: React.FC<IProps> = (props) => {
@@ -115,6 +132,12 @@ const TreeHelper: React.FC<IProps> = (props) => {
   const treeDataOrigin = React.useRef<IRecord[]>(treeData);
   const responseList = React.useRef<IRecord[]>([]);
 
+  const createTreeData = (list: IRecord[]) => {
+    setTreeData(list);
+    treeDataOrigin.current = list;
+    responseList.current = list;
+  };
+
   const getTreeData = async () => {
     if (!tree?.fetch) return;
     const { api: fetchApi, params, dataKey, valueKey = 'value', textKey = 'text' } = tree.fetch;
@@ -124,14 +147,27 @@ const TreeHelper: React.FC<IProps> = (props) => {
       if (res.code === 200) {
         const dataList = Array.isArray(res.data) ? res.data : get(res.data, dataKey!) ?? [];
         const results = deepMapList(dataList, valueKey, textKey);
-        setTreeData(results);
-        treeDataOrigin.current = results;
-        responseList.current = dataList;
+        createTreeData(results);
       }
     } catch (err) {
       // ...
     }
     setLoading(false);
+  };
+
+  const onLoadData = async ({ key, children }: any) => {
+    if (!tree?.fetch || children) return;
+    const { api: fetchApi, params, dataKey, valueKey = 'value', textKey = 'text' } = tree.fetch;
+    try {
+      const res = await fetchApi({ ...params, [valueKey]: key });
+      if (res.code === 200) {
+        const dataList = Array.isArray(res.data) ? res.data : get(res.data, dataKey!) ?? [];
+        const results = updateTreeData(treeData, key, valueKey, deepMapList(dataList, valueKey, textKey));
+        createTreeData(results);
+      }
+    } catch (err) {
+      // ...
+    }
   };
 
   useUpdateEffect(() => {
@@ -174,6 +210,7 @@ const TreeHelper: React.FC<IProps> = (props) => {
           defaultExpandAll
           expandedKeys={expandedKeys}
           treeData={treeData}
+          loadData={tree?.asyncLoad ? onLoadData : undefined}
           filterTreeNode={(node: any) => {
             if (!inputValue) {
               return false;

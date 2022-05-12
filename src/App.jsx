@@ -365,6 +365,7 @@ const App = () => {
                       valueKey: 'value',
                       textKey: 'text',
                     },
+                    // asyncLoad: true,
                   },
                   fieldAliasMap: () => {
                     return { 'person.name': 'text', 'person.age': 'value' };
