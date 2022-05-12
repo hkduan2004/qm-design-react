@@ -10,7 +10,7 @@ import memoize from 'memoize-one';
 import ConfigContext from '../../config-provider/context';
 import FormContext from './context';
 import { addResizeListener, removeResizeListener } from '../../_utils/resize-event';
-import { getParserWidth, getAuthValue, debounce, get, noop, isEmpty, isObject, isFunction } from '../../_utils/util';
+import { getParserWidth, getAuthValue, deepClone, debounce, get, noop, isEmpty, isObject, isFunction } from '../../_utils/util';
 import { isEmptyValue } from './utils';
 import { warn } from '../../_utils/error';
 import { t } from '../../locale';
@@ -716,7 +716,7 @@ class QmForm extends Component<IProps, IState> {
           span={selfCol * colSpan}
           style={this.isFilterType ? { display: !this.showFilterCollapse || isBlock ? 'block' : 'none' } : { display: isDisplay ? 'block' : 'none' }}
         >
-          {type ? this.createFormItem(item as IFormItem) : null}
+          {type ? this.createFormItem(deepClone(item) as IFormItem) : null}
         </Col>
       );
     });

@@ -90,6 +90,36 @@ export const getValueByPath = (obj: AnyObject<any>, paths = ''): unknown => {
   return ret;
 };
 
+function forEach(array, iteratee) {
+  let index = -1;
+  const length = array.length;
+  while (++index < length) {
+    iteratee(array[index], index);
+  }
+  return array;
+}
+
+export const deepClone = (target: object, map = new WeakMap()) => {
+  if (typeof target === 'object') {
+    const isArray = Array.isArray(target);
+    const cloneTarget = isArray ? [] : {};
+    if (map.get(target)) {
+      return target;
+    }
+    map.set(target, cloneTarget);
+    const keys = isArray ? undefined : Object.keys(target);
+    forEach(keys || target, (value, key) => {
+      if (keys) {
+        key = value;
+      }
+      cloneTarget[key] = deepClone(target[key], map);
+    });
+    return cloneTarget;
+  } else {
+    return target;
+  }
+};
+
 export const getParserWidth = (val: number | string): string => {
   if (isNumber(val)) {
     return `${val}px`;
