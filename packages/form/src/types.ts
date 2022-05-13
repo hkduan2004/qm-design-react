@@ -10,8 +10,8 @@ import { throwError } from '../../_utils/error';
 import { isValidComponentSize } from '../../_utils/validators';
 
 import type { BuildInPlacements } from 'rc-trigger';
-import type { IFetch, IColumn, IRecord, IRowKey } from '../../table/src/table/types';
-import type { Nullable, CSSProperties, ComponentSize, JSXElement, ValueOf, AjaxResponse, IDict } from '../../_utils/types';
+import type { IFetch, IColumn, IRowKey } from '../../table/src/table/types';
+import type { CSSProperties, ComponentSize, JSXElement, ValueOf, AjaxResponse, IDict } from '../../_utils/types';
 
 export const DEFAULT_COL = 4;
 export const DEFAULT_ROWS = 1;
@@ -19,6 +19,8 @@ export const DEFAULT_LABEL_WIDTH = 80;
 export const DEFAULT_COL_WIDTH = 300;
 export const DEFAULT_TRUE_VALUE = '1';
 export const DEFAULT_FALSE_VALUE = '0';
+
+export type IRecord = Record<string, any>;
 
 export type IFormLayout = 'horizontal' | 'vertical';
 
@@ -274,7 +276,7 @@ export type IFormItem = {
     onCollapse?: (collapse: boolean) => void;
   };
   render?: (options: IFormItem, instance: any) => JSXElement;
-  onChange?: (value: ValueOf<IFormData> | boolean, others?: string | Nullable<IFormData>) => void;
+  onChange?: (value: ValueOf<IFormData> | boolean, others?: any) => void;
   onBlur?: (value: ValueOf<IFormData>) => void;
   onEnter?: (value: ValueOf<IFormData>) => void;
 };

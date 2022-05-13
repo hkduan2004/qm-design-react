@@ -12,7 +12,7 @@ import { t } from '../../locale';
 import { warn } from '../../_utils/error';
 import { SizeHeight } from '../../_utils/types';
 import { DEFAULT_LABEL_WIDTH } from './types';
-import type { IFormItem } from './types';
+import type { IFormItem, IRecord } from './types';
 import type { IDict } from '../../_utils/types';
 
 import { QmModal, QmSearchHelper } from '../../index';
@@ -32,7 +32,7 @@ type IState = {
 type IMultipleSearchProps<T = Array<string | number>> = IProps & {
   value?: T;
   onChange?: (value: T) => void;
-  onValuesChange: (value: T, text: string) => void;
+  onValuesChange: (value: T, text: string, records: IRecord[]) => void;
 };
 
 class VMultipleSearch extends Component<IMultipleSearchProps, IState> {
@@ -43,6 +43,8 @@ class VMultipleSearch extends Component<IMultipleSearchProps, IState> {
 
   // 表单字段映射
   public alias: Record<string, string>;
+
+  private _records: IRecord[];
 
   public state: IState = {
     visible: false,
@@ -97,14 +99,15 @@ class VMultipleSearch extends Component<IMultipleSearchProps, IState> {
   };
 
   // 搜索帮助关闭，回显值事件
-  closeSearchHelper = (data: Record<string, any>[]) => {
+  closeSearchHelper = (data: IRecord[]) => {
     const { textKey, valueKey } = this.alias;
-    const itemList = data.map((x) => ({ text: x[textKey], value: x[valueKey] }));
+    this._records = data;
+    const itemList = this._records.map((x) => ({ text: x[textKey], value: x[valueKey] }));
     this.setItemList(itemList);
     this.triggerChange(itemList.map((x) => x.value));
     const { closed } = this.searchHelper!;
     this.setVisible(false, () => {
-      closed?.(data);
+      closed?.(this._records);
     });
   };
 
@@ -117,8 +120,13 @@ class VMultipleSearch extends Component<IMultipleSearchProps, IState> {
 
   triggerChange = (value: Array<string | number>) => {
     const { onChange, onValuesChange } = this.props;
+    const { valueKey } = this.alias;
     onChange?.(value);
-    onValuesChange(value, this.createViewText());
+    onValuesChange(
+      value,
+      this.createViewText(),
+      this._records.filter((x) => value.includes(x[valueKey]))
+    );
   };
 
   render(): React.ReactElement {
@@ -256,8 +264,8 @@ class FormMultipleSearchHelper extends Component<IProps> {
             >
               <VMultipleSearch
                 option={this.props.option}
-                onValuesChange={(value, text) => {
-                  onChange(value);
+                onValuesChange={(value, text, records) => {
+                  onChange(value, records);
                   $$form.setViewValue(fieldName, text);
                 }}
               />
