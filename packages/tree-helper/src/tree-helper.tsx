@@ -132,10 +132,10 @@ const TreeHelper: React.FC<IProps> = (props) => {
   const treeDataOrigin = React.useRef<IRecord[]>(treeData);
   const responseList = React.useRef<IRecord[]>([]);
 
-  const createTreeData = (list: IRecord[]) => {
-    setTreeData(list);
-    treeDataOrigin.current = list;
-    responseList.current = list;
+  const createTreeData = (treeData: IRecord[], dataList: IRecord[]) => {
+    setTreeData(treeData);
+    treeDataOrigin.current = treeData;
+    responseList.current = dataList;
   };
 
   const getTreeData = async () => {
@@ -147,7 +147,7 @@ const TreeHelper: React.FC<IProps> = (props) => {
       if (res.code === 200) {
         const dataList = Array.isArray(res.data) ? res.data : get(res.data, dataKey!) ?? [];
         const results = deepMapList(dataList, valueKey, textKey);
-        createTreeData(results);
+        createTreeData(results, dataList);
       }
     } catch (err) {
       // ...
@@ -162,8 +162,8 @@ const TreeHelper: React.FC<IProps> = (props) => {
       const res = await fetchApi({ ...params, [valueKey]: key });
       if (res.code === 200) {
         const dataList = Array.isArray(res.data) ? res.data : get(res.data, dataKey!) ?? [];
-        const results = updateTreeData(treeData, key, valueKey, deepMapList(dataList, valueKey, textKey));
-        createTreeData(results);
+        const results = updateTreeData(treeData, key, 'value', deepMapList(dataList, valueKey, textKey));
+        createTreeData(results, updateTreeData(responseList.current, key, valueKey, dataList));
       }
     } catch (err) {
       // ...
