@@ -6,9 +6,9 @@
  */
 import React from 'react';
 
-export const cloneElement = (element: React.ReactNode, ...restArgs: any[]) => {
+export const cloneElement = (element: React.ReactNode, ...rest: any[]): React.ReactElement | null => {
   if (!React.isValidElement(element)) {
-    return element;
+    return null;
   }
-  return React.cloneElement(element, ...restArgs);
+  return React.cloneElement(element, ...rest);
 };

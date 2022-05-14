@@ -71,6 +71,9 @@ export { default as QmTreeTableHelper } from './tree-table-helper';
 export type { QmTreeHelperProps } from './tree-helper';
 export { default as QmTreeHelper } from './tree-helper';
 
+export type { QmCopyToClipboardProps } from './copy-to-clipboard';
+export { default as QmCopyToClipboard } from './copy-to-clipboard';
+
 export type { QmPrintProps } from './print';
 export { default as QmPrint } from './print';
 

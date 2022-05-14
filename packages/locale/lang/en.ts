@@ -49,6 +49,10 @@ export default {
       citySelectType: ['Province', 'City'],
       regionSelectLabel: ['Province', 'City', 'Region', 'Street'],
     },
+    clipboard: {
+      success: 'Copy successful',
+      error: 'Copy failed',
+    },
     download: {
       text: 'Download',
       success: 'File downloaded successfully',

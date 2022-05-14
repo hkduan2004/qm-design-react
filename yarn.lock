@@ -2997,6 +2997,13 @@ copy-to-clipboard@^3.2.0:
   dependencies:
     toggle-selection "^1.0.6"
 
+copy-to-clipboard@^3.3.1:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/copy-to-clipboard/-/copy-to-clipboard-3.3.1.tgz#115aa1a9998ffab6196f93076ad6da3b913662ae"
+  integrity sha512-i13qo6kIHTTpCm8/Wup+0b1mVWETvu2kIMzKoK8FpkLkFxlt0znUAHcMzox+T8sPlqtZXq3CulEjQHsYiGFJUw==
+  dependencies:
+    toggle-selection "^1.0.6"
+
 core-js-compat@^3.18.0, core-js-compat@^3.19.1:
   version "3.19.1"
   resolved "https://registry.npmmirror.com/core-js-compat/download/core-js-compat-3.19.1.tgz?cache=0&sync_timestamp=1635884122950&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fcore-js-compat%2Fdownload%2Fcore-js-compat-3.19.1.tgz#fe598f1a9bf37310d77c3813968e9f7c7bb99476"

@@ -49,6 +49,10 @@ export default {
       citySelectType: ['按省份', '按城市'],
       regionSelectLabel: ['省', '市', '区', '街道'],
     },
+    clipboard: {
+      success: '复制成功',
+      error: '复制失败',
+    },
     download: {
       text: '下载',
       success: '文件下载成功',

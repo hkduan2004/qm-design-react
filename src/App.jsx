@@ -9,7 +9,7 @@ import classNames from 'classnames';
 import { sleep } from '../packages/_utils/util';
 import { getTableData, getTableKeys, getSummationData, getSelectData, getTreeData, getRegionData, getTableAuth } from './api/test';
 
-import { QmConfigProvider, QmTable, QmButton, QmForm, QmSplit, QmDrawer, QmPrint, Button } from '../packages';
+import { QmConfigProvider, QmTable, QmButton, QmForm, QmSplit, QmDrawer, QmPrint, Button, QmCopyToClipboard } from '../packages';
 import { PlusOutlined, FormOutlined } from '@ant-design/icons';
 
 import tableData from '@/mock/tableData';
@@ -606,6 +606,9 @@ const App = () => {
           tablePrint={{}}
           columnsChange={(columns) => setColumns(columns)}
         >
+          <QmCopyToClipboard text={'hello\nworld'}>
+            <Button>复制</Button>
+          </QmCopyToClipboard>
           <QmPrint templateRender={() => <PrintTemplate dataSource={printList} />} click={printClick}>
             打印
           </QmPrint>
