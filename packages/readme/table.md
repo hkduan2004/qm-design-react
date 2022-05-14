@@ -77,7 +77,6 @@
 | SET_SELECTION    | 设置选择列                                     | function(rowKeys)                 | -      |
 | SET_HIGHLIGHT    | 设置高亮行                                     | function(rowKey)                  | -      |
 | SET_EXPANDABLE   | 设置展开行                                     | function(rowKeys)                 | -      |
-| SET_FIELDS_VALUE | 设置表格字段值 - 通常用于自定义单元格渲染      | function(row, values)             | -      |
 | VALIDATE_FIELDS  | 触发表格中的表单字段校验                       | -                                 | object |
 | FORCE_UPDATE     | 组件强制更新                                   | -                                 | -      |
 | GET_LOG          | 获取操作记录，非空校验、格式校验、数据操作记录 | -                                 | object |
