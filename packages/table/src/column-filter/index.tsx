@@ -33,7 +33,6 @@ const ColumnFilter: React.FC<IColumnFilterProps> = (props) => {
   const { uniqueKey, onlyShowIcon, columnsChange } = tableProps;
 
   const colGroups = React.useRef<IColumn[][]>([]); // 表头跨列分组
-  const columnsRef = React.useRef<IColumn[]>([]);
 
   const [visible, setVisible] = React.useState<boolean>(false);
   const [leftFixedColumns, setLeftFixedColumns] = React.useState<IColumn[]>(columns.filter((x) => !x.noAuth && x.fixed === 'left'));
@@ -49,19 +48,12 @@ const ColumnFilter: React.FC<IColumnFilterProps> = (props) => {
   }, [leftFixedColumns, mainColumns, rightFixedColumns]);
 
   useUpdateEffect(() => {
-    createColGroups();
+    createColGroups(columns);
     createColumns(columns);
     setLocalColumns(columns);
   }, [columns]);
 
-  useUpdateEffect(() => {
-    if (isEqual(getValidProperty(realColumns), columnsRef.current)) return;
-    setColumnsRef(realColumns);
-    changeHandle();
-  }, [realColumns]);
-
   React.useEffect(() => {
-    setColumnsRef(realColumns);
     initLocalColumns();
   }, []);
 
@@ -175,24 +167,10 @@ const ColumnFilter: React.FC<IColumnFilterProps> = (props) => {
     const localColumns = getLocalColumns();
     if (!localColumns) return;
     createColumns(localColumns);
+    columnsChange?.(localColumns);
   };
 
   // =================================================
-
-  const getValidProperty = (columns: IColumn[]): IColumn[] => {
-    return columns.map((x) => ({
-      dataIndex: x.dataIndex,
-      title: x.title,
-      hidden: x.hidden,
-      fixed: x.fixed,
-      width: x.width,
-      renderWidth: x.renderWidth,
-    }));
-  };
-
-  const setColumnsRef = (columns: IColumn[]) => {
-    columnsRef.current = getValidProperty(columns);
-  };
 
   const createColumns = (columns: IColumn[]) => {
     setLeftFixedColumns(columns.filter((x) => !x.noAuth && x.fixed === 'left'));
@@ -200,7 +178,7 @@ const ColumnFilter: React.FC<IColumnFilterProps> = (props) => {
     setMainColumns(columns.filter((x) => !x.noAuth && !x.fixed));
   };
 
-  const createColGroups = () => {
+  const createColGroups = (columns: IColumn[]) => {
     const results: IColumn[][] = [];
     columns
       .filter((column) => !column.noAuth)
@@ -256,14 +234,10 @@ const ColumnFilter: React.FC<IColumnFilterProps> = (props) => {
     columnsChange?.(resultColumns);
   };
 
-  const fixedChangeHandle = (column: IColumn, dir: IFixed) => {
-    column.fixed = dir;
+  const fixedChangeHandle = (column: IColumn, dir?: IFixed) => {
+    dir ? (column.fixed = dir) : delete column.fixed;
     createColumns(columns);
-  };
-
-  const cancelFixedHandle = (column: IColumn) => {
-    delete column.fixed;
-    createColumns(columns);
+    changeHandle();
   };
 
   const renderListItem = (column: IColumn, type: string) => {
@@ -281,6 +255,7 @@ const ColumnFilter: React.FC<IColumnFilterProps> = (props) => {
             const { checked } = ev.target;
             column.hidden = !checked;
             createColumns(columns);
+            changeHandle();
           }}
         />
         <i className={classNames(cls)} title={t('qm.table.columnFilter.draggable')}>
@@ -300,7 +275,7 @@ const ColumnFilter: React.FC<IColumnFilterProps> = (props) => {
           </span>
         ) : (
           <span className={`fixed`}>
-            <i className={`svgicon`} title={t('qm.table.columnFilter.cancelFixed')} onClick={() => cancelFixedHandle(column)}>
+            <i className={`svgicon`} title={t('qm.table.columnFilter.cancelFixed')} onClick={() => fixedChangeHandle(column)}>
               <CloseCircleOutlined />
             </i>
           </span>
@@ -330,6 +305,7 @@ const ColumnFilter: React.FC<IColumnFilterProps> = (props) => {
               if (isEqual(dis1, dis2)) return;
               setLeftFixedColumns(list as unknown as IColumn[]);
             }}
+            onEnd={() => changeHandle()}
           >
             {leftFixedColumns.map((column) => renderListItem(column, 'left'))}
           </ReactSortable>
@@ -348,6 +324,7 @@ const ColumnFilter: React.FC<IColumnFilterProps> = (props) => {
               if (isEqual(dis1, dis2)) return;
               setMainColumns(list as unknown as IColumn[]);
             }}
+            onEnd={() => changeHandle()}
           >
             {mainColumns.map((column) => renderListItem(column, 'main'))}
           </ReactSortable>
@@ -366,6 +343,7 @@ const ColumnFilter: React.FC<IColumnFilterProps> = (props) => {
               if (isEqual(dis1, dis2)) return;
               setRightFixedColumns(list as unknown as IColumn[]);
             }}
+            onEnd={() => changeHandle()}
           >
             {rightFixedColumns.map((column) => renderListItem(column, 'right'))}
           </ReactSortable>
