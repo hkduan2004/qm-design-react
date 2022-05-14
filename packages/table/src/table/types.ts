@@ -427,7 +427,6 @@ export type TableRef = {
   FORCE_UPDATE: () => void;
   SCROLL_TO_RECORD: (rowKey: IRowKey) => void;
   SCROLL_TO_COLUMN: (dataIndex: string) => void;
-  SET_FIELDS_VALUE: (row: IRecord, values: Record<string, any>) => void;
   INSERT_RECORDS: <T extends IRecord>(records: T | T[]) => void;
   REMOVE_RECORDS: <T extends IRecord | IRowKey>(records: T | T[]) => void;
   VALIDATE_FIELDS: () => {

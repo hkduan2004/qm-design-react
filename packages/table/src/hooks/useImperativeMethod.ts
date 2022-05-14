@@ -10,7 +10,7 @@ import { getCellValue, setCellValue } from '../utils';
 import config from '../config';
 
 import type { ITableRef } from './useTableRef';
-import type { getRowKeyType, IColumn, IFetchParams, IPagination, IRecord, IRowKey, IRule, IValidItem, TableBodyRef, TableRef } from '../table/types';
+import type { getRowKeyType, IColumn, IFetchParams, IPagination, IRecord, IRowKey, IRule, IValidItem, TableRef } from '../table/types';
 
 type IExtra = {
   getRowKey: getRowKeyType;
@@ -150,13 +150,6 @@ const useImperativeMethod = <T extends React.ForwardedRef<TableRef>>(ref: T, ext
       // 滚动到指定表格列
       SCROLL_TO_COLUMN: (dataIndex: string) => {
         scrollXToColumn(dataIndex);
-      },
-      // 设置表格字段的值，参数是值的集合 { dataIndex: val, ... }
-      SET_FIELDS_VALUE: (row: IRecord, values: Record<string, any>) => {
-        for (const dataIndex in values) {
-          setCellValue(row, dataIndex, getCellValue(values, dataIndex));
-        }
-        dataChange();
       },
       // 设置选择列
       SET_SELECTION(rowKeys: IRowKey[]) {

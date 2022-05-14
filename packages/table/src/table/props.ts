@@ -369,7 +369,6 @@ export const defaultProps: ITableProps = {
  * VALIDATE_FIELDS: 触发表格中的表单字段校验，返回值：object
  * FORCE_UPDATE: 组件强制更新
  * GET_LOG: 获取操作记录，非空校验、格式校验、数据操作记录，返回值：object
- * SET_FIELDS_VALUE: 设置表格字段值 - 通常用于自定义单元格渲染，参数 row, values
  * CLEAR_LOG: 清空表格操作记录
  * CLEAR_TABLE_DATA: 清空表格数据
  * SCROLL_TO_RECORD: 滚动到指定数据行，参数 rowKey
