@@ -49,6 +49,7 @@ const columnItem = {
     'secret-bankNumber',
   ]), // 字段的格式化类型
   required: PropTypes.bool, // 可编辑列是否必填
+  canCopy: PropTypes.bool, // 可以复制
   editRender: PropTypes.func, // 可编辑单元格，参数: row, column; 返回值类型: object
   // 数据字典项
   dictItems: PropTypes.arrayOf(

@@ -12,6 +12,7 @@ import TableContext from '../context';
 import { deepFindRowKey, getCellValue, getVNodeText, parseHeight, isArrayContain, getAllTableData, deepGetRowkey } from '../utils';
 import { isObject, isValidElement, camelize, noop, trueNoop } from '../../../_utils/util';
 import { prevent } from '../../../_utils/dom';
+import { t } from '../../../locale';
 import { warn } from '../../../_utils/error';
 import { getPrefixCls } from '../../../_utils/prefix';
 import { EMPTY_MIN_HEIGHT } from '../table/types';
@@ -26,9 +27,11 @@ import type { IColumn, IRecord, IRowColSpan, IRowKey, IClicked, TableBodyRef } f
 import type { IDict } from '../../../_utils/types';
 
 import { ReactSortable } from 'react-sortablejs';
+import { CopyOutlined } from '@ant-design/icons';
 import Selection from '../selection';
 import Expandable from '../expandable';
 import CellEdit from '../edit';
+import CopyToClipboard from '../../../copy-to-clipboard';
 
 type IBodyProps = {
   tableData: IRecord[];
@@ -448,10 +451,11 @@ const TableBody = React.forwardRef<TableBodyRef, IBodyProps>((props, ref) => {
     const trExtraStys = rowStyle ? (typeof rowStyle === 'function' ? rowStyle(row, rowIndex) : rowStyle) : null;
     const tdExtraStys = cellStyle ? (typeof cellStyle === 'function' ? cellStyle(row, column, rowIndex, columnIndex) : cellStyle) : null;
     const groupStys = isGroupSubtotal ? getGroupStyles(row._group) : null;
+    const cellText = renderCellTitle(column, row, rowIndex, columnIndex);
     return (
       <td
         key={dataIndex}
-        title={isEllipsis ? renderCellTitle(column, row, rowIndex, columnIndex) : undefined}
+        title={isEllipsis ? cellText : undefined}
         rowSpan={rowSpan}
         colSpan={colSpan}
         className={classNames(cls)}
@@ -460,13 +464,13 @@ const TableBody = React.forwardRef<TableBodyRef, IBodyProps>((props, ref) => {
         onDoubleClick={(ev) => cellDbclickHandle(ev, row, column)}
         onContextMenu={(ev) => cellContextmenuHandle(ev, row, column)}
       >
-        <div className={`cell`}>{renderCell(column, row, rowIndex, columnIndex, rowKey, depth)}</div>
+        <div className={`cell`}>{renderCell(column, row, rowIndex, columnIndex, cellText, rowKey, depth)}</div>
       </td>
     );
   };
 
-  const renderCell = (column: IColumn, row: IRecord, rowIndex: number, columnIndex: number, rowKey: IRowKey, depth: number) => {
-    const { dataIndex, editRender, render } = column;
+  const renderCell = (column: IColumn, row: IRecord, rowIndex: number, columnIndex: number, cellText: string, rowKey: IRowKey, depth: number) => {
+    const { dataIndex, canCopy, editRender, render } = column;
     const cellValue = getCellValue(row, dataIndex);
     if (dataIndex === config.expandableColumn) {
       const { rowExpandable = trueNoop } = expandable!;
@@ -491,6 +495,16 @@ const TableBody = React.forwardRef<TableBodyRef, IBodyProps>((props, ref) => {
         <Expandable key="expand" record={row} rowKey={rowKey} style={mayTreeNode(row) ? {} : { visibility: 'hidden' }} />,
         vNodeText,
       ];
+    }
+    if (canCopy) {
+      return (
+        <div className={`cell--copy`}>
+          <span className={`text`}>{vNodeText}</span>
+          <CopyToClipboard text={cellText}>
+            <CopyOutlined className={`icon`} title={t('qm.table.config.copyText')} onClick={(ev) => ev.stopPropagation()} />
+          </CopyToClipboard>
+        </div>
+      );
     }
     return vNodeText;
   };

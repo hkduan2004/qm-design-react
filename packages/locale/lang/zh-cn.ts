@@ -129,6 +129,7 @@ export default {
       config: {
         selectionText: '选择',
         summaryText: '合计',
+        copyText: '复制',
         emptyText: '暂无数据...',
       },
       alert: {

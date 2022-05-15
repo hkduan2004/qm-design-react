@@ -129,6 +129,7 @@ export default {
       config: {
         selectionText: '#',
         summaryText: 'Summation',
+        copyText: 'Copy',
         emptyText: 'No Data...',
       },
       alert: {

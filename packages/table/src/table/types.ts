@@ -308,6 +308,7 @@ export type IColumn = {
   precision?: number;
   formatType?: IFormatType;
   required?: boolean;
+  canCopy?: boolean;
   editRender?: (row: IRecord, column: IColumn) => IEditerReturn;
   dictItems?: Array<IDict>;
   summation?: {

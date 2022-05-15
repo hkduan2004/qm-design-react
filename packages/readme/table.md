@@ -100,6 +100,7 @@
 | hidden       | 是否隐藏列                                     | boolean                                                    | -      |
 | noAuth       | 列权限控制                                     | boolean                                                    | -      |
 | ellipsis     | 超过宽度将自动省略                             | boolean                                                    | -      |
+| canCopy      | 单元格文本可以复制到剪切板                     | boolean                                                    | -      |
 | className    | 列样式类名                                     | string                                                     | -      |
 | children     | 内嵌 children，以渲染分组表头                  | array                                                      |        |
 | sorter       | 列排序                                         | boolean \| func                                            | -      |
