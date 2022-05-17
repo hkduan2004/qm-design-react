@@ -2,7 +2,7 @@
  * @Author: 焦质晔
  * @Date: 2022-04-28 08:29:16
  * @Last Modified by: 焦质晔
- * @Last Modified time: 2022-04-28 14:01:31
+ * @Last Modified time: 2022-05-17 14:19:04
  */
 import React from 'react';
 import classNames from 'classnames';
@@ -150,7 +150,6 @@ const Setting: React.FC<ISettingProps> = (props) => {
   return (
     <div className={`${prefixCls}-import__setting`}>
       <QmForm ref={formRef} initialValues={initialValue} initialExtras={initialExtra} items={formItems} cols={1} labelWidth={100} />
-      <div style={{ height: 20 }}></div>
       <div
         style={{
           position: 'absolute',

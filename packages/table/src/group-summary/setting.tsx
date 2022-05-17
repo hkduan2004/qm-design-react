@@ -2,7 +2,7 @@
  * @Author: 焦质晔
  * @Date: 2022-01-09 14:21:04
  * @Last Modified by: 焦质晔
- * @Last Modified time: 2022-03-16 20:47:01
+ * @Last Modified time: 2022-05-17 15:54:00
  */
 import React from 'react';
 import classNames from 'classnames';
@@ -296,6 +296,7 @@ const Setting: React.FC<ISettingProps> = (props) => {
             showFastSearch={false}
             showTableImport={false}
             showFullScreen={false}
+            showClipboard={false}
             showColumnDefine={false}
             columnsChange={(columns) => setGroupColumns(columns)}
             onDataChange={(data) => {
@@ -323,6 +324,7 @@ const Setting: React.FC<ISettingProps> = (props) => {
             showFastSearch={false}
             showTableImport={false}
             showFullScreen={false}
+            showClipboard={false}
             showColumnDefine={false}
             columnsChange={(columns) => setSummaryColumns(columns)}
             onDataChange={(data) => {

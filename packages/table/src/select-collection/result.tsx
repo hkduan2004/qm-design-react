@@ -2,7 +2,7 @@
  * @Author: 焦质晔
  * @Date: 2022-01-06 10:58:43
  * @Last Modified by: 焦质晔
- * @Last Modified time: 2022-03-16 20:43:34
+ * @Last Modified time: 2022-05-17 15:54:36
  */
 import React from 'react';
 import TableContext from '../context';
@@ -91,6 +91,7 @@ const Result: React.FC<IResultProps> = (props) => {
         showFastSearch={false}
         showTableImport={false}
         showSelectCollection={false}
+        showClipboard={false}
         showFullScreen={false}
         showColumnDefine={false}
         columnsChange={(columns) => setTableColumns(columns)}

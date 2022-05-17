@@ -2,7 +2,7 @@
  * @Author: 焦质晔
  * @Date: 2021-07-23 14:05:48
  * @Last Modified by: 焦质晔
- * @Last Modified time: 2022-02-27 09:50:25
+ * @Last Modified time: 2022-05-17 15:13:02
  */
 import React, { Component } from 'react';
 import classNames from 'classnames';
@@ -178,11 +178,11 @@ class VRegionSelect extends Component<IRegionSelectProps, IState> {
             {arr.map((x) => (
               <span
                 key={x.value}
-                className={classNames({ [`region-box__item`]: true, actived: values.includes(x.value) })}
+                className={classNames({ [`region-box__item`]: true, actived: values.includes(x.value.toString()) })}
                 title={x.text}
                 onClick={(): void => {
                   let { values } = this.state;
-                  values[index] = x.value;
+                  values[index] = x.value.toString();
                   values = values.slice(0, index + 1);
                   this.setState({ values }, () => {
                     // 港澳 是两级，比正常的少一级

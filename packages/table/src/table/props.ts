@@ -2,7 +2,7 @@
  * @Author: 焦质晔
  * @Date: 2020-02-28 23:04:58
  * @Last Modified by: 焦质晔
- * @Last Modified time: 2022-04-28 14:04:31
+ * @Last Modified time: 2022-05-17 15:57:12
  */
 import PropTypes from 'prop-types';
 import { isNumber } from '../../../_utils/util';
@@ -306,6 +306,8 @@ export const propTypes = {
   showRefresh: PropTypes.bool,
   // 是否显示导入按钮
   showTableImport: PropTypes.bool,
+  // 是否显示粘贴板
+  showClipboard: PropTypes.bool,
   // 是否显示行选合集
   showSelectCollection: PropTypes.bool,
   // 是否显示高级检索
@@ -342,6 +344,7 @@ export const defaultProps: ITableProps = {
   showAlert: true,
   showFullScreen: true,
   showRefresh: true,
+  showClipboard: true,
   showSelectCollection: true,
   showSuperSearch: true,
   showFastSearch: true,

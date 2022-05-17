@@ -2,7 +2,7 @@
  * @Author: 焦质晔
  * @Date: 2021-06-19 08:46:00
  * @Last Modified by: 焦质晔
- * @Last Modified time: 2022-04-28 11:16:53
+ * @Last Modified time: 2022-05-17 15:44:50
  */
 export default {
   name: 'en',
@@ -198,6 +198,14 @@ export default {
         custom: 'Custom',
         footSummation: 'Summation',
         useStyle: 'Use style',
+      },
+      clipboard: {
+        text: 'Paste',
+        settingTitle: 'Paste setting',
+        rowIndex: 'Start row index',
+        colIndex: 'Start col index',
+        content: 'content',
+        supportText: 'Note: only excel data can be pasted',
       },
       print: {
         text: 'Print',

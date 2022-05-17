@@ -2,7 +2,7 @@
  * @Author: 焦质晔
  * @Date: 2021-12-25 20:09:42
  * @Last Modified by: 焦质晔
- * @Last Modified time: 2022-04-28 08:53:32
+ * @Last Modified time: 2022-05-17 15:51:54
  */
 import React from 'react';
 import {
@@ -164,6 +164,7 @@ const useTableMemo = <T extends ITableProps>(props: T, extra: IExtra) => {
     showSuperSearch,
     showFastSearch,
     showTableImport,
+    showClipboard,
     showSelectCollection,
     footRender,
   } = props;
@@ -252,6 +253,8 @@ const useTableMemo = <T extends ITableProps>(props: T, extra: IExtra) => {
 
   const isTableImport = React.useMemo(() => !isFetch && !!showTableImport, [isFetch, showTableImport]);
 
+  const isTableClipboard = React.useMemo(() => !!showClipboard && editableColumns.length > 0, [showClipboard, editableColumns]);
+
   const isSelectCollection = React.useMemo(() => !!showSelectCollection && rowSelection?.type === 'checkbox', [showSelectCollection, rowSelection]);
 
   const isSuperSearch = React.useMemo(() => !!showSuperSearch && isHeadFilter, [showSuperSearch, isHeadFilter]);
@@ -310,6 +313,7 @@ const useTableMemo = <T extends ITableProps>(props: T, extra: IExtra) => {
     isServiceSummation,
     isSelectCollection,
     isTableImport,
+    isTableClipboard,
     isSuperSearch,
     isFastSearch,
     isGroupSummary,

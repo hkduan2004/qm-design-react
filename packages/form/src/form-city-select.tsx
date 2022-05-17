@@ -2,7 +2,7 @@
  * @Author: 焦质晔
  * @Date: 2021-07-23 14:05:48
  * @Last Modified by: 焦质晔
- * @Last Modified time: 2022-02-27 11:58:37
+ * @Last Modified time: 2022-05-17 15:08:35
  */
 import React, { Component } from 'react';
 import classNames from 'classnames';
@@ -39,7 +39,7 @@ type ICitySelectProps<T = string> = IProps & {
 };
 
 type ICity = {
-  l: string;
+  l: string | number;
   n: string;
   c: string;
   p: string;
@@ -246,7 +246,7 @@ class VCitySelect extends Component<ICitySelectProps, IState> {
     const { active_key, select_type } = this.state;
     const letters: IDict[] = select_type === '0' ? provinceLetter : cityLetter;
     return letters.map((x) => (
-      <li key={x.value} className={classNames({ tag: !0, actived: x.value === active_key })} onClick={() => this.scrollHandle(x.value)}>
+      <li key={x.value} className={classNames({ tag: !0, actived: x.value === active_key })} onClick={() => this.scrollHandle(x.value.toString())}>
         {x.text}
       </li>
     ));

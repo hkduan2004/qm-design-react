@@ -2,7 +2,7 @@
  * @Author: 焦质晔
  * @Date: 2021-02-14 14:25:07
  * @Last Modified by: 焦质晔
- * @Last Modified time: 2021-08-09 18:29:28
+ * @Last Modified time: 2022-05-17 15:04:25
  */
 import type React from 'react';
 
@@ -46,7 +46,7 @@ export type Locale = 'zh-cn' | 'en';
 
 export type IDict = {
   text: string;
-  value: string;
+  value: string | number;
   disabled?: boolean;
   children?: Array<IDict> | Nullable<undefined>;
 };

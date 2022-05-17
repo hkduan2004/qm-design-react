@@ -90,6 +90,7 @@ class QmButton extends Component<IProps, IState> {
     return (
       <Popconfirm
         title={confirm.title || t('qm.button.confirmTitle')}
+        disabled={wrapProps.disabled}
         onConfirm={(ev: React.MouseEvent<HTMLElement, MouseEvent>) => {
           confirm.onConfirm?.();
           wrapProps.onClick?.(ev);

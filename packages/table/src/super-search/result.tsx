@@ -2,7 +2,7 @@
  * @Author: 焦质晔
  * @Date: 2022-01-06 10:58:43
  * @Last Modified by: 焦质晔
- * @Last Modified time: 2022-03-17 13:50:14
+ * @Last Modified time: 2022-05-17 15:54:14
  */
 import React from 'react';
 import omit from 'omit.js';
@@ -381,6 +381,7 @@ const Result: React.FC<IResultProps> = (props) => {
             showFastSearch={false}
             showTableImport={false}
             showFullScreen={false}
+            showClipboard={false}
             showColumnDefine={false}
             columnsChange={(columns) => setColumns(columns)}
             onRowClick={toggleBracket}
