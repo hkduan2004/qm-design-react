@@ -126,11 +126,11 @@ const Setting: React.FC<ISettingProps> = (props) => {
     if (err) return;
     setLoading(true);
     importXLSX({ columns: createColumns(columns), file: data.file }, (records: IRecord[]) => {
+      const { tableFullData, store } = tableRef.current;
       if (data.importType === 'fill') {
         createTableData(records);
       }
       if (data.importType === 'add') {
-        const { tableFullData } = tableRef.current!;
         createTableData([...tableFullData, ...records]);
       }
       if (data.importType === 'insert') {
@@ -139,6 +139,10 @@ const Setting: React.FC<ISettingProps> = (props) => {
         const results: IRecord[] = tableFullData.slice(0, v).concat(records).concat(tableFullData.slice(v));
         createTableData(results);
       }
+      // 添加表格操作记录
+      records.forEach((row) => {
+        store.addToInserted(row);
+      });
     });
     await sleep(1000);
     setLoading(false);

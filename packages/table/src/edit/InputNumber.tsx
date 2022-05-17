@@ -6,7 +6,6 @@
  */
 import React from 'react';
 import useUpdateEffect from '../../../hooks/useUpdateEffect';
-
 import type { ComponentSize } from '../../../_utils/types';
 
 import { Input } from '../../../antd';
@@ -17,6 +16,7 @@ type INumberProps = {
   value?: number | string;
   min?: number;
   max?: number;
+  placeholder?: string;
   maxLength?: number;
   precision?: number;
   readOnly?: boolean;
@@ -27,7 +27,7 @@ type INumberProps = {
 };
 
 const InputNumber = React.forwardRef<any, INumberProps>((props, ref) => {
-  const { size, defaultValue, value, min, max, maxLength, precision, readOnly, disabled } = props;
+  const { size, defaultValue, value, min, max, placeholder, maxLength, precision, readOnly, disabled } = props;
 
   const formatValue = (value: string | number) => {
     // 临时变量
@@ -37,10 +37,10 @@ const InputNumber = React.forwardRef<any, INumberProps>((props, ref) => {
       temp = temp.slice(0, -1);
     }
     // 判断最大值/最小值
-    if (Number(temp) > max!) {
+    if (temp && Number(temp) > max!) {
       temp = max!.toString();
     }
-    if (Number(temp) < min!) {
+    if (temp && Number(temp) < min!) {
       temp = min!.toString();
     }
     // 处理精度
@@ -102,6 +102,7 @@ const InputNumber = React.forwardRef<any, INumberProps>((props, ref) => {
       size={size}
       value={inputValue}
       maxLength={maxLength}
+      placeholder={placeholder}
       readOnly={readOnly}
       disabled={disabled}
       onChange={onChange}

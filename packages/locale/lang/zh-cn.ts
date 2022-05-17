@@ -151,6 +151,7 @@ export default {
         cancelFixed: '取消固定',
       },
       editable: {
+        inputPlaceholder: '请输入',
         selectPlaceholder: '请选择',
         datePlaceholder: '选择日期',
         datetimePlaceholder: '选择时间',

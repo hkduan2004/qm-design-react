@@ -500,9 +500,11 @@ const TableBody = React.forwardRef<TableBodyRef, IBodyProps>((props, ref) => {
       return (
         <div className={`cell--copy`}>
           <span className={`text`}>{vNodeText}</span>
-          <CopyToClipboard text={cellText}>
-            <CopyOutlined className={`icon`} title={t('qm.table.config.copyText')} onClick={(ev) => ev.stopPropagation()} />
-          </CopyToClipboard>
+          {cellText && (
+            <CopyToClipboard text={cellText}>
+              <CopyOutlined className={`icon`} title={t('qm.table.config.copyText')} onClick={(ev) => ev.stopPropagation()} />
+            </CopyToClipboard>
+          )}
         </div>
       );
     }

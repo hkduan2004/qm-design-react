@@ -13,7 +13,7 @@ import { t } from '../../../locale';
 import { message } from '../../../antd';
 
 import type { IAlign, IColumn, IRecord } from '../table/types';
-import type { AnyObject, Nullable } from '../../../_utils/types';
+import type { AnyObject, IDict, Nullable } from '../../../_utils/types';
 import type { IOptions } from './index';
 
 type ISheetMerge = {
@@ -380,6 +380,10 @@ const useExport = () => {
     return fields.some((field) => tableFields.indexOf(field) > -1);
   };
 
+  const getDictValue = (items: IDict[], text: string) => {
+    return items.find((x) => x.text == text)?.value ?? '';
+  };
+
   const importXLSX = (options: { columns: IColumn[]; file: Blob }, callback?: (records: IRecord[]) => void) => {
     const { columns, file } = options;
     const flatColumns = columnsFlatMap(columns);
@@ -401,7 +405,7 @@ const useExport = () => {
             const status = checkImportData(tableFields, fields);
             if (status) {
               const records = sheetValues.slice(fieldIndex + 1).map((list) => {
-                const item: Record<string, unknown> = {};
+                const item: Record<string, any> = {};
                 list.forEach((cellValue, cIndex) => {
                   item[fields[cIndex]] = cellValue;
                 });
@@ -409,7 +413,15 @@ const useExport = () => {
                 tableFields.forEach((field, index) => {
                   const { dataIndex, dictItems } = flatColumns[index];
                   if (Array.isArray(dictItems)) {
-                    item[field] = dictItems.find((x) => x.text == item[field])?.value ?? item[field];
+                    // 多选的情况
+                    if (item[field].includes(',')) {
+                      item[field] = item[field]
+                        .split(',')
+                        .map((k) => getDictValue(dictItems, k))
+                        .filter((x) => x !== '');
+                    } else {
+                      item[field] = getDictValue(dictItems, item[field]);
+                    }
                   }
                   setCellValue(record, dataIndex, item[field]);
                 });

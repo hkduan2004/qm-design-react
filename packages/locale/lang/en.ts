@@ -151,6 +151,7 @@ export default {
         cancelFixed: 'Cancel fixed',
       },
       editable: {
+        inputPlaceholder: 'Please input',
         selectPlaceholder: 'Please select',
         datePlaceholder: 'Select date',
         datetimePlaceholder: 'Select time',
