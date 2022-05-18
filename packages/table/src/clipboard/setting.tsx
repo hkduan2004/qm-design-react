@@ -55,6 +55,7 @@ const Setting: React.FC<ISettingProps> = (props) => {
         type: 'TEXT_AREA',
         label: t('qm.table.clipboard.content'),
         fieldName: 'content',
+        placeholder: t('qm.table.clipboard.placeholder'),
         options: {
           autoSize: {
             minRows: 4,
@@ -85,8 +86,10 @@ const Setting: React.FC<ISettingProps> = (props) => {
       vals.forEach((x, i) => {
         const record: IRecord = tableFullData[data.rowIndex - 1 + index];
         const column: IColumn = columns[data.dataIndex + i];
-        setCellValue(record, column.dataIndex, x);
-        store.addToUpdated(row);
+        if (record && column) {
+          setCellValue(record, column.dataIndex, x);
+          store.addToUpdated(record);
+        }
       });
     });
     tableBodyRef.current!.forceUpdate();

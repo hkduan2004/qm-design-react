@@ -206,6 +206,7 @@ export default {
         rowIndex: '粘贴起始行',
         colIndex: '粘贴起始列',
         content: '粘贴内容',
+        placeholder: '请在此处 ctrl+v 粘贴数据',
         supportText: '说明：只支持粘贴 Excel 数据',
       },
       print: {

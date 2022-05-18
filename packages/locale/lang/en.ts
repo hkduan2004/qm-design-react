@@ -206,6 +206,7 @@ export default {
         rowIndex: 'Start row index',
         colIndex: 'Start col index',
         content: 'content',
+        placeholder: 'Please paste data here with ctrl+v',
         supportText: 'Note: only excel data can be pasted',
       },
       print: {
