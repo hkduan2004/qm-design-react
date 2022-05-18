@@ -80,7 +80,14 @@ const Setting: React.FC<ISettingProps> = (props) => {
     if (err) return;
     const { tableFullData, store } = tableRef.current;
     // 解析 excel 数据
-    const rows = data.content.replace(/(\r|\n)$/, '').split(/\r|\n/);
+    // '"许强\n张三"\n任刚\n"许强\n张三"'
+    const val: string = data.content.replace(/(\r|\n)$/, '');
+    let _str = val.replace(/"[^"]+"/g, '^');
+    const _arr = val.match(/"[^"]+"/g)?.map((x) => x.replace(/"/g, '').replace(/\r|\n/g, ' ')) || [];
+    _arr.forEach((x) => {
+      _str = _str.replace(/\^/, x);
+    });
+    const rows = _str.split(/\r|\n/);
     rows.forEach((row, index) => {
       const vals = row.split(/\t/);
       vals.forEach((x, i) => {

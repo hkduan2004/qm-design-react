@@ -460,11 +460,15 @@ const CellEdit: React.FC<ICellEditProps> = (props) => {
           for (const otherDataIndex in others) {
             const otherValue = others[otherDataIndex];
             const otherColumn = flattenColumns.find((column) => column.dataIndex === otherDataIndex);
-            if (!otherColumn) continue;
-            setCellValue(row, otherDataIndex, otherValue, otherColumn.precision);
-            const otherOptions = otherColumn.editRender?.(row, otherColumn);
-            if (!Array.isArray(otherOptions?.rules)) continue;
-            doFieldValidate(otherOptions!.rules, otherValue, rowKey, otherDataIndex);
+            if (otherColumn) {
+              setCellValue(row, otherDataIndex, otherValue, otherColumn.precision);
+              const otherOptions = otherColumn.editRender?.(row, otherColumn);
+              if (otherOptions && Array.isArray(otherOptions.rules)) {
+                doFieldValidate(otherOptions.rules, otherValue, rowKey, otherDataIndex);
+              }
+            } else {
+              setCellValue(row, otherDataIndex, otherValue);
+            }
           }
           // 更新父组件，更新其他单元格值
           tableBodyRef.current!.forceUpdate();
@@ -749,11 +753,15 @@ const CellEdit: React.FC<ICellEditProps> = (props) => {
           for (const otherDataIndex in others) {
             const otherValue = others[otherDataIndex];
             const otherColumn = flattenColumns.find((column) => column.dataIndex === otherDataIndex);
-            if (!otherColumn) continue;
-            setCellValue(row, otherDataIndex, otherValue, otherColumn.precision);
-            const otherOptions = otherColumn.editRender?.(row, otherColumn);
-            if (!Array.isArray(otherOptions?.rules)) continue;
-            doFieldValidate(otherOptions!.rules, otherValue, rowKey, otherDataIndex);
+            if (otherColumn) {
+              setCellValue(row, otherDataIndex, otherValue, otherColumn.precision);
+              const otherOptions = otherColumn.editRender?.(row, otherColumn);
+              if (otherOptions && Array.isArray(otherOptions.rules)) {
+                doFieldValidate(otherOptions.rules, otherValue, rowKey, otherDataIndex);
+              }
+            } else {
+              setCellValue(row, otherDataIndex, otherValue);
+            }
           }
           // 更新父组件，更新其他单元格值
           tableBodyRef.current!.forceUpdate();
