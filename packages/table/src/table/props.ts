@@ -198,6 +198,7 @@ export const propTypes = {
     hideSelectAll: PropTypes.bool, // 隐藏表头全选勾选框
     checkStrictly: PropTypes.bool, // true -> 节点选择完全受控（父子数据选中状态不再关联）
     filterable: PropTypes.bool, // 是否显示筛选箭头
+    selectByClickRow: PropTypes.bool, // 通过单击行选中，默认开启
     clearableAfterFetched: PropTypes.bool, // 重新检索之后，是否清空已选择
     // 请求选中行数据并回显
     fetchSelectedRowKeys: PropTypes.shape({

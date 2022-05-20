@@ -203,6 +203,7 @@ export type IRowSelection = {
   hideSelectAll?: boolean;
   checkStrictly?: boolean;
   filterable?: boolean;
+  selectByClickRow?: boolean;
   clearableAfterFetched?: boolean;
   fetchSelectedRowKeys?: {
     api: IFetchFn;

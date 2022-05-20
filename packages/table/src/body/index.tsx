@@ -279,6 +279,20 @@ const TableBody = React.forwardRef<TableBodyRef, IBodyProps>((props, ref) => {
     setElementStore(`$tableYspace`, ySpaceRef.current!);
   };
 
+  const createSelectionKeys = (rowKey: IRowKey) => {
+    const { type, checkStrictly = true } = rowSelection || {};
+    if (type === 'radio') {
+      setSelectionKeys([rowKey]);
+    }
+    if (type === 'checkbox') {
+      if (isTreeTable && !checkStrictly) {
+        setTreeSelectionKeys(rowKey, selectionKeys);
+      } else {
+        setSelectionKeys(!selectionKeys.includes(rowKey) ? [...selectionKeys, rowKey] : selectionKeys.filter((x) => x !== rowKey));
+      }
+    }
+  };
+
   const cellClickHandle = (ev: React.MouseEvent<HTMLTableCellElement>, row: IRecord, column: IColumn) => {
     const { dataIndex } = column;
     if ([config.expandableColumn, config.operationColumn].includes(dataIndex)) return;
@@ -288,24 +302,15 @@ const TableBody = React.forwardRef<TableBodyRef, IBodyProps>((props, ref) => {
     // 判断单元格是否可编辑
     const options = column.editRender?.(row, column);
     const isEditable = options && !options.disabled;
-    // 正处于编辑状态的单元格
-    // const isEditing = this[`${rowKey}_${dataIndex}_ref`]?.isEditing;
     // 行选中
-    const { type, checkStrictly = true, disabled = noop } = rowSelection || {};
+    const { type, selectByClickRow = true, disabled = noop } = rowSelection || {};
     if (type && !disabled(row) && !isEditable) {
-      if (type === 'radio') {
-        setSelectionKeys([rowKey]);
-      }
-      if (type === 'checkbox') {
-        if (isTreeTable && !checkStrictly) {
-          setTreeSelectionKeys(rowKey, selectionKeys);
-        } else {
-          setSelectionKeys(!selectionKeys.includes(rowKey) ? [...selectionKeys, rowKey] : selectionKeys.filter((x) => x !== rowKey));
-        }
+      if (selectByClickRow || dataIndex === config.selectionColumn) {
+        createSelectionKeys(rowKey);
       }
     }
     // 单击 展开列、可选择列、操作列 不触发行单击事件
-    if (['__selection__'].includes(dataIndex)) return;
+    if ([config.selectionColumn].includes(dataIndex)) return;
     // 行高亮
     if (rowHighlight && !rowHighlight.disabled?.(row) && !isEditable) {
       setHighlightKey(rowKey);
