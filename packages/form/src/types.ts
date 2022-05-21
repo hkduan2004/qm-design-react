@@ -237,6 +237,11 @@ export type IFormItem = {
       fetch?: IFetch;
       tableParamsMap?: (() => Record<string, string>) | Record<string, string>;
     };
+    request?: {
+      fetchApi?: IFetchFn;
+      params?: IFetchParams;
+      dataKey?: string;
+    };
     width?: number | string;
     initialValue?: IFormData;
     onlySelect?: boolean;

@@ -258,6 +258,7 @@
 | filters          | 顶部筛选条件配置，参考 TopFilter 组件，必要参数                               | array                            | -      |
 | table            | 列表组件配置，[配置项](#helper_table)，必要参数                               | object                           | -      |
 | tree             | 左侧树组件配置，[配置项](#helper_tree)                                        | object                           | -      |
+| request          | 请求配置项，用于获取表单列表数据，[配置项](#request)                          | object                           | -      |
 | initialValue     | 筛选条件初始值                                                                | object                           | -      |
 | width            | 搜索帮助面板宽度                                                              | number \| string                 | -      |
 | onlySelect       | 是否只能选择                                                                  | boolean                          | true   |

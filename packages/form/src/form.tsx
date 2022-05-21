@@ -712,7 +712,7 @@ class QmForm extends Component<IProps, IState> {
 
       return (
         <Col
-          key={i}
+          key={fieldName ?? i}
           span={selfCol * colSpan}
           style={this.isFilterType ? { display: !this.showFilterCollapse || isBlock ? 'block' : 'none' } : { display: isDisplay ? 'block' : 'none' }}
         >

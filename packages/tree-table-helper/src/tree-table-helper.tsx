@@ -26,6 +26,7 @@ type IProps = {
   size?: ComponentSize;
   uniqueKey?: string;
   initialValue?: IFormData;
+  defaultSelectedKeys?: IRowKey[];
   multiple?: boolean;
   filters?: IFormItem[];
   table?: {
@@ -98,7 +99,7 @@ const treeFilter = (tree: IRecord[], fn: (node: IRecord) => boolean) => {
 // ===========================
 
 const TreeTableHelper: React.FC<IProps> = (props) => {
-  const { uniqueKey, multiple, initialValue, filters = [], table, tree, onClose } = props;
+  const { uniqueKey, multiple, initialValue, defaultSelectedKeys = [], filters = [], table, tree, onClose } = props;
   const { size } = React.useContext(ConfigContext)!;
   const $size = React.useMemo(() => props.size ?? size ?? '', [props.size, size]);
 
@@ -121,7 +122,7 @@ const TreeTableHelper: React.FC<IProps> = (props) => {
   };
 
   const [record, setRecord] = React.useState<IRecord | IRecord[]>();
-  const [rowKeys, setRowKeys] = React.useState<IRowKey[]>([]);
+  const [rowKeys, setRowKeys] = React.useState<IRowKey[]>(defaultSelectedKeys);
   const [loading, setLoading] = React.useState<boolean>(false);
   const [treeHeight, setTreeHeight] = React.useState<number>(300);
   const [tableHeight, setTableHeight] = React.useState<number>(300);
@@ -308,7 +309,7 @@ const TreeTableHelper: React.FC<IProps> = (props) => {
             <QmTable
               height={tableHeight}
               columns={columns}
-              rowKey={'pageIndex'}
+              rowKey={table?.rowKey || 'pageIndex'}
               {...tableProps}
               rowSelection={{
                 type: !multiple ? 'radio' : 'checkbox',

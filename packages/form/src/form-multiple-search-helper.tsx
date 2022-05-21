@@ -5,7 +5,7 @@
  * @Last Modified time: 2022-02-27 13:47:51
  */
 import React, { Component } from 'react';
-import { merge } from 'lodash-es';
+import { merge, get, uniqBy } from 'lodash-es';
 import FormContext from './context';
 import { noop, trueNoop, getParserWidth } from '../../_utils/util';
 import { t } from '../../locale';
@@ -27,6 +27,7 @@ type IProps = {
 type IState = {
   visible: boolean;
   itemList: IDict[];
+  loading: boolean;
 };
 
 type IMultipleSearchProps<T = Array<string | number>> = IProps & {
@@ -44,16 +45,43 @@ class VMultipleSearch extends Component<IMultipleSearchProps, IState> {
   // 表单字段映射
   public alias: Record<string, string>;
 
-  private _records: IRecord[];
+  private _records: IRecord[] = [];
 
   public state: IState = {
     visible: false,
+    loading: false,
     itemList: [],
   };
 
   constructor(props: IMultipleSearchProps) {
     super(props);
     this.initialHandle();
+  }
+
+  componentDidMount() {
+    this.getItemList();
+  }
+
+  async getItemList() {
+    const { searchHelper } = this.props.option;
+    const { textKey, valueKey } = this.alias;
+    const { fetchApi, params = {}, dataKey } = searchHelper?.request || {};
+    const { value } = this.props;
+    if (!fetchApi || !value) return;
+    this.setState({ loading: true });
+    try {
+      const res = await fetchApi({ ...params, kyes: value });
+      if (res.code === 200) {
+        let dataList: IRecord[] = Array.isArray(res.data) ? res.data : get(res.data, dataKey!) ?? [];
+        dataList = dataList.filter((x) => value.includes(x[valueKey]));
+        const results = dataList.map((x) => ({ value: x[valueKey], text: x[textKey] }));
+        this.setRecords(dataList);
+        this.setItemList(results);
+      }
+    } catch (err) {
+      // ...
+    }
+    this.setState({ loading: false });
   }
 
   // 初始化方法
@@ -76,6 +104,10 @@ class VMultipleSearch extends Component<IMultipleSearchProps, IState> {
 
   setItemList = (list: IDict[]) => {
     this.setState({ itemList: list });
+  };
+
+  setRecords = (records: IRecord[]) => {
+    this._records = records;
   };
 
   // 打开搜索帮助面板
@@ -101,10 +133,10 @@ class VMultipleSearch extends Component<IMultipleSearchProps, IState> {
   // 搜索帮助关闭，回显值事件
   closeSearchHelper = (data: IRecord[]) => {
     const { textKey, valueKey } = this.alias;
-    this._records = data;
-    const itemList = this._records.map((x) => ({ text: x[textKey], value: x[valueKey] }));
-    this.setItemList(itemList);
-    this.triggerChange(itemList.map((x) => x.value));
+    this.setRecords(uniqBy([...this._records, ...data], valueKey));
+    const results = this._records.map((x) => ({ text: x[textKey], value: x[valueKey] }));
+    this.setItemList(results);
+    this.triggerChange(results.map((x) => x.value));
     const { closed } = this.searchHelper!;
     this.setVisible(false, () => {
       closed?.(this._records);
@@ -121,17 +153,14 @@ class VMultipleSearch extends Component<IMultipleSearchProps, IState> {
   triggerChange = (value: Array<string | number>) => {
     const { onChange, onValuesChange } = this.props;
     const { valueKey } = this.alias;
+    this.setRecords(this._records.filter((x) => value.includes(x[valueKey])));
     onChange?.(value);
-    onValuesChange(
-      value,
-      this.createViewText(),
-      this._records.filter((x) => value.includes(x[valueKey]))
-    );
+    onValuesChange(value, this.createViewText(), this._records);
   };
 
   render(): React.ReactElement {
     const { $$form } = this.context;
-    const { visible, itemList } = this.state;
+    const { visible, loading, itemList } = this.state;
     const { value } = this.props;
     const {
       options = {},
@@ -161,6 +190,7 @@ class VMultipleSearch extends Component<IMultipleSearchProps, IState> {
       size: $$form.$size,
       multiple: true,
       initialValue: merge({}, searchHelper.initialValue),
+      defaultSelectedKeys: value,
       onClose: (data) => {
         if (data) {
           this.closeSearchHelper(data);
@@ -181,6 +211,7 @@ class VMultipleSearch extends Component<IMultipleSearchProps, IState> {
               open={false}
               value={value}
               placeholder={placeholder}
+              loading={loading}
               bordered={bordered}
               allowClear={allowClear}
               disabled={disabled}
