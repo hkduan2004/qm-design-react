@@ -210,9 +210,10 @@ const App = () => {
             rowKey: (record) => record.id,
             fetch: {
               api: getTableData,
-              params: {},
+              params: { currentPage: 1, pageSize: 500 },
               dataKey: 'records',
             },
+            webPagination: true,
           },
           filterAliasMap: () => {
             return ['a1'];
@@ -585,7 +586,7 @@ const App = () => {
           rowKey={'id'}
           columns={columns}
           dataSource={tableList}
-          // webPagination
+          webPagination
           // fetch={{
           //   api: getTableData,
           //   params: fetchParams,

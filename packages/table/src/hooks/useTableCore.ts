@@ -183,7 +183,9 @@ const useTableCore = <T extends ITableProps>(props: T, extra: IExtra) => {
     clearTableSorter();
     clearTableFilter();
     clearSuperFilters();
+    // dataSource change
     if (!isFetch) {
+      isWebPagination && toFirstPage();
       createTableData(dataSource!);
     }
   }, [dataSource, fetch?.params]);
@@ -538,6 +540,11 @@ const useTableCore = <T extends ITableProps>(props: T, extra: IExtra) => {
 
   const tableChange = debounce(_tableChange);
 
+  // 数据变化事件
+  const dataChange = () => {
+    onDataChange?.(tableRef.current.tableFullData);
+  };
+
   // 格式化排序参数
   const formatSorterValue = (sorter: ISorter) => {
     const result: ISorter = {};
@@ -720,11 +727,6 @@ const useTableCore = <T extends ITableProps>(props: T, extra: IExtra) => {
   // 分页事件
   const pagerChangeHandle = ({ current, pageSize }: Omit<IPagination, 'total'>) => {
     setPagination((prev) => Object.assign({}, prev, { current, pageSize }));
-  };
-
-  // 数据变化事件
-  const dataChange = () => {
-    onDataChange?.(tableRef.current.tableFullData);
   };
 
   // 返回到第一页

@@ -204,6 +204,7 @@ export type IRowSelection = {
   checkStrictly?: boolean;
   filterable?: boolean;
   selectByClickRow?: boolean;
+  selectFirstRowOnChange?: boolean;
   clearableAfterFetched?: boolean;
   fetchSelectedRowKeys?: {
     api: IFetchFn;

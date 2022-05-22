@@ -71,7 +71,7 @@ const TableBody = React.forwardRef<TableBodyRef, IBodyProps>((props, ref) => {
     scrollXToColumn,
     scrollYToRecord,
     rowInViewport,
-    tableChange,
+    dataChange,
     setPingLeft,
     setPingRight,
     setFullScreen,
@@ -646,7 +646,7 @@ const TableBody = React.forwardRef<TableBodyRef, IBodyProps>((props, ref) => {
       }
     });
     createTableFullData(records);
-    tableChange();
+    dataChange();
   };
 
   const prefixCls = getPrefixCls('table');
