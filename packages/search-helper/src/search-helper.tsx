@@ -130,13 +130,6 @@ const SearchHelper: React.FC<IProps> = (props) => {
         dataSource: tableList,
         loading,
         webPagination: true,
-        onChange: (pagination, _, __, ___, { currentDataSource }) => {
-          if (multiple) return;
-          if (pagination.current !== currentPage.current) {
-            currentPage.current = pagination.current;
-            currentDataSource.length && setRowKeys([currentDataSource[0].pageIndex]);
-          }
-        },
       };
 
   return (
@@ -162,6 +155,7 @@ const SearchHelper: React.FC<IProps> = (props) => {
           rowSelection={{
             type: !multiple ? 'radio' : 'checkbox',
             clearableAfterFetched: !multiple,
+            selectFirstRowOnChange: true,
             selectedRowKeys: rowKeys,
             onChange: (_, rows) => {
               setRecord(!multiple ? rows[0] : rows);
@@ -170,10 +164,6 @@ const SearchHelper: React.FC<IProps> = (props) => {
           columnsChange={(columns) => setColumns(columns)}
           onRowDblclick={rowEnterHandler}
           onRowEnter={rowEnterHandler}
-          onDataLoad={(list) => {
-            if (multiple) return;
-            list.length && setRowKeys([list[0].pageIndex]);
-          }}
         />
       </div>
       <div

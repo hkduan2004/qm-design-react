@@ -593,7 +593,8 @@ const App = () => {
           //   dataKey: 'records',
           // }}
           rowSelection={{
-            type: 'checkbox',
+            type: 'radio',
+            selectFirstRowOnChange: true,
             // selectedRowKeys: [],
             // fetchAllRowKeys: {
             //   api: getTableKeys,

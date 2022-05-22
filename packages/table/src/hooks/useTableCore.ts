@@ -531,8 +531,9 @@ const useTableCore = <T extends ITableProps>(props: T, extra: IExtra) => {
     return results;
   };
 
-  // 表格 change 事件
+  // 表格 change 事件，分页、排序、筛选变化时触发
   const _tableChange = () => {
+    selectFirstRow();
     onChange?.(pagination, formatFilterValue(filters), formatSorterValue(sorter), superFilters, {
       currentDataSource: createTableList(),
     });
@@ -712,7 +713,24 @@ const useTableCore = <T extends ITableProps>(props: T, extra: IExtra) => {
     // 设置 选择列、展开行
     setSelectionKeys(createSelectionKeys());
     setRowExpandedKeys(createRowExpandedKeys());
+    selectFirstRow();
     onDataLoad?.(results);
+  };
+
+  // 首行数据选中
+  const selectFirstRow = () => {
+    const { type, selectFirstRowOnChange } = rowSelection || {};
+    if (type === 'radio' && selectFirstRowOnChange) {
+      const tableList = createTableList();
+      if (tableList.length) {
+        const rowKey = getRowKey(tableList[0], tableList[0].index);
+        tableBodyRef.current!.setClickedValues([rowKey, config.selectionColumn]);
+        setSelectionKeys([rowKey]);
+      } else {
+        tableBodyRef.current!.setClickedValues([]);
+        setSelectionKeys([]);
+      }
+    }
   };
 
   // 滚动加载表格数据
