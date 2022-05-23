@@ -82,7 +82,7 @@ const columnItem = {
  *   type: PropTypes.oneOf(['text', 'number', 'select', 'select-multiple', 'checkbox', 'switch', 'search-helper', 'search-helper-multiple', 'date', 'datetime', 'time']).isRequired,
  *   items: PropTypes.arrayOf(PropTypes.shape({
  *     text: PropTypes.string,
- *     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+ *     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
  *   })),
  *   editable: PropTypes.bool,
  *   disabled: PropTypes.bool, // true -> 禁用编辑功能，默认为非编辑状态，且禁止切换
@@ -97,8 +97,9 @@ const columnItem = {
  *     minDateTime: PropTypes.string,
  *     maxDateTime: PropTypes.string,
  *     text: PropTypes.string,
- *     disabled: PropTypes.bool // 表单禁用状态
- *     allowClear: PropTypes.bool
+ *     disabled: PropTypes.bool, // 表单禁用状态
+ *     allowClear: PropTypes.bool,
+ *     collapseTags: PropTypes.bool,
  *   }),
  *   helper: PropTypes.shape({
  *     filters: PropTypes.object,
@@ -109,12 +110,12 @@ const columnItem = {
  *     fieldAliasMap: PropTypes.func,
  *     filterAliasMap: PropTypes.func,
  *     beforeOpen: PropTypes.func,
- *     closed: PropTypes.func
+ *     closed: PropTypes.func,
  *   }),
  *   rules: PropTypes.arrayOf(PropTypes.shape({
  *     required: PropTypes.bool,
  *     message: PropTypes.string,
- *     validator: PropTypes.func // 自定义校验规则，参数: val(表单项的值); 返回值类型: bool
+ *     validator: PropTypes.func, // 自定义校验规则，参数: val(表单项的值); 返回值类型: bool
  *   })),
  *   onInput: PropTypes.func,
  *   onChange: PropTypes.func,

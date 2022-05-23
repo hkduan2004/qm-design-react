@@ -377,6 +377,59 @@ const App = () => {
               return obj;
             },
           },
+          // {
+          //   title: '姓名',
+          //   dataIndex: 'person.nameids',
+          //   width: 200,
+          //   required: true,
+          //   sorter: true,
+          //   filter: {
+          //     type: 'text',
+          //   },
+          //   editRender: (row) => {
+          //     const obj = {
+          //       type: 'search-helper-multiple',
+          //       editable: true,
+          //       // extra: { collapseTags: true },
+          //       helper: {
+          //         filters: [
+          //           {
+          //             type: 'INPUT',
+          //             label: '条件1',
+          //             fieldName: 'a1',
+          //           },
+          //         ],
+          //         table: {
+          //           columns: [
+          //             {
+          //               title: '创建时间',
+          //               dataIndex: 'date',
+          //             },
+          //             {
+          //               title: '姓名',
+          //               dataIndex: 'person.name',
+          //             },
+          //           ],
+          //           rowKey: 'id',
+          //           fetch: {
+          //             api: getTableData,
+          //             params: {},
+          //             dataKey: 'records',
+          //           },
+          //         },
+          //         fieldAliasMap: () => {
+          //           return { textKey: 'date', valueKey: 'id' };
+          //         },
+          //       },
+          //       items: row.person.nameids.map((x, i) => ({ text: row.person.names[i], value: x })),
+          //       rules: [{ required: true, message: '姓名不能为空' }],
+          //       onChange: (a, b, c, d) => {
+          //         console.log(a, b, c, d);
+          //       },
+          //     };
+          //     return obj;
+          //   },
+          // },
           {
             title: '性别',
             dataIndex: 'person.sex',

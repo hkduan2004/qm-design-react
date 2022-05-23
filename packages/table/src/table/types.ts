@@ -159,6 +159,7 @@ export type IEditerReturn = {
     readOnly?: boolean;
     disabled?: boolean;
     allowClear?: boolean;
+    collapseTags?: boolean;
   };
   helper?: {
     filters?: IFormItem[];
@@ -178,7 +179,7 @@ export type IEditerReturn = {
   };
   rules?: IRule[];
   onInput?: (value: Record<string, string | number>) => void;
-  onChange?: (value: Record<string, string | number | Array<string | number>>, record: IRecord) => void;
+  onChange?: (value: Record<string, string | number | Array<string | number>>, record: IRecord, shRecords?: IRecord[]) => void;
   onEnter?: (value: Record<string, string | number | Array<string | number>>, record: IRecord) => void;
   onClick?: (event: React.MouseEvent<HTMLInputElement>) => void;
 };

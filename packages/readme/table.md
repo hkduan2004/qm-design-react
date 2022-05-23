@@ -147,18 +147,18 @@
 
 ### editable
 
-| 参数     | 说明                                          | 类型                | 默认值 |
-| -------- | --------------------------------------------- | ------------------- | ------ |
-| type     | 可编辑类型，[配置项](#edit_type)，必要参数    | string              | -      |
-| items    | 下拉框的列表项，[配置项](#item)               | array               | -      |
-| editable | 是否可编辑                                    | boolean             | -      |
-| disabled | 是否禁用编辑功能，且禁止切换                  | boolean             | -      |
-| extra    | 可编辑表单的额外配置项，[配置项](#extra)      | object              | -      |
-| helper   | 可编辑单元格搜索帮助配置项，[配置项](#helper) | object              | -      |
-| rules    | 表单校验规则，数组值请参考[配置项](#rule)     | array               | -      |
-| onInput  | 表单的 input 事件                             | function(cell, row) | -      |
-| onChange | 表单的 change 事件                            | function(cell, row) | -      |
-| onEnter  | 表单的 enter 事件                             | function(cell, row) | -      |
+| 参数     | 说明                                          | 类型                           | 默认值 |
+| -------- | --------------------------------------------- | ------------------------------ | ------ |
+| type     | 可编辑类型，[配置项](#edit_type)，必要参数    | string                         | -      |
+| items    | 下拉框的列表项，[配置项](#item)               | array                          | -      |
+| editable | 是否可编辑                                    | boolean                        | -      |
+| disabled | 是否禁用编辑功能，且禁止切换                  | boolean                        | -      |
+| extra    | 可编辑表单的额外配置项，[配置项](#extra)      | object                         | -      |
+| helper   | 可编辑单元格搜索帮助配置项，[配置项](#helper) | object                         | -      |
+| rules    | 表单校验规则，数组值请参考[配置项](#rule)     | array                          | -      |
+| onInput  | 表单的 input 事件                             | function(cell, row)            | -      |
+| onChange | 表单的 change 事件                            | function(cell, row, shRecords) | -      |
+| onEnter  | 表单的 enter 事件                             | function(cell, row)            | -      |
 
 ### edit_type
 
@@ -199,20 +199,21 @@
 
 ### extra
 
-| 参数        | 说明                                 | 类型             | 默认值 |
-| ----------- | ------------------------------------ | ---------------- | ------ |
-| maxLength   | 最大长度                             | number           | -      |
-| max         | 最大值                               | number           | -      |
-| min         | 最小值                               | number           | 0      |
-| showCount   | 是否展示字数                         | boolean          | -      |
-| readOnly    | 是否只读                             | boolean          | -      |
-| trueValue   | 选中的值，checkbox 生效              | string \| number | -      |
-| falseValue  | 非选中值，checkbox 生效              | string \| number | -      |
-| minDateTime | 最小日期，小于该时间的日期段将被禁用 | string           | -      |
-| maxDateTime | 最大日期，大于该时间的日期段将被禁用 | string           | -      |
-| suffix      | 带有后缀图标的 input                 | ReactNode        | -      |
-| disabled    | 表单禁用状态                         | boolean          | -      |
-| allowClear  | 是否显示清除按钮                     | boolean          | true   |
+| 参数         | 说明                                 | 类型             | 默认值 |
+| ------------ | ------------------------------------ | ---------------- | ------ |
+| maxLength    | 最大长度                             | number           | -      |
+| max          | 最大值                               | number           | -      |
+| min          | 最小值                               | number           | 0      |
+| showCount    | 是否展示字数                         | boolean          | -      |
+| readOnly     | 是否只读                             | boolean          | -      |
+| trueValue    | 选中的值，checkbox 生效              | string \| number | -      |
+| falseValue   | 非选中值，checkbox 生效              | string \| number | -      |
+| minDateTime  | 最小日期，小于该时间的日期段将被禁用 | string           | -      |
+| maxDateTime  | 最大日期，大于该时间的日期段将被禁用 | string           | -      |
+| suffix       | 带有后缀图标的 input                 | ReactNode        | -      |
+| disabled     | 表单禁用状态                         | boolean          | -      |
+| allowClear   | 是否显示清除按钮                     | boolean          | true   |
+| collapseTags | 是否折叠 tag 标签                    | boolean          | -      |
 
 ### helper
 

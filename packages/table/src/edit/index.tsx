@@ -6,7 +6,7 @@
  */
 import React from 'react';
 import classNames from 'classnames';
-import { merge, get, isEqual } from 'lodash-es';
+import { merge, get, uniqBy, isEqual } from 'lodash-es';
 import TableContext from '../context';
 import { formatDate, getCellValue, getDate, setCellValue } from '../utils';
 import { t } from '../../../locale';
@@ -44,18 +44,16 @@ const CellEdit: React.FC<ICellEditProps> = (props) => {
   const numberRef = React.useRef<any>(null);
   const searchHelpeRef = React.useRef<any>(null);
   const isChange = React.useRef<boolean>(false);
+  const _records = React.useRef<IRecord[]>([]);
+  const deriveParams = React.useRef<Record<string, unknown>>({});
 
   const forceUpdate = useForceUpdate();
-
   const store = tableRef.current.store;
-
-  const deriveParams = React.useRef<Record<string, unknown>>({});
+  const options = column.editRender?.(record, column) as IEditerReturn;
 
   const [visible, setVisible] = React.useState<boolean>(false);
   const [matching, setMatching] = React.useState<boolean>(false);
-  const [shItemList, setShItemList] = React.useState<IDict[]>([]);
-
-  const options = column.editRender?.(record, column) as IEditerReturn;
+  const [shItemList, setShItemList] = React.useState<IDict[]>(options.items || []);
 
   const editable = (options.editable || isEqual(clicked, [rowKey, columnKey])) && !options.disabled;
 
@@ -82,6 +80,10 @@ const CellEdit: React.FC<ICellEditProps> = (props) => {
   const setVisibleEffect = (visible: boolean, cb?: () => void) => {
     setVisible(visible);
     cb?.();
+  };
+
+  const setRecords = (records: IRecord[]) => {
+    _records.current = records;
   };
 
   const createFocus = () => {
@@ -198,6 +200,7 @@ const CellEdit: React.FC<ICellEditProps> = (props) => {
           value={prevValue || undefined}
           placeholder={t('qm.table.editable.selectPlaceholder')}
           allowClear={extra.allowClear}
+          maxTagCount={extra.collapseTags ? 'responsive' : undefined}
           disabled={extra.disabled}
           style={{ width: '100%' }}
           onChange={(val) => {
@@ -562,7 +565,7 @@ const CellEdit: React.FC<ICellEditProps> = (props) => {
     },
     [`search-helper-multiple`]: (row: IRecord, column: IColumn) => {
       const { dataIndex } = column;
-      const { type, extra = {}, rules = [], helper = {}, onInput, onChange, onEnter } = options;
+      const { type, items = [], extra = {}, rules = [], helper = {}, onInput, onChange, onEnter } = options;
       const prevValue = getCellValue(row, dataIndex);
 
       const fieldAliasMap = helper.fieldAliasMap;
@@ -596,12 +599,13 @@ const CellEdit: React.FC<ICellEditProps> = (props) => {
       // 搜索帮助关闭，回显值事件
       const closeSearchHelper = (data: Record<string, any>[]) => {
         const { textKey, valueKey } = alias;
-        const itemList = data.map((x) => ({ text: x[textKey], value: x[valueKey] }));
+        setRecords(uniqBy([..._records.current, ...data], valueKey));
+        const itemList = uniqBy([...items, ..._records.current.map((x) => ({ text: x[textKey], value: x[valueKey] }))], 'value');
         setShItemList(itemList);
         setHelperValues(itemList.map((x) => x.value));
         const { closed } = helper;
         setVisibleEffect(false, () => createElementClick(editCellRef.current!));
-        closed?.(data);
+        closed?.(_records.current);
       };
 
       const closeButNotSelect = () => {
@@ -613,7 +617,7 @@ const CellEdit: React.FC<ICellEditProps> = (props) => {
         setCellValue(row, dataIndex, value);
         doFieldValidate(rules, value, rowKey, columnKey);
         store.addToUpdated(row);
-        onChange?.({ [dataKey]: value }, row);
+        onChange?.({ [dataKey]: value }, row, _records.current);
         dataChange();
       };
 
@@ -633,6 +637,7 @@ const CellEdit: React.FC<ICellEditProps> = (props) => {
         size: $size,
         multiple: true,
         initialValue: merge({}, helper.initialValue),
+        defaultSelectedKeys: prevValue,
         onClose: (data) => {
           if (data) {
             closeSearchHelper(data);
@@ -652,6 +657,7 @@ const CellEdit: React.FC<ICellEditProps> = (props) => {
                 value={prevValue}
                 placeholder={t('qm.table.editable.selectPlaceholder')}
                 allowClear={extra.allowClear}
+                maxTagCount={extra.collapseTags ? 'responsive' : undefined}
                 disabled={extra.disabled}
                 style={{ width: '100%' }}
                 onKeyUp={(ev) => {
@@ -665,7 +671,9 @@ const CellEdit: React.FC<ICellEditProps> = (props) => {
                   openSearchHelper();
                 }}
                 onChange={(value) => {
-                  setCellValue(row, dataIndex, value);
+                  const { valueKey } = alias;
+                  setRecords(_records.current.filter((x) => value.includes(x[valueKey])));
+                  setHelperValues(value);
                   forceUpdate();
                 }}
               >
