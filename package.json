@@ -114,7 +114,7 @@
     "html-webpack-plugin": "^5.5.0",
     "husky": "^4.3.8",
     "less": "^4.1.2",
-    "less-loader": "^10.2.0",
+    "less-loader": "^11.0.0",
     "lint-staged": "^10.5.4",
     "mockjs": "^1.1.0",
     "postcss-loader": "^6.2.0",
