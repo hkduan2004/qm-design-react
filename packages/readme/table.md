@@ -162,20 +162,21 @@
 
 ### edit_type
 
-| 参数                   | 说明            |
-| ---------------------- | --------------- |
-| text                   | 文本输入框      |
-| number                 | 数值输入框      |
-| select                 | 单选下拉框      |
-| select-multiple        | 多选下拉框      |
-| checkbox               | 复选框          |
-| switch                 | 开关            |
-| search-helper          | 搜索帮助        |
-| search-helper-multiple | 搜索帮助 - 多选 |
-| tree-helper            | 树搜索帮助      |
-| date                   | 日期类型        |
-| datetime               | 日期-时间类型   |
-| time                   | 时间类型        |
+| 参数                   | 说明              |
+| ---------------------- | ----------------- |
+| text                   | 文本输入框        |
+| number                 | 数值输入框        |
+| select                 | 单选下拉框        |
+| select-multiple        | 多选下拉框        |
+| checkbox               | 复选框            |
+| switch                 | 开关              |
+| search-helper          | 搜索帮助          |
+| search-helper-multiple | 搜索帮助 - 多选   |
+| tree-helper            | 树搜索帮助        |
+| tree-helper-multiple   | 树搜索帮助 - 多选 |
+| date                   | 日期类型          |
+| datetime               | 日期-时间类型     |
+| time                   | 时间类型          |
 
 ### format_type
 

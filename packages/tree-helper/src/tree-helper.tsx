@@ -23,6 +23,7 @@ import { QmButton, QmSpin, Tree, Input } from '../../index';
 type IProps = {
   size?: ComponentSize;
   multiple?: boolean;
+  defaultSelectedKeys?: Array<string | number>;
   tree?: {
     fetch?: IFetch & { valueKey?: string; textKey?: string };
     asyncLoad?: boolean; // 按需加载
@@ -101,7 +102,7 @@ const updateTreeData = (list: IRecord[], key: React.Key, valueKey: string, child
 // ===========================
 
 const TreeHelper: React.FC<IProps> = (props) => {
-  const { multiple, tree, onClose } = props;
+  const { multiple, defaultSelectedKeys = [], tree, onClose } = props;
   const { size } = React.useContext(ConfigContext)!;
   const $size = React.useMemo(() => props.size ?? size ?? '', [props.size, size]);
 
@@ -208,6 +209,7 @@ const TreeHelper: React.FC<IProps> = (props) => {
           multiple={multiple}
           height={treeHeight}
           defaultExpandAll
+          defaultSelectedKeys={defaultSelectedKeys}
           expandedKeys={expandedKeys}
           treeData={treeData}
           loadData={tree?.asyncLoad ? onLoadData : undefined}

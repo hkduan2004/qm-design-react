@@ -122,6 +122,7 @@ const App = () => {
               params: {},
               dataKey: 'records',
             },
+            rowKey: 'id',
           },
           tree: {
             tableParamsMap: () => {
@@ -136,7 +137,7 @@ const App = () => {
             },
           },
           fieldAliasMap: () => {
-            return { valueKey: 'date', textKey: 'date' };
+            return { valueKey: 'id', textKey: 'date' };
           },
         },
       },
@@ -388,6 +389,43 @@ const App = () => {
           //   },
           //   editRender: (row) => {
           //     const obj = {
+          //       type: 'tree-helper-multiple',
+          //       helper: {
+          //         tree: {
+          //           fetch: {
+          //             api: getTreeData,
+          //             params: {},
+          //             dataKey: 'records',
+          //             valueKey: 'value',
+          //             textKey: 'text',
+          //           },
+          //           // asyncLoad: true,
+          //         },
+          //         fieldAliasMap: () => {
+          //           return { textKey: 'text', valueKey: 'value' };
+          //         },
+          //       },
+          //       items: row.person.nameids.map((x, i) => ({ text: row.person.names[i], value: x })),
+          //       rules: [{ required: true, message: '姓名不能为空' }],
+          //       onChange: (a, b, c, d) => {
+          //         // console.log(a, b, c, d);
+          //         row.person.names = c.map((x) => x.text);
+          //       },
+          //     };
+          //     return obj;
+          //   },
+          // },
+          // {
+          //   title: '姓名',
+          //   dataIndex: 'person.nameids',
+          //   width: 200,
+          //   required: true,
+          //   sorter: true,
+          //   filter: {
+          //     type: 'text',
+          //   },
+          //   editRender: (row) => {
+          //     const obj = {
           //       type: 'search-helper-multiple',
           //       editable: true,
           //       // extra: { collapseTags: true },
@@ -620,7 +658,7 @@ const App = () => {
           uniqueKey="demo"
           formType="search"
           items={filterList}
-          initialValues={{ a: '张无忌' }}
+          initialValues={{ ccc: [21, 22] }}
           fieldsChange={(items) => setFilterList(items)}
           onFinish={(values) => {
             console.log(111, values);

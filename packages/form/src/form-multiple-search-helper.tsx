@@ -131,9 +131,9 @@ class VMultipleSearch extends Component<IMultipleSearchProps, IState> {
   };
 
   // 搜索帮助关闭，回显值事件
-  closeSearchHelper = (data: IRecord[]) => {
+  closeSearchHelper = (data: IRecord[], keys: string[] = []) => {
     const { textKey, valueKey } = this.alias;
-    this.setRecords(uniqBy([...this._records, ...data], valueKey));
+    this.setRecords(uniqBy([...this._records.filter((x) => keys.includes(x[valueKey])), ...data], valueKey));
     const results = this._records.map((x) => ({ text: x[textKey], value: x[valueKey] }));
     this.setItemList(results);
     this.triggerChange(results.map((x) => x.value));
@@ -191,9 +191,9 @@ class VMultipleSearch extends Component<IMultipleSearchProps, IState> {
       multiple: true,
       initialValue: merge({}, searchHelper.initialValue),
       defaultSelectedKeys: value,
-      onClose: (data) => {
+      onClose: (data, keys) => {
         if (data) {
-          this.closeSearchHelper(data);
+          this.closeSearchHelper(data, keys);
         } else {
           this.setVisible(false);
         }

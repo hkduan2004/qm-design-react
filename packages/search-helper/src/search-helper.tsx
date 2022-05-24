@@ -33,7 +33,7 @@ type IProps = {
     rowKey?: ((row: IRecord, index: number) => IRowKey) | IRowKey;
     webPagination?: boolean;
   };
-  onClose: (data: IRecord | null) => void;
+  onClose: (data: IRecord | null, keys?: IRowKey[]) => void;
 };
 
 export type QmSearchHelperProps = IProps;
@@ -157,7 +157,8 @@ const SearchHelper: React.FC<IProps> = (props) => {
             clearableAfterFetched: !multiple,
             selectFirstRowOnChange: true,
             selectedRowKeys: rowKeys,
-            onChange: (_, rows) => {
+            onChange: (keys, rows) => {
+              setRowKeys(keys);
               setRecord(!multiple ? rows[0] : rows);
             },
           }}
@@ -184,7 +185,7 @@ const SearchHelper: React.FC<IProps> = (props) => {
         <QmButton onClick={() => onClose(null)} style={{ marginRight: 8 }}>
           {t('qm.dialog.close')}
         </QmButton>
-        <QmButton type="primary" disabled={!record} onClick={() => onClose(record!)}>
+        <QmButton type="primary" disabled={!record} onClick={() => onClose(record!, multiple ? rowKeys : undefined)}>
           {t('qm.dialog.confirm')}
         </QmButton>
       </div>

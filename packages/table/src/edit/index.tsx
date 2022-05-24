@@ -574,7 +574,7 @@ const CellEdit: React.FC<ICellEditProps> = (props) => {
       }
       const alias = typeof fieldAliasMap === 'function' ? fieldAliasMap() : fieldAliasMap || {};
       if (!(Object.keys(alias).includes('valueKey') && Object.keys(alias).includes('textKey'))) {
-        warn('QmForm', 'fieldAliasMap 选项必须包含自身 `valueKey` 和  `textKey`');
+        warn('Table', 'fieldAliasMap 选项必须包含自身 `valueKey` 和  `textKey`');
       }
 
       // 打开搜索帮助面板
@@ -597,10 +597,11 @@ const CellEdit: React.FC<ICellEditProps> = (props) => {
       };
 
       // 搜索帮助关闭，回显值事件
-      const closeSearchHelper = (data: Record<string, any>[]) => {
+      const closeSearchHelper = (data: Record<string, any>[], keys: string[]) => {
         const { textKey, valueKey } = alias;
-        setRecords(uniqBy([..._records.current, ...data], valueKey));
-        const itemList = uniqBy([...items, ..._records.current.map((x) => ({ text: x[textKey], value: x[valueKey] }))], 'value');
+        setRecords(uniqBy([..._records.current.filter((x) => keys.includes(x[valueKey])), ...data], valueKey));
+        const _items = _records.current.map((x) => ({ text: x[textKey], value: x[valueKey] }));
+        const itemList = uniqBy([..._items, ...items], 'value').filter((x) => keys.includes(x['value']));
         setShItemList(itemList);
         setHelperValues(itemList.map((x) => x.value));
         const { closed } = helper;
@@ -638,9 +639,9 @@ const CellEdit: React.FC<ICellEditProps> = (props) => {
         multiple: true,
         initialValue: merge({}, helper.initialValue),
         defaultSelectedKeys: prevValue,
-        onClose: (data) => {
+        onClose: (data, keys) => {
           if (data) {
-            closeSearchHelper(data);
+            closeSearchHelper(data, keys);
           } else {
             closeButNotSelect();
           }
@@ -837,6 +838,144 @@ const CellEdit: React.FC<ICellEditProps> = (props) => {
               }
             }}
           />
+          <QmModal {...dialogProps}>
+            <QmTreeHelper {...helperProps} />
+          </QmModal>
+        </>
+      );
+    },
+    [`tree-helper-multiple`]: (row: IRecord, column: IColumn) => {
+      const { dataIndex } = column;
+      const { type, extra = {}, rules = [], helper = {}, onInput, onChange, onEnter } = options;
+      const prevValue = getCellValue(row, dataIndex);
+
+      const fieldAliasMap = helper.fieldAliasMap;
+      if (!fieldAliasMap) {
+        warn('Table', 'helper 需要配置 `fieldAliasMap` 选项');
+      }
+      const alias = typeof fieldAliasMap === 'function' ? fieldAliasMap() : fieldAliasMap || {};
+      if (!(Object.keys(alias).includes('valueKey') && Object.keys(alias).includes('textKey'))) {
+        warn('Table', 'fieldAliasMap 选项必须包含自身 `valueKey` 和  `textKey`');
+      }
+
+      // 打开搜索帮助面板
+      const openSearchHelper = (cb?: () => void) => {
+        const { beforeOpen } = helper;
+        // 打开的前置钩子
+        const open = beforeOpen ?? trueNoop;
+        const before = open({ [dataKey]: prevValue }, row, column);
+        if ((before as Promise<void>)?.then) {
+          (before as Promise<void>)
+            .then(() => {
+              setVisible(true);
+              cb?.();
+            })
+            .catch(() => {});
+        } else if (before !== false) {
+          setVisible(true);
+          cb?.();
+        }
+      };
+
+      // 搜索帮助关闭，回显值事件
+      const closeSearchHelper = (data: Record<string, any>[]) => {
+        const { textKey, valueKey } = alias;
+        setRecords(data);
+        const itemList = _records.current.map((x) => ({ text: x[textKey], value: x[valueKey] }));
+        setShItemList(itemList);
+        setHelperValues(itemList.map((x) => x.value));
+        const { closed } = helper;
+        setVisibleEffect(false, () => createElementClick(editCellRef.current!));
+        closed?.(_records.current);
+      };
+
+      const closeButNotSelect = () => {
+        setVisibleEffect(false, () => createElementClick(editCellRef.current!));
+      };
+
+      const setHelperValues = (value: Array<string | number>) => {
+        // 修改当前单元格的值
+        setCellValue(row, dataIndex, value);
+        doFieldValidate(rules, value, rowKey, columnKey);
+        store.addToUpdated(row);
+        onChange?.({ [dataKey]: value }, row, _records.current);
+        dataChange();
+      };
+
+      const dialogProps = {
+        visible,
+        title: t('qm.searchHelper.text'),
+        width: helper.width ?? '60%',
+        loading: false,
+        bodyStyle: { paddingBottom: `${SizeHeight[$size] + 20}px` },
+        onClose: () => {
+          closeButNotSelect();
+        },
+      };
+
+      const helperProps = {
+        ...helper,
+        size: $size,
+        multiple: true,
+        initialValue: merge({}, helper.initialValue),
+        defaultSelectedKeys: prevValue,
+        onClose: (data) => {
+          if (data) {
+            closeSearchHelper(data);
+          } else {
+            closeButNotSelect();
+          }
+        },
+      };
+
+      return (
+        <>
+          <span className={`ant-input-group-wrapper ant-input-search search-helper-multiple`}>
+            <span className={`ant-input-wrapper ant-input-group`}>
+              <Select
+                mode={'multiple'}
+                open={false}
+                value={prevValue}
+                placeholder={t('qm.table.editable.selectPlaceholder')}
+                allowClear={extra.allowClear}
+                maxTagCount={extra.collapseTags ? 'responsive' : undefined}
+                disabled={extra.disabled}
+                style={{ width: '100%' }}
+                onKeyUp={(ev) => {
+                  if (ev.keyCode === 13) {
+                    onEnter?.({ [dataKey]: prevValue }, row);
+                  }
+                }}
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                onDoubleClick={() => {
+                  openSearchHelper();
+                }}
+                onChange={(value) => {
+                  const { valueKey } = alias;
+                  setRecords(_records.current.filter((x) => value.includes(x[valueKey])));
+                  setHelperValues(value);
+                  forceUpdate();
+                }}
+              >
+                {shItemList.map((x) => (
+                  <Select.Option key={x.value} value={x.value}>
+                    {x.text}
+                  </Select.Option>
+                ))}
+              </Select>
+              <span className={`ant-input-group-addon`}>
+                <Button
+                  className={'ant-input-search-button'}
+                  disabled={extra.disabled}
+                  icon={<SearchOutlined />}
+                  onClick={() => {
+                    openSearchHelper();
+                  }}
+                />
+              </span>
+            </span>
+          </span>
           <QmModal {...dialogProps}>
             <QmTreeHelper {...helperProps} />
           </QmModal>
