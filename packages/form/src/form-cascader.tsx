@@ -2,7 +2,7 @@
  * @Author: 焦质晔
  * @Date: 2021-07-23 14:05:48
  * @Last Modified by: 焦质晔
- * @Last Modified time: 2022-02-27 14:37:24
+ * @Last Modified time: 2022-05-25 12:13:35
  */
 import React, { Component } from 'react';
 import { isEqual } from 'lodash-es';
@@ -169,6 +169,7 @@ class FormCascader extends Component<IProps, IState> {
       options = {},
       labelWidth = $$form.props.labelWidth,
       extra,
+      validateTrigger,
       rules = [],
       onChange = noop,
     } = this.props.option;
@@ -188,6 +189,7 @@ class FormCascader extends Component<IProps, IState> {
               name={fieldName}
               noStyle
               rules={rules}
+              validateTrigger={validateTrigger}
               messageVariables={{
                 label: $$form.getFormItemLabel(label),
               }}

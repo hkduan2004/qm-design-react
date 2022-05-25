@@ -2,7 +2,7 @@
  * @Author: 焦质晔
  * @Date: 2021-07-23 14:05:48
  * @Last Modified by: 焦质晔
- * @Last Modified time: 2021-08-28 16:09:25
+ * @Last Modified time: 2022-05-25 12:21:06
  */
 import React, { Component } from 'react';
 import { isEqual } from 'lodash-es';
@@ -73,6 +73,7 @@ class FormRadio extends Component<IProps, IState> {
       options = {},
       labelWidth = $$form.props.labelWidth,
       extra,
+      validateTrigger,
       rules = [],
       style = {},
       readOnly,
@@ -95,6 +96,7 @@ class FormRadio extends Component<IProps, IState> {
               name={fieldName}
               noStyle
               rules={rules}
+              validateTrigger={validateTrigger}
               messageVariables={{
                 label: $$form.getFormItemLabel(label),
               }}

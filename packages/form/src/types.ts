@@ -2,7 +2,7 @@
  * @Author: 焦质晔
  * @Date: 2021-08-07 21:32:01
  * @Last Modified by: 焦质晔
- * @Last Modified time: 2022-03-01 14:18:53
+ * @Last Modified time: 2022-05-25 11:44:34
  */
 import PropTypes from 'prop-types';
 import { noop } from '../../_utils/util';
@@ -27,6 +27,8 @@ export type IFormLayout = 'horizontal' | 'vertical';
 export type ILabelAlign = 'left' | 'right';
 
 export type IFormType = 'default' | 'search' | 'onlyShow';
+
+export type IValidateTrigger = 'onChange' | 'onBlur';
 
 export type IFormItemType =
   | 'DIVIDER'
@@ -154,6 +156,7 @@ export type IFormItem = {
   noAuth?: boolean; // 权限控制
   invisible?: boolean; // 隐藏字段，依旧会 占位 并 保留字段值
   rules?: Record<string, any>[];
+  validateTrigger?: IValidateTrigger | IValidateTrigger[];
   selfCol?: number;
   offsetLeft?: number;
   offsetRight?: number;

@@ -93,38 +93,39 @@
 
 ### form_item
 
-| 参数         | 说明                                                   | 类型                             | 默认值 |
-| ------------ | ------------------------------------------------------ | -------------------------------- | ------ |
-| type         | 字段类型，[配置项](#form_item_type)，必要参数          | string                           | -      |
-| fieldName    | 字段数据名，不能重复，必要参数                         | string                           | -      |
-| label        | label 名称，支持下拉选 lable，[配置项](#label_options) | string \| object                 | -      |
-| labelWidth   | label 标签宽度                                         | number \| string                 | 80     |
-| tooltip      | label 表述信息                                         | string                           | -      |
-| options      | 表单字段的详细配置，[配置项](#options)                 | object                           | -      |
-| searchHelper | 输入框类型搜索帮助的配置，[配置项](#search_helper)     | object                           | -      |
-| request      | 请求配置项，用于获取表单列表数据，[配置项](#request)   | object                           | -      |
-| upload       | 附件上传的配置，[配置项](#upload)                      | object                           | -      |
-| extra        | 表单项尾部描述信息，[配置项](#extra)                   | object                           | -      |
-| hidden       | 是否隐藏，不占页面空间                                 | boolean                          | -      |
-| invisible    | 是否可见，占页面空间                                   | boolean                          | -      |
-| noAuth       | 表单字段权限控制                                       | boolean                          | -      |
-| disabled     | 是否禁用                                               | boolean                          | -      |
-| readOnly     | 是否只读                                               | boolean                          | -      |
-| placeholder  | 表单元素的 placeholder 原生属性                        | string \| string[]               | -      |
-| allowClear   | 是否显示清空按钮                                       | boolean                          | -      |
-| rules        | 校验规则，[配置项](#rules)                             | array                            | -      |
-| selfCol      | 自身占据的列数，数值 24 表示占据整行                   | number                           | 1      |
-| offsetLeft   | 左侧的偏移列数                                         | number                           | -      |
-| offsetRight  | 右侧的偏移列数                                         | number                           | -      |
-| style        | 设置 css 样式                                          | styleObject                      | -      |
-| className    | 自定义类名                                             | string                           | -      |
-| bordered     | 表单项边框                                             | boolean                          | true   |
-| collapse     | 分隔符的 展开/收起 配置，[配置项](#collapse)           | object                           | -      |
-| noResetable  | 是否不可被重置(暂时未实现)                             | boolean                          | -      |
-| render       | 自定义表单项                                           | function(formItem, ctx): JSXNode | -      |
-| onChange     | 表单字段 change 事件                                   | function(value, others?)         | -      |
-| onBlur       | 表单字段 blur 事件                                     | function(value)                  | -      |
-| onEnter      | 表单字段 enter 事件                                    | function(value)                  | -      |
+| 参数            | 说明                                                   | 类型                             | 默认值   |
+| --------------- | ------------------------------------------------------ | -------------------------------- | -------- |
+| type            | 字段类型，[配置项](#form_item_type)，必要参数          | string                           | -        |
+| fieldName       | 字段数据名，不能重复，必要参数                         | string                           | -        |
+| label           | label 名称，支持下拉选 lable，[配置项](#label_options) | string \| object                 | -        |
+| labelWidth      | label 标签宽度                                         | number \| string                 | 80       |
+| tooltip         | label 表述信息                                         | string                           | -        |
+| options         | 表单字段的详细配置，[配置项](#options)                 | object                           | -        |
+| searchHelper    | 输入框类型搜索帮助的配置，[配置项](#search_helper)     | object                           | -        |
+| request         | 请求配置项，用于获取表单列表数据，[配置项](#request)   | object                           | -        |
+| upload          | 附件上传的配置，[配置项](#upload)                      | object                           | -        |
+| extra           | 表单项尾部描述信息，[配置项](#extra)                   | object                           | -        |
+| hidden          | 是否隐藏，不占页面空间                                 | boolean                          | -        |
+| invisible       | 是否可见，占页面空间                                   | boolean                          | -        |
+| noAuth          | 表单字段权限控制                                       | boolean                          | -        |
+| disabled        | 是否禁用                                               | boolean                          | -        |
+| readOnly        | 是否只读                                               | boolean                          | -        |
+| placeholder     | 表单元素的 placeholder 原生属性                        | string \| string[]               | -        |
+| allowClear      | 是否显示清空按钮                                       | boolean                          | -        |
+| validateTrigger | 设置字段校验的时机                                     | string \| string[]               | onChange |
+| rules           | 校验规则，[配置项](#rules)                             | array                            | -        |
+| selfCol         | 自身占据的列数，数值 24 表示占据整行                   | number                           | 1        |
+| offsetLeft      | 左侧的偏移列数                                         | number                           | -        |
+| offsetRight     | 右侧的偏移列数                                         | number                           | -        |
+| style           | 设置 css 样式                                          | styleObject                      | -        |
+| className       | 自定义类名                                             | string                           | -        |
+| bordered        | 表单项边框                                             | boolean                          | true     |
+| collapse        | 分隔符的 展开/收起 配置，[配置项](#collapse)           | object                           | -        |
+| noResetable     | 是否不可被重置(暂时未实现)                             | boolean                          | -        |
+| render          | 自定义表单项                                           | function(formItem, ctx): JSXNode | -        |
+| onChange        | 表单字段 change 事件                                   | function(value, others?)         | -        |
+| onBlur          | 表单字段 blur 事件                                     | function(value)                  | -        |
+| onEnter         | 表单字段 enter 事件                                    | function(value)                  | -        |
 
 ### rules
 

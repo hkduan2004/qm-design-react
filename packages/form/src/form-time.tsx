@@ -2,7 +2,7 @@
  * @Author: 焦质晔
  * @Date: 2021-07-23 14:05:48
  * @Last Modified by: 焦质晔
- * @Last Modified time: 2021-08-28 16:10:08
+ * @Last Modified time: 2022-05-25 12:31:20
  */
 import React, { Component } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
@@ -78,6 +78,7 @@ class FormTime extends Component<IProps> {
       options = {},
       labelWidth = $$form.props.labelWidth,
       extra,
+      validateTrigger,
       rules = [],
       onChange = noop,
     } = this.props.option;
@@ -95,6 +96,7 @@ class FormTime extends Component<IProps> {
               name={fieldName}
               noStyle
               rules={rules}
+              validateTrigger={validateTrigger}
               messageVariables={{
                 label: $$form.getFormItemLabel(label),
               }}

@@ -2,7 +2,7 @@
  * @Author: 焦质晔
  * @Date: 2021-07-23 14:05:48
  * @Last Modified by: 焦质晔
- * @Last Modified time: 2021-08-28 16:10:04
+ * @Last Modified time: 2022-05-25 12:30:58
  */
 import React, { Component } from 'react';
 import FormContext from './context';
@@ -31,6 +31,7 @@ class FormTextArea extends Component<IProps> {
       options = {},
       labelWidth = $$form.props.labelWidth,
       extra,
+      validateTrigger,
       rules = [],
       style = {},
       placeholder = t('qm.form.inputPlaceholder'),
@@ -58,6 +59,7 @@ class FormTextArea extends Component<IProps> {
               name={fieldName}
               noStyle
               rules={rules}
+              validateTrigger={validateTrigger}
               messageVariables={{
                 label: $$form.getFormItemLabel(label),
               }}

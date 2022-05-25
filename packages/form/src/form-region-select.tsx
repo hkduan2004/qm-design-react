@@ -2,7 +2,7 @@
  * @Author: 焦质晔
  * @Date: 2021-07-23 14:05:48
  * @Last Modified by: 焦质晔
- * @Last Modified time: 2022-05-17 15:13:02
+ * @Last Modified time: 2022-05-25 12:26:58
  */
 import React, { Component } from 'react';
 import classNames from 'classnames';
@@ -306,6 +306,7 @@ class FormRegionSelect extends Component<IProps> {
       options = {},
       labelWidth = $$form.props.labelWidth,
       extra,
+      validateTrigger,
       rules = [],
       onChange = noop,
     } = this.props.option;
@@ -324,6 +325,7 @@ class FormRegionSelect extends Component<IProps> {
               name={fieldName}
               noStyle
               rules={rules}
+              validateTrigger={validateTrigger}
               messageVariables={{
                 label: $$form.getFormItemLabel(label),
               }}

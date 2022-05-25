@@ -2,7 +2,7 @@
  * @Author: 焦质晔
  * @Date: 2021-07-23 14:05:48
  * @Last Modified by: 焦质晔
- * @Last Modified time: 2021-08-28 16:08:51
+ * @Last Modified time: 2022-05-25 12:07:15
  */
 import React, { Component } from 'react';
 import FormContext from './context';
@@ -20,6 +20,7 @@ type IProps = {
 
 type IInputProps<T = string> = IProps & {
   value?: T;
+  onBlur?: (value: T) => void;
   onChange?: (value: T) => void;
   onValuesChange: (value: T) => void;
 };
@@ -31,6 +32,11 @@ class VInput extends Component<IInputProps> {
     const { onChange, onValuesChange } = this.props;
     onChange?.(value);
     onValuesChange(value);
+  };
+
+  triggerBlur = (value: string) => {
+    const { onBlur } = this.props;
+    onBlur?.(value);
   };
 
   render(): React.ReactElement {
@@ -66,6 +72,7 @@ class VInput extends Component<IInputProps> {
         disabled={disabled}
         onBlur={(ev) => {
           const { value } = ev.target;
+          this.triggerBlur(value);
           onBlur(value);
         }}
         onKeyUp={(ev) => {
@@ -108,6 +115,7 @@ class FormInput extends Component<IProps> {
       options = {},
       labelWidth = $$form.props.labelWidth,
       extra,
+      validateTrigger,
       rules = [],
       onChange = noop,
     } = this.props.option;
@@ -125,6 +133,7 @@ class FormInput extends Component<IProps> {
               name={fieldName}
               noStyle
               rules={rules}
+              validateTrigger={validateTrigger}
               messageVariables={{
                 label: $$form.getFormItemLabel(label),
               }}

@@ -2,7 +2,7 @@
  * @Author: 焦质晔
  * @Date: 2021-07-23 14:05:48
  * @Last Modified by: 焦质晔
- * @Last Modified time: 2021-12-25 09:21:33
+ * @Last Modified time: 2022-05-25 12:29:54
  */
 import React, { Component } from 'react';
 import { isEqual } from 'lodash-es';
@@ -92,6 +92,7 @@ class FormSelect extends Component<IProps, IState> {
       options = {},
       labelWidth = $$form.props.labelWidth,
       extra,
+      validateTrigger,
       rules = [],
       style = {},
       placeholder = t('qm.form.selectPlaceholder'),
@@ -117,6 +118,7 @@ class FormSelect extends Component<IProps, IState> {
               name={fieldName}
               noStyle
               rules={rules}
+              validateTrigger={validateTrigger}
               messageVariables={{
                 label: $$form.getFormItemLabel(label),
               }}

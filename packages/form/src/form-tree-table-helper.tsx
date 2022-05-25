@@ -2,7 +2,7 @@
  * @Author: 焦质晔
  * @Date: 2021-07-23 14:05:48
  * @Last Modified by: 焦质晔
- * @Last Modified time: 2022-02-27 13:47:51
+ * @Last Modified time: 2022-05-25 12:34:37
  */
 import React, { Component } from 'react';
 import { merge } from 'lodash-es';
@@ -29,6 +29,7 @@ type IState = {
 
 type ITreeTableHelperProps<T = string> = IProps & {
   value?: T;
+  onBlur?: (value: T) => void;
   onChange?: (value: T) => void;
   onValuesChange: (value: T) => void;
 };
@@ -134,6 +135,11 @@ class VTreeTableHelper extends Component<ITreeTableHelperProps, IState> {
     onValuesChange(value);
   };
 
+  triggerBlur = (value: string) => {
+    const { onBlur } = this.props;
+    onBlur?.(value);
+  };
+
   render(): React.ReactElement {
     const { $$form } = this.context;
     const { visible } = this.state;
@@ -189,6 +195,10 @@ class VTreeTableHelper extends Component<ITreeTableHelperProps, IState> {
           allowClear={allowClear}
           readOnly={readOnly}
           disabled={disabled}
+          onBlur={(ev) => {
+            const { value } = ev.target;
+            this.triggerBlur(value);
+          }}
           onKeyUp={(ev) => {
             if (ev.keyCode === 13) {
               ev.preventDefault();
@@ -230,6 +240,7 @@ class FormTreeTableHelper extends Component<IProps> {
       options = {},
       labelWidth = $$form.props.labelWidth,
       extra,
+      validateTrigger,
       rules = [],
       onChange = noop,
     } = this.props.option;
@@ -248,6 +259,7 @@ class FormTreeTableHelper extends Component<IProps> {
               name={fieldName}
               noStyle
               rules={rules}
+              validateTrigger={validateTrigger}
               messageVariables={{
                 label: $$form.getFormItemLabel(label),
               }}

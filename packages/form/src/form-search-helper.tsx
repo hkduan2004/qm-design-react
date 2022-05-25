@@ -2,7 +2,7 @@
  * @Author: 焦质晔
  * @Date: 2021-07-23 14:05:48
  * @Last Modified by: 焦质晔
- * @Last Modified time: 2022-02-27 10:48:31
+ * @Last Modified time: 2022-05-25 12:29:09
  */
 import React, { Component } from 'react';
 import { get, merge } from 'lodash-es';
@@ -32,6 +32,7 @@ type IState = {
 
 type ISearchProps<T = string> = IProps & {
   value?: T;
+  onBlur?: (value: T) => void;
   onChange?: (value: T) => void;
   onValuesChange: (value: T) => void;
 };
@@ -235,6 +236,11 @@ class VSearch extends Component<ISearchProps, IState> {
     onValuesChange(value);
   };
 
+  triggerBlur = (value: string) => {
+    const { onBlur } = this.props;
+    onBlur?.(value);
+  };
+
   render(): React.ReactElement {
     const { $$form } = this.context;
     const { visible, loading } = this.state;
@@ -294,6 +300,7 @@ class VSearch extends Component<ISearchProps, IState> {
           disabled={disabled}
           onBlur={(ev) => {
             const { value } = ev.target;
+            this.triggerBlur(value);
             if (!this._is_change || visible) return;
             if (!value) {
               this.clearSearchHelperValue();
@@ -346,7 +353,18 @@ class FormSearchHelper extends Component<IProps> {
 
   render(): React.ReactElement {
     const { $$form } = this.context;
-    const { type, label, tooltip, fieldName, invisible, options = {}, labelWidth = $$form.props.labelWidth, extra, rules = [] } = this.props.option;
+    const {
+      type,
+      label,
+      tooltip,
+      fieldName,
+      invisible,
+      options = {},
+      labelWidth = $$form.props.labelWidth,
+      extra,
+      validateTrigger,
+      rules = [],
+    } = this.props.option;
 
     return (
       <Form.Item
@@ -362,6 +380,7 @@ class FormSearchHelper extends Component<IProps> {
               name={fieldName}
               noStyle
               rules={rules}
+              validateTrigger={validateTrigger}
               messageVariables={{
                 label: $$form.getFormItemLabel(label),
               }}

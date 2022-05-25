@@ -2,7 +2,7 @@
  * @Author: 焦质晔
  * @Date: 2021-07-23 14:05:48
  * @Last Modified by: 焦质晔
- * @Last Modified time: 2021-08-28 16:09:46
+ * @Last Modified time: 2022-05-25 12:26:10
  */
 import React, { Component } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
@@ -21,6 +21,7 @@ type IProps = {
 
 type IRangePickerProps<T = string> = IProps & {
   value?: T[];
+  onBlur?: (value: T[]) => void;
   onChange?: (value: T[]) => void;
   onValuesChange: (value: T[]) => void;
 };
@@ -78,6 +79,7 @@ class FormRangeTime extends Component<IProps> {
       options = {},
       labelWidth = $$form.props.labelWidth,
       extra,
+      validateTrigger,
       rules = [],
       onChange = noop,
     } = this.props.option;
@@ -95,6 +97,7 @@ class FormRangeTime extends Component<IProps> {
               name={fieldName}
               noStyle
               rules={rules}
+              validateTrigger={validateTrigger}
               messageVariables={{
                 label: $$form.getFormItemLabel(label),
               }}

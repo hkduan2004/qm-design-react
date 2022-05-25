@@ -2,7 +2,7 @@
  * @Author: 焦质晔
  * @Date: 2021-07-23 14:05:48
  * @Last Modified by: 焦质晔
- * @Last Modified time: 2022-02-27 13:47:51
+ * @Last Modified time: 2022-05-25 12:20:44
  */
 import React, { Component } from 'react';
 import { merge, get, uniqBy } from 'lodash-es';
@@ -271,6 +271,7 @@ class FormMultipleTreeHelper extends Component<IProps> {
       options = {},
       labelWidth = $$form.props.labelWidth,
       extra,
+      validateTrigger,
       rules = [],
       onChange = noop,
     } = this.props.option;
@@ -289,6 +290,7 @@ class FormMultipleTreeHelper extends Component<IProps> {
               name={fieldName}
               noStyle
               rules={rules}
+              validateTrigger={validateTrigger}
               messageVariables={{
                 label: $$form.getFormItemLabel(label),
               }}

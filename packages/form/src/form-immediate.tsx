@@ -2,7 +2,7 @@
  * @Author: 焦质晔
  * @Date: 2021-07-23 14:05:48
  * @Last Modified by: 焦质晔
- * @Last Modified time: 2022-03-01 14:18:23
+ * @Last Modified time: 2022-05-25 12:18:05
  */
 import React, { Component } from 'react';
 import classNames from 'classnames';
@@ -31,6 +31,7 @@ type IState = {
 
 type ISerachProps<T = string> = IProps & {
   value?: T;
+  onBlur?: (value: T) => void;
   onChange?: (value: T) => void;
   onValuesChange: (value: T) => void;
 };
@@ -76,6 +77,11 @@ class VSearch extends Component<ISerachProps, IState> {
     const { onChange, onValuesChange } = this.props;
     onChange?.(value);
     isValuesChange && onValuesChange(value);
+  };
+
+  triggerBlur = (value: string) => {
+    const { onBlur } = this.props;
+    onBlur?.(value);
   };
 
   clickHandle = (row: Record<string, any>, cb?: () => void) => {
@@ -200,6 +206,7 @@ class VSearch extends Component<ISerachProps, IState> {
                   if (onlySelect && value !== this.prevValue) {
                     this.triggerChange(this.prevValue, false);
                   }
+                  this.triggerBlur(value);
                 }}
                 onKeyUp={(ev) => {
                   if (ev.keyCode === 27) {
@@ -251,6 +258,7 @@ class FormImmediate extends Component<IProps> {
       options = {},
       labelWidth = $$form.props.labelWidth,
       extra,
+      validateTrigger,
       rules = [],
       onChange = noop,
     } = this.props.option;
@@ -269,6 +277,7 @@ class FormImmediate extends Component<IProps> {
               name={fieldName}
               noStyle
               rules={rules}
+              validateTrigger={validateTrigger}
               messageVariables={{
                 label: $$form.getFormItemLabel(label),
               }}

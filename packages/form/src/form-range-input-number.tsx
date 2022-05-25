@@ -2,7 +2,7 @@
  * @Author: 焦质晔
  * @Date: 2021-07-23 14:05:48
  * @Last Modified by: 焦质晔
- * @Last Modified time: 2022-02-28 12:52:37
+ * @Last Modified time: 2022-05-25 12:24:15
  */
 import React, { Component } from 'react';
 import FormContext from './context';
@@ -19,6 +19,7 @@ type IProps = {
 
 type IRangeInputNumberProps<T = number> = IProps & {
   value?: T[];
+  onBlur?: (value: T[]) => void;
   onChange?: (value: T[]) => void;
   onValuesChange: (value: T[]) => void;
 };
@@ -133,6 +134,7 @@ class FormRangeInputNumber extends Component<IProps> {
       invisible,
       labelWidth = $$form.props.labelWidth,
       extra,
+      validateTrigger,
       rules = [],
       onChange = noop,
     } = this.props.option;
@@ -150,6 +152,7 @@ class FormRangeInputNumber extends Component<IProps> {
               name={fieldName}
               noStyle
               rules={rules}
+              validateTrigger={validateTrigger}
               messageVariables={{
                 label: $$form.getFormItemLabel(label),
               }}

@@ -2,7 +2,7 @@
  * @Author: 焦质晔
  * @Date: 2021-07-23 14:05:48
  * @Last Modified by: 焦质晔
- * @Last Modified time: 2022-02-28 12:52:09
+ * @Last Modified time: 2022-05-25 12:10:57
  */
 import React, { Component } from 'react';
 import FormContext from './context';
@@ -41,6 +41,7 @@ class FormInputNumber extends Component<IProps> {
       options = {},
       labelWidth = $$form.props.labelWidth,
       extra,
+      validateTrigger,
       rules = [],
       style = {},
       placeholder = t('qm.form.inputPlaceholder'),
@@ -67,6 +68,7 @@ class FormInputNumber extends Component<IProps> {
               name={fieldName}
               noStyle
               rules={rules}
+              validateTrigger={validateTrigger}
               messageVariables={{
                 label: $$form.getFormItemLabel(label),
               }}
