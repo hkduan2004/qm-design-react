@@ -2,7 +2,7 @@
  * @Author: 焦质晔
  * @Date: 2022-01-09 11:07:34
  * @Last Modified by: 焦质晔
- * @Last Modified time: 2022-05-17 15:39:13
+ * @Last Modified time: 2022-05-25 12:42:37
  */
 import React from 'react';
 import classNames from 'classnames';
@@ -20,7 +20,7 @@ type ITableClipboardProps = {
   flattenColumns: IColumn[];
 };
 
-const TableImport: React.FC<ITableClipboardProps> = (props) => {
+const TableClipboard: React.FC<ITableClipboardProps> = (props) => {
   const { flattenColumns } = props;
 
   const [visible, setVisible] = React.useState<boolean>(false);
@@ -65,4 +65,4 @@ const TableImport: React.FC<ITableClipboardProps> = (props) => {
   );
 };
 
-export default TableImport;
+export default TableClipboard;
