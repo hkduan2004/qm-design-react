@@ -901,6 +901,7 @@ class QmForm extends Component<IProps, IState> {
     this.formRef.current!.resetFields();
     this.setState({ other: this._initialOthers });
     this.setState({ extra: this._initialExtras });
+    this.props.onReset?.();
   }
 
   render(): React.ReactElement {

@@ -31,6 +31,7 @@
 | -------------- | ---------------------------------- | -------------------------------------- |
 | onFinish       | 提交表单且数据验证成功后回调事件   | function(formValues)                   |
 | onFinishFailed | 提交表单且数据验证失败后回调事件   | function(errorFields)                  |
+| onReset        | 表单重置时触发的回调事件           | -                                      |
 | onValuesChange | 表单组件，字段值变化时触发回调事件 | function(changedValues, initialValues) |
 | onFieldsChange | 表单组件，字段更新时触发回调事件   | function(changedFields, allFields)     |
 | onCollapse     | 展开/收起 状态改变时的回调事件     | function(collapse： boolean)           |

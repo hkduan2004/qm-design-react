@@ -314,6 +314,7 @@ export type IFormProps = {
   onFieldsChange?: (changedFields: IFieldData[], allFields: IFieldData[]) => void;
   onFinish?: (values: IFormData) => void;
   onFinishFailed?: (errorFields: any) => void;
+  onReset?: () => void;
   onCollapse?: (collapse: boolean) => void;
 };
 
@@ -358,6 +359,7 @@ export const propTypes = {
   onFieldsChange: PropTypes.func, // 表单组件，字段更新时触发回调事件
   onFinish: PropTypes.func, // 提交表单且数据验证成功后回调事件
   onFinishFailed: PropTypes.func, // 提交表单且数据验证失败后回调事件
+  onReset: PropTypes.func, // 表单重置事件
   onCollapse: PropTypes.func, // 展开/收起 状态改变时的回调事件
 };
 
@@ -376,6 +378,7 @@ export const defaultProps = {
   onFieldsChange: noop,
   onFinish: noop,
   onFinishFailed: noop,
+  onReset: noop,
   onCollapse: noop,
   onFormItemsChange: noop,
 };
