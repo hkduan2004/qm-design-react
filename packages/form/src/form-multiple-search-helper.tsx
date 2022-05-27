@@ -5,7 +5,7 @@
  * @Last Modified time: 2022-05-25 12:20:28
  */
 import React, { Component } from 'react';
-import { merge, get, uniqBy } from 'lodash-es';
+import { merge, get, uniqBy, isEqual } from 'lodash-es';
 import FormContext from './context';
 import { noop, trueNoop, getParserWidth } from '../../_utils/util';
 import { t } from '../../locale';
@@ -60,6 +60,20 @@ class VMultipleSearch extends Component<IMultipleSearchProps, IState> {
 
   componentDidMount() {
     this.getItemList();
+  }
+
+  componentDidUpdate(prevProps) {
+    const { value: prevValue } = prevProps;
+    const { value } = this.props;
+    if (
+      prevValue !== value &&
+      !isEqual(
+        value,
+        this._records.map((x) => x[this.alias.valueKey])
+      )
+    ) {
+      this.getItemList();
+    }
   }
 
   async getItemList() {

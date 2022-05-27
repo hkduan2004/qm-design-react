@@ -24,6 +24,7 @@ for (let i = 0; i < 60; i++) {
 
 const App = () => {
   const tableRef = React.useRef(null);
+  const formRef = React.useRef(null);
   const createFilterList = () => {
     return [
       {
@@ -135,6 +136,11 @@ const App = () => {
               valueKey: 'value',
               textKey: 'text',
             },
+          },
+          request: {
+            fetchApi: getTableData,
+            params: { currentPage: 1, pageSize: 500 },
+            dataKey: 'records',
           },
           fieldAliasMap: () => {
             return { valueKey: 'id', textKey: 'date' };
@@ -648,17 +654,19 @@ const App = () => {
 
   const printClick = async () => {
     await sleep(1000);
+    formRef.current.SET_FIELDS_VALUE({ ccc: [21, 22, 23] });
   };
 
   return (
     <QmConfigProvider size={'middle'} locale={'zh-cn'}>
       <div style={{ padding: 10, paddingBottom: 0 }}>
         <QmForm
+          ref={formRef}
           authCode="spa1001.form.f01"
           uniqueKey="demo"
           formType="search"
           items={filterList}
-          initialValues={{ ccc: [21, 22] }}
+          initialValues={{ ccc: [21, 22, 23] }}
           fieldsChange={(items) => setFilterList(items)}
           onFinish={(values) => {
             console.log(111, values);
@@ -710,10 +718,7 @@ const App = () => {
             type="primary"
             icon={<PlusOutlined />}
             onClick={() => {
-              setTableList((prev) => {
-                tableRef.current.SET_SELECTION([]);
-                return [{ id: 100 }, { id: 101, children: [{ id: 102 }] }];
-              });
+              printClick();
             }}
           >
             新建
