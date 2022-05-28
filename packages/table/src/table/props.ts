@@ -216,6 +216,8 @@ export const propTypes = {
     }),
     disabled: PropTypes.func, // 是否允许行选择，参数：row，返回值 bool
     onChange: PropTypes.func, // 选中项发生变化时触发
+    onSelect: PropTypes.func, // 选择/取消 选择的回调
+    onSelectAll: PropTypes.func, // 表头全选 选择/取消 选择的回调
   }),
   // 列表行高亮选中
   rowHighlight: PropTypes.shape({

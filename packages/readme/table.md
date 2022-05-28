@@ -296,20 +296,22 @@
 
 ### row_selection
 
-| 参数                   | 说明                                                                     | 类型                                   | 默认值 |
-| ---------------------- | ------------------------------------------------------------------------ | -------------------------------------- | ------ |
-| type                   | 选择类型，必要参数                                                       | checkbox \| radio                      | -      |
-| defaultSelectedRowKeys | 默认选中项的 rowKey 数组                                                 | string[]                               | -      |
-| selectedRowKeys        | 选中项的 rowKey 数组                                                     | string[]                               | -      |
-| hideSelectAll          | 隐藏表头全选勾选框                                                       | boolean                                | -      |
-| checkStrictly          | 选择列完全受控（父子数据选中状态不再关联）                               | boolean                                | true   |
-| filterable             | 是否显示筛选箭头                                                         | boolean                                | true   |
-| selectByClickRow       | 通过单击行选中表格列                                                     | boolean                                | true   |
-| clearableAfterFetched  | 重新检索之后，是否清空已选择列                                           | boolean                                | -      |
-| fetchSelectedRowKeys   | 从服务端获取要回显的数据 rowKey 列表，[配置项](#fetch)                   | -                                      | -      |
-| fetchAllRowKeys        | 从服务端获取所有行数据 rowKey 的列表，在点击全选时回显，[配置项](#fetch) | -                                      | -      |
-| disabled               | 是否允许行选择                                                           | function(row): boolean                 | -      |
-| onChange               | 选中项发生变化时触发                                                     | function(selectionKeys, selectionRows) | -      |
+| 参数                   | 说明                                                                     | 类型                                         | 默认值 |
+| ---------------------- | ------------------------------------------------------------------------ | -------------------------------------------- | ------ |
+| type                   | 选择类型，必要参数                                                       | checkbox \| radio                            | -      |
+| defaultSelectedRowKeys | 默认选中项的 rowKey 数组                                                 | string[]                                     | -      |
+| selectedRowKeys        | 选中项的 rowKey 数组                                                     | string[]                                     | -      |
+| hideSelectAll          | 隐藏表头全选勾选框                                                       | boolean                                      | -      |
+| checkStrictly          | 选择列完全受控（父子数据选中状态不再关联）                               | boolean                                      | true   |
+| filterable             | 是否显示筛选箭头                                                         | boolean                                      | true   |
+| selectByClickRow       | 通过单击行选中表格列                                                     | boolean                                      | true   |
+| clearableAfterFetched  | 重新检索之后，是否清空已选择列                                           | boolean                                      | -      |
+| fetchSelectedRowKeys   | 从服务端获取要回显的数据 rowKey 列表，[配置项](#fetch)                   | -                                            | -      |
+| fetchAllRowKeys        | 从服务端获取所有行数据 rowKey 的列表，在点击全选时回显，[配置项](#fetch) | -                                            | -      |
+| disabled               | 是否允许行选择                                                           | function(row): boolean                       | -      |
+| onChange               | 选中项发生变化时触发                                                     | function(selectionKeys, selectionRows)       | -      |
+| onSelect               | 选择/取消 选择的回调                                                     | function(selected, selectRow, selectionKeys) | -      |
+| onSelectAll            | 表头全选 选择/取消 选择的回调                                            | function(selected, selectionKeys)            | -      |
 
 ### row_highlight
 

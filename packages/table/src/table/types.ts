@@ -219,6 +219,8 @@ export type IRowSelection = {
   };
   disabled?: (row: IRecord) => boolean;
   onChange?: (rowKeys: IRowKey[], selectedRows: IRecord[]) => void;
+  onSelect?: (selected: boolean, record: IRecord, rowKeys: IRowKey[]) => void;
+  onSelectAll?: (selected: boolean, rowKeys: IRowKey[]) => void;
 };
 
 export type IRowHighlight = {

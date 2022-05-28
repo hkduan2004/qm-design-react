@@ -279,17 +279,18 @@ const TableBody = React.forwardRef<TableBodyRef, IBodyProps>((props, ref) => {
     setElementStore(`$tableYspace`, ySpaceRef.current!);
   };
 
-  const createSelectionKeys = (rowKey: IRowKey) => {
-    const { type, checkStrictly = true } = rowSelection || {};
+  const doSelectHandle = (rowKey: IRowKey, row: IRecord) => {
+    const { type, checkStrictly = true, onSelect } = rowSelection || {};
     if (type === 'radio') {
       setSelectionKeys([rowKey]);
     }
     if (type === 'checkbox') {
-      if (isTreeTable && !checkStrictly) {
-        setTreeSelectionKeys(rowKey, selectionKeys);
-      } else {
-        setSelectionKeys(!selectionKeys.includes(rowKey) ? [...selectionKeys, rowKey] : selectionKeys.filter((x) => x !== rowKey));
-      }
+      // 是否选中
+      const checked = !selectionKeys.includes(rowKey);
+      const selectedKeys =
+        isTreeTable && !checkStrictly ? createTreeSelectionKeys(rowKey, selectionKeys, checked) : createSelectionKeys(rowKey, selectionKeys, checked);
+      setSelectionKeys(selectedKeys);
+      onSelect?.(checked, row, selectedKeys);
     }
   };
 
@@ -306,7 +307,7 @@ const TableBody = React.forwardRef<TableBodyRef, IBodyProps>((props, ref) => {
     const { type, selectByClickRow = true, disabled = noop } = rowSelection || {};
     if (type && !disabled(row) && !isEditable) {
       if (selectByClickRow || dataIndex === config.selectionColumn) {
-        createSelectionKeys(rowKey);
+        doSelectHandle(rowKey, row);
       }
     }
     // 单击 展开列、可选择列、操作列 不触发行单击事件
@@ -336,14 +337,11 @@ const TableBody = React.forwardRef<TableBodyRef, IBodyProps>((props, ref) => {
     setClicked(arr);
   };
 
-  const setTreeSelectionKeys = (key: IRowKey, arr: IRowKey[]) => {
-    // on(选中)  off(取消)
-    const state = !arr.includes(key) ? 'on' : 'off';
-    const selectedKeys = createTreeSelectionKeys(key, arr, state);
-    setSelectionKeys(selectedKeys);
+  const createSelectionKeys = (key: IRowKey, arr: IRowKey[], checked: boolean) => {
+    return checked ? [...arr, key] : arr.filter((x) => x !== key);
   };
 
-  const createTreeSelectionKeys = (key: IRowKey, arr: IRowKey[], state: string) => {
+  const createTreeSelectionKeys = (key: IRowKey, arr: IRowKey[], checked: boolean) => {
     const { deriveRowKeys } = tableRef.current;
     const target = deepFindRowKey(deriveRowKeys, key);
     let result: IRowKey[] = [];
@@ -353,7 +351,7 @@ const TableBody = React.forwardRef<TableBodyRef, IBodyProps>((props, ref) => {
     // const parentRowKeys = findParentRowKeys(deriveRowKeys, key);
     const parentRowKeys = deepGetRowkey(deriveRowKeys, key)?.slice(0, -1).reverse() || [];
     // 处理后代节点
-    if (state === 'on') {
+    if (checked) {
       result = [...new Set([...arr, key, ...childRowKeys])];
     } else {
       result = arr.filter((x) => ![key, ...childRowKeys].includes(x));

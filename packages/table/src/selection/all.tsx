@@ -26,9 +26,10 @@ const AllSelection: React.FC<IAllSelectionProps> = (props) => {
   const { selectionKeys } = props;
   const { tableRef, tableProps, pagination, fetchParams, setSelectionKeys, setSpinning } = React.useContext(TableContext)!;
   const { rowSelection } = tableProps;
+  const { fetchAllRowKeys, onSelectAll } = rowSelection!;
 
   const isFilterable = React.useMemo(() => {
-    return rowSelection?.filterable ?? true;
+    return rowSelection!.filterable ?? true;
   }, [rowSelection]);
 
   const filterAllRowKeys = React.useMemo(() => {
@@ -39,7 +40,7 @@ const AllSelection: React.FC<IAllSelectionProps> = (props) => {
 
   const indeterminate = React.useMemo(() => {
     // 性能待优化
-    return selectionKeys.length > 0 && selectionKeys.length < (rowSelection?.fetchAllRowKeys ? pagination.total : filterAllRowKeys.length);
+    return selectionKeys.length > 0 && selectionKeys.length < (fetchAllRowKeys ? pagination.total : filterAllRowKeys.length);
   }, [selectionKeys.length, filterAllRowKeys.length, pagination.total]);
 
   const selectable = React.useMemo(() => {
@@ -49,7 +50,7 @@ const AllSelection: React.FC<IAllSelectionProps> = (props) => {
   // ===========================================
 
   const getAllSelectionKeys = async () => {
-    const fetch = rowSelection!.fetchAllRowKeys!;
+    const fetch = fetchAllRowKeys!;
     let rowKeys: IRowKey[] = [];
     setSpinning(true);
     try {
@@ -66,13 +67,14 @@ const AllSelection: React.FC<IAllSelectionProps> = (props) => {
 
   const changeHandle = async (value: boolean) => {
     let results: IRowKey[] = [];
-    if (rowSelection?.fetchAllRowKeys) {
+    if (fetchAllRowKeys) {
       results = value ? await getAllSelectionKeys() : [];
     } else {
       // 性能待优化
       results = value ? filterAllRowKeys.slice(0) : [];
     }
     setSelectionKeys(results);
+    onSelectAll?.(value, results);
   };
 
   const selectAllHandle = () => {
@@ -81,7 +83,7 @@ const AllSelection: React.FC<IAllSelectionProps> = (props) => {
 
   const invertHandle = async () => {
     let results: IRowKey[] = [];
-    if (rowSelection?.fetchAllRowKeys) {
+    if (fetchAllRowKeys) {
       results = xor(selectionKeys, await getAllSelectionKeys());
     } else {
       results = xor(selectionKeys, filterAllRowKeys);
