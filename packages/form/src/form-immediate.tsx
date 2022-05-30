@@ -52,11 +52,11 @@ class VSearch extends Component<ISerachProps, IState> {
 
   async getItemList(input?: string) {
     const { fieldName, request = {} } = this.props.option;
-    const { fetchApi, params = {}, dataKey } = request;
+    const { fetchApi, params = {}, formatter = (k) => k, dataKey } = request;
     if (!fetchApi) return;
     this.setState({ loading: true });
     try {
-      const res = await fetchApi({ ...params, ...{ [fieldName]: input } });
+      const res = await fetchApi(formatter({ ...params, ...{ [fieldName]: input } }));
       if (res.code === 200) {
         const dataList = Array.isArray(res.data) ? res.data : get(res.data, dataKey!) ?? [];
         this.setState({ results: dataList, activeIndex: 0 });

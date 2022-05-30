@@ -245,6 +245,7 @@ export type IFormItem = {
     request?: {
       fetchApi?: IFetchFn;
       params?: IFetchParams;
+      formatter?: (params: IFetchParams) => IFetchParams;
       dataKey?: string;
     };
     width?: number | string;
@@ -260,6 +261,7 @@ export type IFormItem = {
   request?: {
     fetchApi?: IFetchFn;
     params?: IFetchParams;
+    formatter?: (params: IFetchParams) => IFetchParams;
     dataKey?: string;
     valueKey?: string;
     textKey?: string;

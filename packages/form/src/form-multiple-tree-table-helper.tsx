@@ -79,12 +79,12 @@ class VMultipleTreeHelper extends Component<IMultipleTreeHelperProps, IState> {
   async getItemList() {
     const { searchHelper } = this.props.option;
     const { textKey, valueKey } = this.alias;
-    const { fetchApi, params = {}, dataKey } = searchHelper?.request || {};
+    const { fetchApi, params = {}, formatter = (k) => k, dataKey } = searchHelper?.request || {};
     const { value } = this.props;
     if (!fetchApi || !value) return;
     this.setState({ loading: true });
     try {
-      const res = await fetchApi({ ...params, kyes: value });
+      const res = await fetchApi(formatter({ ...params, kyes: value }));
       if (res.code === 200) {
         let dataList: IRecord[] = Array.isArray(res.data) ? res.data : get(res.data, dataKey!) ?? [];
         dataList = dataList.filter((x) => value.includes(x[valueKey]));
