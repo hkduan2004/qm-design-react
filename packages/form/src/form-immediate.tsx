@@ -12,7 +12,7 @@ import { getPrefixCls } from '../../_utils/prefix';
 import { noop, getParserWidth, debounce, get } from '../../_utils/util';
 import { t } from '../../locale';
 import { DEFAULT_LABEL_WIDTH, BUILT_IN_PLACEMENTS } from './types';
-import type { IFormItem } from './types';
+import type { IFormItem, IRecord } from './types';
 
 import Trigger from 'rc-trigger';
 import { Form, Row, Col, Input, Spin } from '../../antd';
@@ -33,13 +33,15 @@ type ISerachProps<T = string> = IProps & {
   value?: T;
   onBlur?: (value: T) => void;
   onChange?: (value: T) => void;
-  onValuesChange: (value: T) => void;
+  onValuesChange: (value: T, record: IRecord) => void;
 };
 
 class VSearch extends Component<ISerachProps, IState> {
   static contextType = FormContext;
 
   private prevValue: string;
+
+  private _record: IRecord;
 
   private searchRef = React.createRef<any>();
 
@@ -76,7 +78,7 @@ class VSearch extends Component<ISerachProps, IState> {
   triggerChange = (value: string, isValuesChange: boolean) => {
     const { onChange, onValuesChange } = this.props;
     onChange?.(value);
-    isValuesChange && onValuesChange(value);
+    isValuesChange && onValuesChange(value, this._record);
   };
 
   triggerBlur = (value: string) => {
@@ -102,6 +104,7 @@ class VSearch extends Component<ISerachProps, IState> {
     // 保持焦点状态
     this.searchRef.current!.focus();
     // 改变值
+    this._record = row;
     this.prevValue = row[alias[fieldName]] ?? '';
     this.triggerChange(row[alias[fieldName]], true);
     // 执行回调
@@ -284,8 +287,8 @@ class FormImmediate extends Component<IProps> {
             >
               <VSearch
                 option={this.props.option}
-                onValuesChange={(value = '') => {
-                  onChange(value);
+                onValuesChange={(value = '', record) => {
+                  onChange(value, Object.keys(record).length ? record : null);
                   $$form.setViewValue(fieldName, value);
                 }}
               />
