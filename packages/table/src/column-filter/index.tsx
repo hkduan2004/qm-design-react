@@ -210,7 +210,7 @@ const ColumnFilter: React.FC<IColumnFilterProps> = (props) => {
         return resultColumns.push(column);
       }
       resultColumns.push(
-        ...colGroups[groupIndex].map(({ dataIndex }, index) => {
+        ...colGroups.current[groupIndex].map(({ dataIndex }, index) => {
           const target = realColumns.find((x) => x.dataIndex === dataIndex)!;
           if (index > 0) {
             if (typeof column.hidden !== 'undefined') {

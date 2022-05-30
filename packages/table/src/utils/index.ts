@@ -172,7 +172,7 @@ export const convertToRows = (columns: IColumn[]): IColumn[][] => {
       });
       column.colSpan = colSpan;
     } else {
-      column.colSpan = 1;
+      column.colSpan = column.colSpan ?? 1;
     }
   };
 
