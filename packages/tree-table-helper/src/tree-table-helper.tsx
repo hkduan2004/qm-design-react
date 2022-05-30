@@ -17,10 +17,17 @@ import useResizeObserve from '../../hooks/useResizeObserve';
 import useUpdateEffect from '../../hooks/useUpdateEffect';
 
 import type { IFormItem, IFormData } from '../../form/src/types';
-import type { IFetch, IColumn, IRowKey, IRecord } from '../../table/src/table/types';
+import type { IFetch, IFetchFn, IColumn, IRowKey, IRecord } from '../../table/src/table/types';
 import type { ComponentSize, Nullable } from '../../_utils/types';
 
 import { QmSplit, QmForm, QmTable, QmButton, Tree, Input } from '../../index';
+
+type ITableConfig = {
+  fetch?: IFetch;
+  columns?: IColumn[];
+  rowKey?: ((row: IRecord, index: number) => IRowKey) | IRowKey;
+  webPagination?: boolean;
+};
 
 type IProps = {
   size?: ComponentSize;
@@ -29,16 +36,13 @@ type IProps = {
   defaultSelectedKeys?: IRowKey[];
   multiple?: boolean;
   filters?: IFormItem[];
-  table?: {
-    fetch?: IFetch;
-    columns?: IColumn[];
-    rowKey?: ((row: IRecord, index: number) => IRowKey) | IRowKey;
-    webPagination?: boolean;
-  };
+  table?: ITableConfig;
   tree?: {
     fetch?: IFetch & { valueKey?: string; textKey?: string };
     tableParamsMap?: (() => Record<string, string>) | Record<string, string>;
   };
+  name?: string;
+  getServerConfig?: IFetchFn;
   onClose: (data: IRecord | null, keys?: IRowKey[]) => void;
 };
 
@@ -99,14 +103,14 @@ const treeFilter = (tree: IRecord[], fn: (node: IRecord) => boolean) => {
 // ===========================
 
 const TreeTableHelper: React.FC<IProps> = (props) => {
-  const { uniqueKey, multiple, initialValue, defaultSelectedKeys = [], filters = [], table = {}, tree, onClose } = props;
+  const { uniqueKey, multiple, initialValue, defaultSelectedKeys = [], filters = [], table = {}, tree = {}, name, getServerConfig, onClose } = props;
   const { size } = React.useContext(ConfigContext)!;
   const $size = React.useMemo(() => props.size ?? size ?? '', [props.size, size]);
 
   const wrapperRef = React.useRef<HTMLDivElement>(null);
   const tableSize = useResizeObserve(wrapperRef);
 
-  const createColumns = (): IColumn[] => {
+  const createColumns = (columns?: IColumn[]): IColumn[] => {
     return [
       {
         title: t('qm.searchHelper.orderIndex'),
@@ -116,10 +120,11 @@ const TreeTableHelper: React.FC<IProps> = (props) => {
           return <span>{text + 1}</span>;
         },
       },
-      ...(table.columns || []),
+      ...(!columns ? table.columns || [] : columns),
     ];
   };
 
+  const [tableConf, setTableConf] = React.useState<ITableConfig>(table);
   const [record, setRecord] = React.useState<IRecord | IRecord[]>();
   const [rowKeys, setRowKeys] = React.useState<IRowKey[]>(defaultSelectedKeys);
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -144,15 +149,48 @@ const TreeTableHelper: React.FC<IProps> = (props) => {
     resizeObserveHandler();
   }, [tableSize.width]);
 
+  React.useEffect(() => {
+    getTableData();
+  }, [fetchParams]);
+
+  React.useEffect(() => {
+    getHelperConfig();
+    getTreeData();
+  }, []);
+
   // ===========================================================
 
-  const filterChangeHandle = (val: IFormData) => {
-    setFetchParams(Object.assign({}, fetchParams, val));
+  const getHelperConfig = async () => {
+    if (!name) return;
+    if (!getServerConfig) {
+      return warn('searchHelper', '从服务端获取配置信息的时候，`getServerConfig` 为必选参数');
+    }
+    try {
+      const res = await getServerConfig({ sh_name: name, sh_type: 1 });
+      if (res.code === 200) {
+        const { filters = [], columns = [], rowKey, webPagination } = res.data || {};
+        // 设置 formItems、columns
+        setFormItems(filters);
+        setColumns(createColumns(columns));
+        setTableConf({
+          fetch: {
+            api: getServerConfig,
+            dataKey: 'records',
+          },
+          rowKey: rowKey || tableConf.rowKey,
+          webPagination: webPagination || tableConf.webPagination || false,
+        });
+        filterChangeHandle({ sh_type: 2 });
+      }
+    } catch (e) {
+      // ...
+    }
   };
 
   const getTableData = async () => {
-    if (!table.webPagination || !table.fetch?.api) return;
-    const { api: fetchApi, dataKey, beforeFetch = trueNoop } = table.fetch;
+    const { webPagination, fetch } = tableConf;
+    if (!webPagination || !fetch?.api) return;
+    const { api: fetchApi, dataKey, beforeFetch = trueNoop } = fetch;
     if (!beforeFetch(fetchParams!)) return;
     // console.log(`ajax 请求参数：`, this.fetch.params);
     setLoading(true);
@@ -175,9 +213,9 @@ const TreeTableHelper: React.FC<IProps> = (props) => {
     onClose(record);
   };
 
-  React.useEffect(() => {
-    getTableData();
-  }, [fetchParams]);
+  const filterChangeHandle = (val: IFormData) => {
+    setFetchParams(Object.assign({}, fetchParams, val));
+  };
 
   // =========================================
   const [treeData, setTreeData] = React.useState<IRecord[]>([]);
@@ -187,7 +225,7 @@ const TreeTableHelper: React.FC<IProps> = (props) => {
   const responseList = React.useRef<IRecord[]>([]);
 
   const getTreeData = async () => {
-    if (!tree?.fetch) return;
+    if (!tree.fetch) return;
     const { api: fetchApi, params, dataKey, valueKey = 'value', textKey = 'text' } = tree.fetch;
     try {
       const res = await fetchApi(params);
@@ -204,7 +242,7 @@ const TreeTableHelper: React.FC<IProps> = (props) => {
   };
 
   const doTableFetch = (row: IRecord) => {
-    if (!tree?.tableParamsMap) {
+    if (!tree.tableParamsMap) {
       return warn('QmTreeTableHelper', '需要配置 `tree.tableParamsMap` 选项');
     }
     const alias = typeof tree.tableParamsMap === 'function' ? tree.tableParamsMap() : tree.tableParamsMap;
@@ -213,16 +251,12 @@ const TreeTableHelper: React.FC<IProps> = (props) => {
     for (const key in alias) {
       params[key] = get(row, alias[key]);
     }
-    setFetchParams(Object.assign({}, fetchParams, params));
+    filterChangeHandle(params);
   };
 
   useUpdateEffect(() => {
     setExpandedKeys(getAllParentKey(treeData));
   }, [treeData]);
-
-  React.useEffect(() => {
-    getTreeData();
-  }, []);
 
   const expandHandle = (expandedKeys: string[]) => {
     setExpandedKeys(expandedKeys);
@@ -239,10 +273,10 @@ const TreeTableHelper: React.FC<IProps> = (props) => {
 
   const prefixCls = getPrefixCls('tree-table');
 
-  const tableProps = !table.webPagination
+  const tableProps = !tableConf.webPagination
     ? {
         fetch: {
-          ...table.fetch,
+          ...tableConf.fetch,
           params: fetchParams,
         } as IFetch,
       }
@@ -277,7 +311,7 @@ const TreeTableHelper: React.FC<IProps> = (props) => {
             }}
             onExpand={expandHandle}
             onSelect={(selectedKeys: string[]) => {
-              if (!tree?.fetch) return;
+              if (!tree.fetch) return;
               const { valueKey = 'value' } = tree.fetch;
               const row = deepFind(responseList.current, (node) => get(node, valueKey) === selectedKeys[0]);
               doTableFetch(row || {});
@@ -301,7 +335,7 @@ const TreeTableHelper: React.FC<IProps> = (props) => {
             <QmTable
               height={tableHeight}
               columns={columns}
-              rowKey={table.rowKey || 'pageIndex'}
+              rowKey={tableConf.rowKey || 'pageIndex'}
               {...tableProps}
               rowSelection={{
                 type: !multiple ? 'radio' : 'checkbox',
