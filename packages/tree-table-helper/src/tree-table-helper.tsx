@@ -99,12 +99,11 @@ const treeFilter = (tree: IRecord[], fn: (node: IRecord) => boolean) => {
 // ===========================
 
 const TreeTableHelper: React.FC<IProps> = (props) => {
-  const { uniqueKey, multiple, initialValue, defaultSelectedKeys = [], filters = [], table, tree, onClose } = props;
+  const { uniqueKey, multiple, initialValue, defaultSelectedKeys = [], filters = [], table = {}, tree, onClose } = props;
   const { size } = React.useContext(ConfigContext)!;
   const $size = React.useMemo(() => props.size ?? size ?? '', [props.size, size]);
 
   const wrapperRef = React.useRef<HTMLDivElement>(null);
-  const currentPage = React.useRef<number>(1);
   const tableSize = useResizeObserve(wrapperRef);
 
   const createColumns = (): IColumn[] => {
@@ -117,7 +116,7 @@ const TreeTableHelper: React.FC<IProps> = (props) => {
           return <span>{text + 1}</span>;
         },
       },
-      ...(table?.columns ?? []),
+      ...(table.columns || []),
     ];
   };
 
@@ -128,7 +127,7 @@ const TreeTableHelper: React.FC<IProps> = (props) => {
   const [tableHeight, setTableHeight] = React.useState<number>(300);
   const [formItems, setFormItems] = React.useState<IFormItem[]>(filters);
   const [columns, setColumns] = React.useState<IColumn[]>(createColumns());
-  const [fetchParams, setFetchParams] = React.useState<IFetch['params']>(merge({}, table?.fetch?.params, initialValue));
+  const [fetchParams, setFetchParams] = React.useState<IFetch['params']>(merge({}, table.fetch?.params, initialValue));
   const [tableList, setTableList] = React.useState<IRecord[]>([]);
 
   const calcTableHeight = () => {
@@ -152,7 +151,7 @@ const TreeTableHelper: React.FC<IProps> = (props) => {
   };
 
   const getTableData = async () => {
-    if (!table?.webPagination || !table?.fetch?.api) return;
+    if (!table.webPagination || !table.fetch?.api) return;
     const { api: fetchApi, dataKey, beforeFetch = trueNoop } = table.fetch;
     if (!beforeFetch(fetchParams!)) return;
     // console.log(`ajax 请求参数：`, this.fetch.params);
@@ -240,10 +239,10 @@ const TreeTableHelper: React.FC<IProps> = (props) => {
 
   const prefixCls = getPrefixCls('tree-table');
 
-  const tableProps = !table?.webPagination
+  const tableProps = !table.webPagination
     ? {
         fetch: {
-          ...table?.fetch,
+          ...table.fetch,
           params: fetchParams,
         } as IFetch,
       }
@@ -302,7 +301,7 @@ const TreeTableHelper: React.FC<IProps> = (props) => {
             <QmTable
               height={tableHeight}
               columns={columns}
-              rowKey={table?.rowKey || 'pageIndex'}
+              rowKey={table.rowKey || 'pageIndex'}
               {...tableProps}
               rowSelection={{
                 type: !multiple ? 'radio' : 'checkbox',

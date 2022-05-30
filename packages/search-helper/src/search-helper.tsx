@@ -8,6 +8,7 @@ import React from 'react';
 import { get, merge } from 'lodash-es';
 import ConfigContext from '../../config-provider/context';
 import { t } from '../../locale';
+import { warn } from '../../_utils/error';
 import { debounce, trueNoop } from '../../_utils/util';
 import { getPrefixCls } from '../../_utils/prefix';
 import { SizeHeight } from '../../_utils/types';
@@ -15,10 +16,17 @@ import useResizeObserve from '../../hooks/useResizeObserve';
 import useUpdateEffect from '../../hooks/useUpdateEffect';
 
 import type { IFormItem, IFormData } from '../../form/src/types';
-import type { IFetch, IColumn, IRowKey, IRecord } from '../../table/src/table/types';
+import type { IFetch, IFetchFn, IColumn, IRowKey, IRecord } from '../../table/src/table/types';
 import type { ComponentSize } from '../../_utils/types';
 
 import { QmForm, QmTable, QmButton } from '../../index';
+
+type ITableConfig = {
+  fetch?: IFetch;
+  columns?: IColumn[];
+  rowKey?: ((row: IRecord, index: number) => IRowKey) | IRowKey;
+  webPagination?: boolean;
+};
 
 type IProps = {
   size?: ComponentSize;
@@ -27,27 +35,23 @@ type IProps = {
   defaultSelectedKeys?: IRowKey[];
   multiple?: boolean;
   filters?: IFormItem[];
-  table?: {
-    fetch?: IFetch;
-    columns?: IColumn[];
-    rowKey?: ((row: IRecord, index: number) => IRowKey) | IRowKey;
-    webPagination?: boolean;
-  };
+  table?: ITableConfig;
+  name?: string;
+  getServerConfig?: IFetchFn;
   onClose: (data: IRecord | null, keys?: IRowKey[]) => void;
 };
 
 export type QmSearchHelperProps = IProps;
 
 const SearchHelper: React.FC<IProps> = (props) => {
-  const { uniqueKey, multiple, initialValue, defaultSelectedKeys = [], filters = [], table, onClose } = props;
+  const { uniqueKey, multiple, initialValue, defaultSelectedKeys = [], filters = [], table = {}, name, getServerConfig, onClose } = props;
   const { size } = React.useContext(ConfigContext)!;
   const $size = React.useMemo(() => props.size ?? size ?? '', [props.size, size]);
 
   const wrapperRef = React.useRef<HTMLDivElement>(null);
-  const currentPage = React.useRef<number>(1);
   const tableSize = useResizeObserve(wrapperRef);
 
-  const createColumns = (): IColumn[] => {
+  const createColumns = (columns?: IColumn[]): IColumn[] => {
     return [
       {
         title: t('qm.searchHelper.orderIndex'),
@@ -57,17 +61,18 @@ const SearchHelper: React.FC<IProps> = (props) => {
           return <span>{text + 1}</span>;
         },
       },
-      ...(table?.columns ?? []),
+      ...(!columns ? table.columns || [] : columns),
     ];
   };
 
+  const [tableConf, setTableConf] = React.useState<ITableConfig>(table);
   const [record, setRecord] = React.useState<IRecord | IRecord[]>();
   const [rowKeys, setRowKeys] = React.useState<IRowKey[]>(defaultSelectedKeys);
   const [loading, setLoading] = React.useState<boolean>(false);
   const [tableHeight, setTableHeight] = React.useState<number>(300);
   const [formItems, setFormItems] = React.useState<IFormItem[]>(filters);
   const [columns, setColumns] = React.useState<IColumn[]>(createColumns());
-  const [fetchParams, setFetchParams] = React.useState<IFetch['params']>(merge({}, table?.fetch?.params, initialValue));
+  const [fetchParams, setFetchParams] = React.useState<IFetch['params']>(merge({}, table.fetch?.params, initialValue));
   const [tableList, setTableList] = React.useState<IRecord[]>([]);
 
   const calcTableHeight = () => {
@@ -82,15 +87,47 @@ const SearchHelper: React.FC<IProps> = (props) => {
     resizeObserveHandler();
   }, [tableSize.width]);
 
+  React.useEffect(() => {
+    getTableData();
+  }, [fetchParams]);
+
+  React.useEffect(() => {
+    getHelperConfig();
+  }, []);
+
   // ===========================================================
 
-  const filterChangeHandle = (val: IFormData) => {
-    setFetchParams(Object.assign({}, fetchParams, val));
+  const getHelperConfig = async () => {
+    if (!name) return;
+    if (!getServerConfig) {
+      return warn('searchHelper', '从服务端获取配置信息的时候，`getServerConfig` 为必选参数');
+    }
+    try {
+      const res = await getServerConfig({ sh_name: name, sh_type: 1 });
+      if (res.code === 200) {
+        const { filters = [], columns = [], rowKey, webPagination } = res.data || {};
+        // 设置 formItems、columns
+        setFormItems(filters);
+        setColumns(createColumns(columns));
+        setTableConf({
+          fetch: {
+            api: getServerConfig,
+            dataKey: 'records',
+          },
+          rowKey: rowKey || tableConf.rowKey,
+          webPagination: webPagination || tableConf.webPagination || false,
+        });
+        filterChangeHandle({ sh_type: 2 });
+      }
+    } catch (e) {
+      // ...
+    }
   };
 
   const getTableData = async () => {
-    if (!table?.webPagination || !table?.fetch?.api) return;
-    const { api: fetchApi, dataKey, beforeFetch = trueNoop } = table.fetch;
+    const { webPagination, fetch } = tableConf;
+    if (!webPagination || !fetch?.api) return;
+    const { api: fetchApi, dataKey, beforeFetch = trueNoop } = fetch;
     if (!beforeFetch(fetchParams!)) return;
     // console.log(`ajax 请求参数：`, this.fetch.params);
     setLoading(true);
@@ -113,16 +150,16 @@ const SearchHelper: React.FC<IProps> = (props) => {
     onClose(record);
   };
 
-  React.useEffect(() => {
-    getTableData();
-  }, [fetchParams]);
+  const filterChangeHandle = (val: IFormData) => {
+    setFetchParams(Object.assign({}, fetchParams, val));
+  };
 
   const prefixCls = getPrefixCls('search-helper');
 
-  const tableProps = !table?.webPagination
+  const tableProps = !tableConf.webPagination
     ? {
         fetch: {
-          ...table?.fetch,
+          ...tableConf.fetch,
           params: fetchParams,
         } as IFetch,
       }
@@ -150,7 +187,7 @@ const SearchHelper: React.FC<IProps> = (props) => {
         <QmTable
           height={tableHeight}
           columns={columns}
-          rowKey={table?.rowKey || 'pageIndex'}
+          rowKey={tableConf.rowKey || 'pageIndex'}
           {...tableProps}
           rowSelection={{
             type: !multiple ? 'radio' : 'checkbox',

@@ -7,7 +7,16 @@
 import React from 'react';
 import classNames from 'classnames';
 import { sleep } from '../packages/_utils/util';
-import { getTableData, getTableKeys, getSummationData, getSelectData, getTreeData, getRegionData, getTableAuth } from './api/test';
+import {
+  getTableData,
+  getTableKeys,
+  getSummationData,
+  getSelectData,
+  getTreeData,
+  getRegionData,
+  getTableAuth,
+  getSearchHelperConfig,
+} from './api/test';
 
 import { QmConfigProvider, QmTable, QmButton, QmForm, QmSplit, QmDrawer, QmPrint, Button, QmCopyToClipboard } from '../packages';
 import { PlusOutlined, FormOutlined } from '@ant-design/icons';
@@ -180,48 +189,54 @@ const App = () => {
         label: '条件2',
         fieldName: 'b',
         searchHelper: {
-          uniqueKey: 'SPA1001_SH_01',
-          filters: [
-            {
-              type: 'INPUT',
-              label: '条件1',
-              fieldName: 'a1',
-            },
-            {
-              type: 'INPUT',
-              label: '条件2',
-              fieldName: 'a2',
-            },
-            {
-              type: 'INPUT',
-              label: '条件3',
-              fieldName: 'a3',
-            },
-            {
-              type: 'INPUT',
-              label: '条件4',
-              fieldName: 'a4',
-            },
-          ],
-          table: {
-            columns: [
-              {
-                title: '创建时间',
-                dataIndex: 'date',
-              },
-              {
-                title: '姓名',
-                dataIndex: 'person.name',
-              },
-            ],
-            rowKey: (record) => record.id,
-            fetch: {
-              api: getTableData,
-              params: { currentPage: 1, pageSize: 500 },
-              dataKey: 'records',
-            },
-            webPagination: true,
-          },
+          name: 'sh-1001',
+          getServerConfig: getSearchHelperConfig,
+          // fetch: {
+          //   api: getTableData,
+          //   params: { currentPage: 1, pageSize: 500 },
+          //   dataKey: 'records',
+          // },
+          // filters: [
+          //   {
+          //     type: 'INPUT',
+          //     label: '条件1',
+          //     fieldName: 'a1',
+          //   },
+          //   {
+          //     type: 'INPUT',
+          //     label: '条件2',
+          //     fieldName: 'a2',
+          //   },
+          //   {
+          //     type: 'INPUT',
+          //     label: '条件3',
+          //     fieldName: 'a3',
+          //   },
+          //   {
+          //     type: 'INPUT',
+          //     label: '条件4',
+          //     fieldName: 'a4',
+          //   },
+          // ],
+          // table: {
+          //   columns: [
+          //     {
+          //       title: '创建时间',
+          //       dataIndex: 'date',
+          //     },
+          //     {
+          //       title: '姓名',
+          //       dataIndex: 'person.name',
+          //     },
+          //   ],
+          //   rowKey: (record) => record.id,
+          //   fetch: {
+          //     api: getTableData,
+          //     // params: { currentPage: 1, pageSize: 500 },
+          //     dataKey: 'records',
+          //   },
+          //   // webPagination: true,
+          // },
           filterAliasMap: () => {
             return ['a1'];
           },

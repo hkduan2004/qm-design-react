@@ -229,6 +229,8 @@ export type IFormItem = {
     tinymceHeight?: number | string;
   };
   searchHelper?: {
+    name?: string;
+    getServerConfig?: IFetchFn;
     filters?: IFormItem[];
     table?: {
       fetch?: IFetch;

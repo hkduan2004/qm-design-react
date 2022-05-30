@@ -19,3 +19,5 @@ export const getTreeData = (params) => axios.get(`/api/design/getTreeData`, { pa
 export const getRegionData = (params) => axios.get(`/api/design/getRegionData`, { params });
 
 export const getTableAuth = (params) => axios.get(`/api/design/getTableAuth`, { params });
+
+export const getSearchHelperConfig = (params) => axios.post(`/api/design/getSearchHelperConfig`, params);

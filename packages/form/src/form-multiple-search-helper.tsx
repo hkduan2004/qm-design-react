@@ -192,7 +192,7 @@ class VMultipleSearch extends Component<IMultipleSearchProps, IState> {
       visible,
       title: t('qm.searchHelper.text'),
       width: searchHelper.width ?? '60%',
-      loading: false,
+      loading: !searchHelper.name ? false : undefined,
       bodyStyle: { paddingBottom: `${SizeHeight[$$form.$size] + 20}px` },
       onClose: () => {
         this.setVisible(false);
