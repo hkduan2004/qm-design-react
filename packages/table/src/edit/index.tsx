@@ -120,7 +120,7 @@ const CellEdit: React.FC<ICellEditProps> = (props) => {
           value={prevValue}
           maxLength={extra.maxLength}
           showCount={extra.showCount}
-          placeholder={t('qm.table.editable.inputPlaceholder')}
+          placeholder={extra.placeholder || t('qm.table.editable.inputPlaceholder')}
           readOnly={extra.readOnly}
           disabled={extra.disabled}
           suffix={extra.suffix}
@@ -161,7 +161,7 @@ const CellEdit: React.FC<ICellEditProps> = (props) => {
           min={extra.min}
           max={extra.max}
           precision={precision}
-          placeholder={t('qm.table.editable.inputPlaceholder')}
+          placeholder={extra.placeholder || t('qm.table.editable.inputPlaceholder')}
           maxLength={extra.maxLength}
           readOnly={extra.readOnly}
           disabled={extra.disabled}
@@ -198,7 +198,7 @@ const CellEdit: React.FC<ICellEditProps> = (props) => {
           size={$size}
           dropdownClassName={`table-editable__popper`}
           value={prevValue || undefined}
-          placeholder={t('qm.table.editable.selectPlaceholder')}
+          placeholder={extra.placeholder || t('qm.table.editable.selectPlaceholder')}
           allowClear={extra.allowClear}
           maxTagCount={extra.collapseTags ? 'responsive' : undefined}
           disabled={extra.disabled}
@@ -516,7 +516,7 @@ const CellEdit: React.FC<ICellEditProps> = (props) => {
           <Search
             ref={searchHelpeRef}
             value={prevValue}
-            placeholder={t('qm.table.editable.selectPlaceholder')}
+            placeholder={extra.placeholder || t('qm.table.editable.selectPlaceholder')}
             allowClear={extra.allowClear}
             readOnly={extra.readOnly}
             disabled={extra.disabled}
@@ -656,7 +656,7 @@ const CellEdit: React.FC<ICellEditProps> = (props) => {
                 mode={'multiple'}
                 open={false}
                 value={prevValue}
-                placeholder={t('qm.table.editable.selectPlaceholder')}
+                placeholder={extra.placeholder || t('qm.table.editable.selectPlaceholder')}
                 allowClear={extra.allowClear}
                 maxTagCount={extra.collapseTags ? 'responsive' : undefined}
                 disabled={extra.disabled}
@@ -813,7 +813,7 @@ const CellEdit: React.FC<ICellEditProps> = (props) => {
             allowClear={extra.allowClear ?? true}
             readOnly={extra.readOnly}
             disabled={extra.disabled}
-            placeholder={t('qm.table.editable.selectPlaceholder')}
+            placeholder={extra.placeholder || t('qm.table.editable.selectPlaceholder')}
             onChange={(ev) => {
               const { value } = ev.target;
               if (value) return;
@@ -936,7 +936,7 @@ const CellEdit: React.FC<ICellEditProps> = (props) => {
                 mode={'multiple'}
                 open={false}
                 value={prevValue}
-                placeholder={t('qm.table.editable.selectPlaceholder')}
+                placeholder={extra.placeholder || t('qm.table.editable.selectPlaceholder')}
                 allowClear={extra.allowClear}
                 maxTagCount={extra.collapseTags ? 'responsive' : undefined}
                 disabled={extra.disabled}

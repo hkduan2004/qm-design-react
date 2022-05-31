@@ -156,6 +156,7 @@ export type IEditerReturn = {
     minDateTime?: string;
     maxDateTime?: string;
     suffix?: React.ReactNode;
+    placeholder?: string;
     readOnly?: boolean;
     disabled?: boolean;
     allowClear?: boolean;
