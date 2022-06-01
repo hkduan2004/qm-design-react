@@ -367,38 +367,38 @@ const App = () => {
         title: '个人信息',
         dataIndex: 'person',
         children: [
-          {
-            title: '姓名',
-            dataIndex: 'person.name',
-            width: 200,
-            required: true,
-            sorter: true,
-            filter: {
-              type: 'text',
-            },
-            editRender: (row) => {
-              const obj = {
-                type: 'tree-helper',
-                helper: {
-                  tree: {
-                    fetch: {
-                      api: getTreeData,
-                      params: {},
-                      dataKey: 'records',
-                      valueKey: 'value',
-                      textKey: 'text',
-                    },
-                    // asyncLoad: true,
-                  },
-                  fieldAliasMap: () => {
-                    return { 'person.name': 'text', 'person.age': 'value' };
-                  },
-                },
-                rules: [{ required: true, message: '姓名不能为空' }],
-              };
-              return obj;
-            },
-          },
+          // {
+          //   title: '姓名',
+          //   dataIndex: 'person.name',
+          //   width: 200,
+          //   required: true,
+          //   sorter: true,
+          //   filter: {
+          //     type: 'text',
+          //   },
+          //   editRender: (row) => {
+          //     const obj = {
+          //       type: 'tree-helper',
+          //       helper: {
+          //         tree: {
+          //           fetch: {
+          //             api: getTreeData,
+          //             params: {},
+          //             dataKey: 'records',
+          //             valueKey: 'value',
+          //             textKey: 'text',
+          //           },
+          //           // asyncLoad: true,
+          //         },
+          //         fieldAliasMap: () => {
+          //           return { 'person.name': 'text', 'person.age': 'value' };
+          //         },
+          //       },
+          //       rules: [{ required: true, message: '姓名不能为空' }],
+          //     };
+          //     return obj;
+          //   },
+          // },
           // {
           //   title: '姓名',
           //   dataIndex: 'person.nameids',
@@ -436,59 +436,59 @@ const App = () => {
           //     return obj;
           //   },
           // },
-          // {
-          //   title: '姓名',
-          //   dataIndex: 'person.nameids',
-          //   width: 200,
-          //   required: true,
-          //   sorter: true,
-          //   filter: {
-          //     type: 'text',
-          //   },
-          //   editRender: (row) => {
-          //     const obj = {
-          //       type: 'search-helper-multiple',
-          //       editable: true,
-          //       // extra: { collapseTags: true },
-          //       helper: {
-          //         filters: [
-          //           {
-          //             type: 'INPUT',
-          //             label: '条件1',
-          //             fieldName: 'a1',
-          //           },
-          //         ],
-          //         table: {
-          //           columns: [
-          //             {
-          //               title: '创建时间',
-          //               dataIndex: 'date',
-          //             },
-          //             {
-          //               title: '姓名',
-          //               dataIndex: 'person.name',
-          //             },
-          //           ],
-          //           rowKey: 'id',
-          //           fetch: {
-          //             api: getTableData,
-          //             params: {},
-          //             dataKey: 'records',
-          //           },
-          //         },
-          //         fieldAliasMap: () => {
-          //           return { textKey: 'date', valueKey: 'id' };
-          //         },
-          //       },
-          //       items: row.person.nameids.map((x, i) => ({ text: row.person.names[i], value: x })),
-          //       rules: [{ required: true, message: '姓名不能为空' }],
-          //       onChange: (a, b, c, d) => {
-          //         console.log(a, b, c, d);
-          //       },
-          //     };
-          //     return obj;
-          //   },
-          // },
+          {
+            title: '姓名',
+            dataIndex: 'person.nameids',
+            width: 200,
+            required: true,
+            sorter: true,
+            filter: {
+              type: 'text',
+            },
+            editRender: (row) => {
+              const obj = {
+                type: 'search-helper-multiple',
+                editable: true,
+                extra: { collapseTags: true },
+                helper: {
+                  filters: [
+                    {
+                      type: 'INPUT',
+                      label: '条件1',
+                      fieldName: 'a1',
+                    },
+                  ],
+                  table: {
+                    columns: [
+                      {
+                        title: '创建时间',
+                        dataIndex: 'date',
+                      },
+                      {
+                        title: '姓名',
+                        dataIndex: 'person.name',
+                      },
+                    ],
+                    rowKey: 'id',
+                    fetch: {
+                      api: getTableData,
+                      params: {},
+                      dataKey: 'records',
+                    },
+                  },
+                  fieldAliasMap: () => {
+                    return { textKey: 'date', valueKey: 'id' };
+                  },
+                },
+                items: row.person.nameids.map((x, i) => ({ text: row.person.names[i], value: x })),
+                rules: [{ required: true, message: '姓名不能为空' }],
+                onChange: (a, b, c, d) => {
+                  console.log(a, b, c, d);
+                },
+              };
+              return obj;
+            },
+          },
           {
             title: '性别',
             dataIndex: 'person.sex',
@@ -700,20 +700,24 @@ const App = () => {
           rowKey={'id'}
           columns={columns}
           dataSource={tableList}
-          webPagination
+          // webPagination
           // fetch={{
           //   api: getTableData,
           //   params: fetchParams,
           //   dataKey: 'records',
           // }}
           rowSelection={{
-            type: 'radio',
-            selectFirstRowOnChange: true,
+            type: 'checkbox',
+            // selectAllOnCurrentPage: true,
+            // selectFirstRowOnChange: true,
             // selectedRowKeys: [],
             // fetchAllRowKeys: {
             //   api: getTableKeys,
             //   dataKey: 'recordKeys',
             // },
+            disabled: (row) => {
+              return row.id === 3;
+            },
             onChange: (val, rows) => {
               console.log(123, val, rows);
             },

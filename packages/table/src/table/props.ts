@@ -203,6 +203,7 @@ export const propTypes = {
     selectByClickRow: PropTypes.bool, // 通过单击行选中，默认开启
     selectFirstRowOnChange: PropTypes.bool, // 分页、排序、筛选变化后是否选中首行
     clearableAfterFetched: PropTypes.bool, // 重新检索之后，是否清空已选择
+    selectAllOnCurrentPage: PropTypes.bool, // 是否当前页全选
     // 请求选中行数据并回显
     fetchSelectedRowKeys: PropTypes.shape({
       api: PropTypes.func.isRequired, // api 接口

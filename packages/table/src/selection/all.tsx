@@ -11,8 +11,8 @@ import { get } from '../../../_utils/util';
 import { t } from '../../../locale';
 import type { IRowKey } from '../table/types';
 
-import { Checkbox, Menu, Dropdown } from '../../../antd';
-import { DownOutlined } from '@ant-design/icons';
+import { Checkbox, Menu, Dropdown, Tooltip } from '../../../antd';
+import { DownOutlined, InfoCircleOutlined } from '@ant-design/icons';
 
 // intersection -> 交集(去重)
 // union -> 并集(去重)
@@ -24,30 +24,46 @@ type IAllSelectionProps = {
 
 const AllSelection: React.FC<IAllSelectionProps> = (props) => {
   const { selectionKeys } = props;
-  const { tableRef, tableProps, pagination, fetchParams, setSelectionKeys, setSpinning } = React.useContext(TableContext)!;
+  const { tableRef, tableProps, getRowKey, pagination, fetchParams, setSelectionKeys, setSpinning, isWebPagination } =
+    React.useContext(TableContext)!;
   const { rowSelection } = tableProps;
   const { fetchAllRowKeys, onSelectAll } = rowSelection!;
 
-  const isFilterable = React.useMemo(() => {
-    return rowSelection!.filterable ?? true;
+  // 创建内存分页的列表数据
+  const createCurrentPageList = () => {
+    const { tableFullData } = tableRef.current;
+    const { current, pageSize } = pagination;
+    return !isWebPagination ? tableFullData : tableFullData.slice((current - 1) * pageSize, current * pageSize);
+  };
+
+  const getAllRowKeys = () => {
+    const { allTableData, allRowKeys } = tableRef.current;
+    const { selectAllOnCurrentPage, disabled = (x) => false } = rowSelection!;
+    return !selectAllOnCurrentPage
+      ? allRowKeys.filter((_, index) => !disabled(allTableData[index]))
+      : createCurrentPageList()
+          .filter((x) => !disabled(x))
+          .map((x) => getRowKey(x, x.index));
+  };
+
+  const _allRowKeys: IRowKey[] = getAllRowKeys();
+
+  const isCurrentPage = React.useMemo(() => {
+    return rowSelection!.selectAllOnCurrentPage ?? false;
   }, [rowSelection]);
 
-  const filterAllRowKeys = React.useMemo(() => {
-    const { allTableData, allRowKeys } = tableRef.current;
-    const disabled = rowSelection!.disabled;
-    return allRowKeys.filter((_, index) => !disabled?.(allTableData[index]));
-  }, [tableRef.current.allRowKeys]);
+  const isFilterable = React.useMemo(() => {
+    return (rowSelection!.filterable ?? true) && !isCurrentPage;
+  }, [rowSelection, isCurrentPage]);
 
   const indeterminate = React.useMemo(() => {
     // 性能待优化
-    return selectionKeys.length > 0 && selectionKeys.length < (fetchAllRowKeys ? pagination.total : filterAllRowKeys.length);
-  }, [selectionKeys.length, filterAllRowKeys.length, pagination.total]);
+    return selectionKeys.length > 0 && selectionKeys.length < (fetchAllRowKeys ? pagination.total : _allRowKeys.length);
+  }, [selectionKeys.length, _allRowKeys.length, pagination.total]);
 
   const selectable = React.useMemo(() => {
     return !indeterminate && selectionKeys.length > 0;
   }, [indeterminate, selectionKeys.length]);
-
-  // ===========================================
 
   const getAllSelectionKeys = async () => {
     const fetch = fetchAllRowKeys!;
@@ -71,7 +87,7 @@ const AllSelection: React.FC<IAllSelectionProps> = (props) => {
       results = value ? await getAllSelectionKeys() : [];
     } else {
       // 性能待优化
-      results = value ? filterAllRowKeys.slice(0) : [];
+      results = value ? _allRowKeys.slice(0) : [];
     }
     setSelectionKeys(results);
     onSelectAll?.(value, results);
@@ -86,7 +102,7 @@ const AllSelection: React.FC<IAllSelectionProps> = (props) => {
     if (fetchAllRowKeys) {
       results = xor(selectionKeys, await getAllSelectionKeys());
     } else {
-      results = xor(selectionKeys, filterAllRowKeys);
+      results = xor(selectionKeys, _allRowKeys);
     }
     setSelectionKeys(results);
   };
@@ -121,13 +137,18 @@ const AllSelection: React.FC<IAllSelectionProps> = (props) => {
       <Checkbox
         checked={selectable}
         indeterminate={indeterminate}
-        disabled={!filterAllRowKeys.length}
+        disabled={!_allRowKeys.length}
         onChange={(ev) => changeHandle(ev.target.checked)}
       />
       {isFilterable && (
         <Dropdown overlay={renderContent()}>
           <DownOutlined className={`svgicon icon`} />
         </Dropdown>
+      )}
+      {isCurrentPage && (
+        <Tooltip placement="top" title={t('qm.table.selection.currentPage')}>
+          <InfoCircleOutlined className={`info`} />
+        </Tooltip>
       )}
     </div>
   );

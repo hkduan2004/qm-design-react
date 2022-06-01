@@ -141,6 +141,7 @@ export default {
         all: 'Select all',
         invert: 'Invert select',
         clear: 'Clear all',
+        currentPage: 'Select all on current page',
       },
       columnFilter: {
         text: 'Define',
