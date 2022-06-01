@@ -11,5 +11,10 @@
   text-align: right;
   .ant-pagination-options-size-changer.ant-select {
     width: auto;
+    &.ant-select-status-error {
+      .ant-select-selector {
+        border-color: @--border-color-base !important;
+      }
+    }
   }
 }
