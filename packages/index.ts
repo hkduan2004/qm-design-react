@@ -17,6 +17,9 @@ export { default as QmSpace } from './space';
 export type { QmDividerProps } from './divider';
 export { default as QmDivider } from './divider';
 
+export type { QmCollapseProps } from './collapse';
+export { default as QmCollapse } from './collapse';
+
 export type { QmSplitProps, QmSplitPaneProps } from './split';
 export { default as QmSplit } from './split';
 

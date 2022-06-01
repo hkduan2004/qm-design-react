@@ -1,0 +1,24 @@
+/*
+ * @Author: 焦质晔
+ * @Date: 2021-07-23 19:05:57
+ * @Last Modified by: 焦质晔
+ * @Last Modified time: 2022-06-01 20:04:55
+ */
+@import '../../style/common';
+@import '../src/_util/motion.less';
+
+@prefix-collapse: ~'@{qm-prefix}-collapse';
+
+.@{prefix-collapse} {
+  &-content {
+    padding: 0 2px;
+    overflow: hidden;
+    background-color: #fff;
+    & > &-box {
+      margin-top: 8px;
+    }
+    &-hidden {
+      display: none;
+    }
+  }
+}

@@ -2,7 +2,7 @@
  * @Author: 焦质晔
  * @Date: 2021-07-23 13:39:52
  * @Last Modified by: 焦质晔
- * @Last Modified time: 2022-04-28 14:05:04
+ * @Last Modified time: 2022-06-01 20:19:52
  */
 import React from 'react';
 import classNames from 'classnames';
@@ -18,7 +18,7 @@ import {
   getSearchHelperConfig,
 } from './api/test';
 
-import { QmConfigProvider, QmTable, QmButton, QmForm, QmSplit, QmDrawer, QmPrint, Button, QmCopyToClipboard } from '../packages';
+import { QmConfigProvider, QmTable, QmButton, QmForm, QmSplit, QmDrawer, QmPrint, Button, QmCopyToClipboard, QmCollapse } from '../packages';
 import { PlusOutlined, FormOutlined } from '@ant-design/icons';
 
 import tableData from '@/mock/tableData';
@@ -692,11 +692,15 @@ const App = () => {
           }}
           onCollapse={() => tableRef.current.CALCULATE_HEIGHT()}
         />
+        {/* <QmCollapse label="标题标题" containerStyle={{ paddingTop: 30 }}>
+          <div>111</div>
+          <div>222</div>
+        </QmCollapse> */}
         <QmTable
           ref={tableRef}
           authCode={'spa1001.table.t01'}
           uniqueKey="demo"
-          height={'auto'}
+          height={400}
           rowKey={'id'}
           columns={columns}
           dataSource={tableList}

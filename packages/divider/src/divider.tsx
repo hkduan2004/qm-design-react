@@ -2,7 +2,7 @@
  * @Author: 焦质晔
  * @Date: 2021-07-23 14:05:48
  * @Last Modified by: 焦质晔
- * @Last Modified time: 2022-03-13 23:28:36
+ * @Last Modified time: 2022-06-01 20:18:47
  */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
@@ -23,9 +23,10 @@ type IProps = {
   size?: ComponentSize;
   extra?: JSXElement | string;
   collapse?: boolean;
+  disabled?: boolean;
+  id?: string;
   className?: string;
   style?: CSSProperties;
-  id?: string;
   onCollapseChange?: (collapse: boolean) => void;
 };
 
@@ -51,7 +52,7 @@ class QmDivider extends Component<IProps> {
   };
 
   render(): React.ReactElement {
-    const { size, label, extra, collapse, className, style, id } = this.props;
+    const { size, label, extra, collapse, disabled, className, style, id } = this.props;
     const $size = size || this.context.size || '';
 
     const prefixCls = getPrefixCls('divider');
@@ -67,7 +68,7 @@ class QmDivider extends Component<IProps> {
         <span className={classNames(`${prefixCls}__title`)}>{label}</span>
         <div className={classNames(`${prefixCls}__extra`)}>{extra}</div>
         {!isUndefined(collapse) && (
-          <Button type="link" className={classNames(`${prefixCls}__collapse`)} onClick={this.clickHandle}>
+          <Button type="link" className={classNames(`${prefixCls}__collapse`)} disabled={disabled} onClick={this.clickHandle}>
             {collapse ? t('qm.divider.collect') : t('qm.divider.spread')}
             {collapse ? <UpOutlined /> : <DownOutlined />}
           </Button>
