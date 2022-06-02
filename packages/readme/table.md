@@ -212,6 +212,7 @@
 | minDateTime  | 最小日期，小于该时间的日期段将被禁用 | string           | -      |
 | maxDateTime  | 最大日期，大于该时间的日期段将被禁用 | string           | -      |
 | suffix       | 带有后缀图标的 input                 | ReactNode        | -      |
+| placeholder  | 表单元素的 placeholder 原生属性      | string           | -      |
 | disabled     | 表单禁用状态                         | boolean          | -      |
 | allowClear   | 是否显示清除按钮                     | boolean          | true   |
 | collapseTags | 是否折叠 tag 标签                    | boolean          | -      |
