@@ -35,6 +35,7 @@ type IExtra = {
   setSelectionKeys: (rowKeys: IRowKey[]) => void;
   setRowExpandedKeys: (rowKeys: IRowKey[]) => void;
   setHighlightKey: (rowKey: IRowKey) => void;
+  setSelectionRows: (records: IRecord[]) => void;
   getTableLog: () => {
     required: IValidItem[];
     validate: IValidItem[];
@@ -73,6 +74,7 @@ const useImperativeMethod = <T extends React.ForwardedRef<TableRef>>(ref: T, ext
     setSelectionKeys,
     setRowExpandedKeys,
     setHighlightKey,
+    setSelectionRows,
     forceUpdate,
     getTableLog,
     clearRowSelection,
@@ -162,6 +164,10 @@ const useImperativeMethod = <T extends React.ForwardedRef<TableRef>>(ref: T, ext
       // 设置展开行
       SET_EXPANDABLE(rowKeys: IRowKey[]) {
         setRowExpandedKeys(rowKeys);
+      },
+      // 设置选中的行记录
+      SET_SELECTION_ROWS(records: IRecord[]) {
+        setSelectionRows(records);
       },
       // 表格数据插入
       INSERT_RECORDS: <T extends IRecord>(records: T | T[]) => {

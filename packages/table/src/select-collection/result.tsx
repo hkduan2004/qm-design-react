@@ -45,7 +45,7 @@ const Result: React.FC<IResultProps> = (props) => {
     return [
       {
         title: t('qm.table.groupSummary.index'),
-        dataIndex: 'pageIndex',
+        dataIndex: 'index',
         width: 80,
         render: (text: number) => {
           return text + 1;

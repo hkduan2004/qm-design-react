@@ -205,6 +205,7 @@ class VMultipleTreeHelper extends Component<IMultipleTreeHelperProps, IState> {
       multiple: true,
       initialValue: merge({}, searchHelper.initialValue),
       defaultSelectedKeys: value,
+      selectionRows: this._records,
       onClose: (data, keys) => {
         if (data) {
           this.closeSearchHelper(data, keys);

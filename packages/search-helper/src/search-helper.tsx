@@ -16,7 +16,7 @@ import useResizeObserve from '../../hooks/useResizeObserve';
 import useUpdateEffect from '../../hooks/useUpdateEffect';
 
 import type { IFormItem, IFormData } from '../../form/src/types';
-import type { IFetch, IFetchFn, IColumn, IRowKey, IRecord } from '../../table/src/table/types';
+import type { TableRef, IFetch, IFetchFn, IColumn, IRowKey, IRecord } from '../../table/src/table/types';
 import type { ComponentSize } from '../../_utils/types';
 
 import { QmForm, QmTable, QmButton } from '../../index';
@@ -33,6 +33,7 @@ type IProps = {
   uniqueKey?: string;
   initialValue?: IFormData;
   defaultSelectedKeys?: IRowKey[];
+  selectionRows?: IRecord[];
   multiple?: boolean;
   filters?: IFormItem[];
   table?: ITableConfig;
@@ -44,11 +45,23 @@ type IProps = {
 export type QmSearchHelperProps = IProps;
 
 const SearchHelper: React.FC<IProps> = (props) => {
-  const { uniqueKey, multiple, initialValue, defaultSelectedKeys = [], filters = [], table = {}, name, getServerConfig, onClose } = props;
+  const {
+    uniqueKey,
+    multiple,
+    initialValue,
+    selectionRows,
+    defaultSelectedKeys = [],
+    filters = [],
+    table = {},
+    name,
+    getServerConfig,
+    onClose,
+  } = props;
   const { size } = React.useContext(ConfigContext)!;
   const $size = React.useMemo(() => props.size ?? size ?? '', [props.size, size]);
 
   const wrapperRef = React.useRef<HTMLDivElement>(null);
+  const tableRef = React.useRef<TableRef>(null);
   const tableSize = useResizeObserve(wrapperRef);
 
   const createColumns = (columns?: IColumn[]): IColumn[] => {
@@ -90,6 +103,10 @@ const SearchHelper: React.FC<IProps> = (props) => {
   React.useEffect(() => {
     getTableData();
   }, [fetchParams]);
+
+  React.useEffect(() => {
+    selectionRows && tableRef.current!.SET_SELECTION_ROWS(selectionRows);
+  }, [selectionRows]);
 
   React.useEffect(() => {
     getHelperConfig();
@@ -185,6 +202,7 @@ const SearchHelper: React.FC<IProps> = (props) => {
       </div>
       <div>
         <QmTable
+          ref={tableRef}
           height={tableHeight}
           columns={columns}
           rowKey={tableConf.rowKey || 'pageIndex'}

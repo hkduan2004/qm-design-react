@@ -205,7 +205,7 @@ export const propTypes = {
     clearableAfterFetched: PropTypes.bool, // 重新检索之后，是否清空已选择
     selectAllOnCurrentPage: PropTypes.bool, // 是否当前页全选
     // 请求选中行数据并回显
-    fetchSelectedRowKeys: PropTypes.shape({
+    fetchSelectedRows: PropTypes.shape({
       api: PropTypes.func.isRequired, // api 接口
       params: PropTypes.object, // 接口参数
       dataKey: PropTypes.string, // 数据路径

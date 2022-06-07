@@ -209,7 +209,7 @@ export type IRowSelection = {
   selectFirstRowOnChange?: boolean;
   clearableAfterFetched?: boolean;
   selectAllOnCurrentPage?: boolean;
-  fetchSelectedRowKeys?: {
+  fetchSelectedRows?: {
     api: IFetchFn;
     params?: IFetchParams;
     dataKey?: string;
@@ -436,6 +436,8 @@ export type TableRef = {
   FORCE_UPDATE: () => void;
   SCROLL_TO_RECORD: (rowKey: IRowKey) => void;
   SCROLL_TO_COLUMN: (dataIndex: string) => void;
+  SET_SELECTION: (rowKeys: IRowKey[]) => void;
+  SET_SELECTION_ROWS: (records: IRecord[]) => void;
   INSERT_RECORDS: <T extends IRecord>(records: T | T[]) => void;
   REMOVE_RECORDS: <T extends IRecord | IRowKey>(records: T | T[]) => void;
   VALIDATE_FIELDS: () => {

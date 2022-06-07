@@ -14,7 +14,7 @@ import Result from './result';
 import { QmModal } from '../../../index';
 import { CheckSquareOutlined } from '@ant-design/icons';
 
-import type { IColumn, IRowKey } from '../table/types';
+import type { IColumn, IRecord } from '../table/types';
 
 type ISelectCollectionProps = {
   columns: IColumn[];
@@ -22,7 +22,7 @@ type ISelectCollectionProps = {
 
 const SelectCollection: React.FC<ISelectCollectionProps> = (props) => {
   const { columns } = props;
-  const { tableProps, isFetch, setSelectionKeys } = React.useContext(TableContext)!;
+  const { tableProps, getRowKey, isFetch, setSelectionKeys, setSelectionRows } = React.useContext(TableContext)!;
   const { rowSelection } = tableProps;
 
   const [visible, setVisible] = React.useState<boolean>(false);
@@ -32,13 +32,15 @@ const SelectCollection: React.FC<ISelectCollectionProps> = (props) => {
   }, []);
 
   const getSelectionRows = async () => {
-    const { fetchSelectedRowKeys: fetch, disabled } = rowSelection!;
+    const { fetchSelectedRows: fetch, disabled = (x) => false } = rowSelection!;
     if (!(isFetch && fetch)) return;
     try {
       const res = await fetch.api(fetch.params);
       if (res.code === 200) {
-        const results: IRowKey[] = Array.isArray(res.data) ? res.data : get(res.data, fetch.dataKey!) ?? [];
-        setSelectionKeys(results);
+        let results: IRecord[] = Array.isArray(res.data) ? res.data : get(res.data, fetch.dataKey!) ?? [];
+        results = results.filter((x) => !disabled(x));
+        setSelectionRows(results);
+        setSelectionKeys(results.map((row, index) => getRowKey(row, index)));
       }
     } catch (err) {
       // ...

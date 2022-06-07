@@ -70,6 +70,7 @@ export type ITableContext = {
   setSelectionKeys: (rowKeys: IRowKey[]) => void;
   setHighlightKey: (rowKey: IRowKey) => void;
   setRowExpandedKeys: (rowKeys: IRowKey[]) => void;
+  setSelectionRows: (records: IRecord[]) => void;
   getSpan: (row: IRecord, column: IColumn, rowIndex: number, columnIndex: number, tableData: IRecord[]) => IRowColSpan;
   getStickyLeft: (rowKey: IRowKey) => number;
   getStickyRight: (rowKey: IRowKey) => number;

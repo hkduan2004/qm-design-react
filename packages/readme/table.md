@@ -308,7 +308,7 @@
 | selectByClickRow       | 通过单击行选中表格列                                                     | boolean                                      | true   |
 | selectAllOnCurrentPage | 是否当前页全选                                                           | boolean                                      | -      |
 | clearableAfterFetched  | 重新检索之后，是否清空已选择列                                           | boolean                                      | -      |
-| fetchSelectedRowKeys   | 从服务端获取要回显的数据 rowKey 列表，[配置项](#fetch)                   | -                                            | -      |
+| fetchSelectedRows      | 从服务端获取要回显的数据列表，[配置项](#fetch)                           | -                                            | -      |
 | fetchAllRowKeys        | 从服务端获取所有行数据 rowKey 的列表，在点击全选时回显，[配置项](#fetch) | -                                            | -      |
 | disabled               | 是否允许行选择                                                           | function(row): boolean                       | -      |
 | onChange               | 选中项发生变化时触发                                                     | function(selectionKeys, selectionRows)       | -      |
