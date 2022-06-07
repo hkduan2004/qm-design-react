@@ -30,6 +30,8 @@ export type IFormType = 'default' | 'search' | 'onlyShow';
 
 export type IValidateTrigger = 'onChange' | 'onBlur';
 
+export type ICheckStrategy = 'SHOW_ALL' | 'SHOW_PARENT' | 'SHOW_CHILD';
+
 export type IFormItemType =
   | 'DIVIDER'
   | 'INPUT'
@@ -210,6 +212,8 @@ export type IFormItem = {
     collapseTags?: boolean;
     maxTagTextLength?: number;
     openPyt?: boolean;
+    // tree-select
+    checkStrategy?: ICheckStrategy;
     // immediate
     hideHeader?: boolean;
     onlySelect?: boolean;

@@ -120,7 +120,7 @@ class FormTreeSelect extends Component<IProps, IState> {
       disabled,
       onChange = noop,
     } = this.props.option;
-    const { itemList = [], filterable = true, collapseTags, openPyt = true } = options;
+    const { itemList = [], filterable = true, checkStrategy = 'SHOW_CHILD', collapseTags, openPyt = true } = options;
     const items = isEmpty(itemList) ? this.state.results : (itemList as IDict[]);
     return (
       <Form.Item
@@ -143,6 +143,8 @@ class FormTreeSelect extends Component<IProps, IState> {
             >
               <TreeSelect
                 multiple={multiple}
+                treeCheckable={multiple}
+                showCheckedStrategy={TreeSelect[checkStrategy]}
                 placeholder={placeholder}
                 style={style}
                 loading={loading}

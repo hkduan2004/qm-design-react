@@ -143,52 +143,53 @@
 
 ### options
 
-| 参数             | 说明                                               | 表单类型                             | 类型                            | 默认值               |
-| ---------------- | -------------------------------------------------- | ------------------------------------ | ------------------------------- | -------------------- |
-| itemList         | 下拉框的列表数据，[配置项](#dict)                  | SELECT \| MULTIPLE_CHECKBOX \| RADIO | array                           | -                    |
-| prefix           | 带有前缀图标                                       | INPUT                                | ReactNode                       | -                    |
-| suffix           | 带有后缀图标                                       | INPUT                                | ReactNode                       | -                    |
-| maxLength        | 内容最大长度                                       | INPUT                                | number                          | -                    |
-| password         | 是否为密码类型                                     | INPUT                                | boolean                         | -                    |
-| toUpper          | 输入框文本自动转大写                               | INPUT                                | boolean                         | -                    |
-| secretType       | 值保密类型，[配置项](#secret_type)                 | INPUT                                | string                          | -                    |
-| step             | 每次改变步数                                       | INPUT_NUMBER                         | number                          | 1                    |
-| min              | 最小值                                             | INPUT_NUMBER                         | number                          | 0                    |
-| max              | 最大值                                             | INPUT_NUMBER                         | number                          | -                    |
-| controls         | 是否显示增减按钮                                   | INPUT_NUMBER                         | boolean                         | true                 |
-| precision        | 数值精度                                           | INPUT_NUMBER                         | number                          | -                    |
-| formatter        | 格式输入框展示值的格式                             | INPUT_NUMBER                         | function(value: number): string | -                    |
-| parser           | 转换回数字的方式，和 formatter 搭配使用            | INPUT_NUMBER                         | (value: string) => string       | -                    |
-| falseValue       | 非选中的值                                         | CHECKBOX \| SWITCH                   | string \| number                | '0'                  |
-| trueValue        | 选中的值                                           | CHECKBOX \| SWITCH                   | string \| number                | '1'                  |
-| showCount        | 是否展示字数                                       | TEXT_AREA                            | boolean                         | -                    |
-| autoSize         | 自适应内容高度，可设置为 boolean 或对象            | TEXT_AREA                            | boolean \| object               | -                    |
-| dateType         | 日期控件的类型，[配置项](#date_type)               | DATE \| TIME                         | string                          | 'date'               |
-| minDateTime      | 最小日期，小于该时间的日期段将被禁用               | DATE \| TIME                         | string                          | -                    |
-| maxDateTime      | 最大日期，大于该时间的日期段将被禁用               | DATE \| TIME                         | string                          | -                    |
-| shortCuts        | 时间控件快捷选择功能                               | DATE \| RANGE_DATE                   | boolean                         | true                 |
-| disableds        | 日期类型控件的禁用                                 | RANGE_DATE \| RANGE_TIME             | [boolean, boolean]              | -                    |
-| timeType         | 时间格式，[配置项](#time_type)                     | TIME                                 | string                          | 'hour-minute-second' |
-| hourStep         | 小时选项间隔                                       | TIME                                 | number                          | 1                    |
-| minuteStep       | 分钟选项间隔                                       | TIME                                 | number                          | 1                    |
-| secondStep       | 秒选项间隔                                         | TIME                                 | number                          | 1                    |
-| filterable       | 是否开启自动检索功能                               | SELECT                               | boolean                         | true                 |
-| collapseTags     | 是否折叠 tag 标签                                  | SELECT                               | boolean                         | -                    |
-| maxTagTextLength | 最大显示的 tag 文本长度                            | SELECT                               | number                          | -                    |
-| openPyt          | 是否开启拼音头检索                                 | SELECT                               | boolean                         | true                 |
-| hideHeader       | 是否隐藏表头                                       | IMMEDIATE                            | boolean                         | -                    |
-| onlySelect       | 是否只能选择                                       | IMMEDIATE                            | boolean                         | -                    |
-| columns          | 及时反馈下拉列表的配置，[配置项](#columns)         | IMMEDIATE                            | array                           | -                    |
-| fieldAliasMap    | 同 searchHelper                                    | IMMEDIATE                            | function(): object \| object    | -                    |
-| extraAliasMap    | 同 searchHelper                                    | IMMEDIATE                            | function(): object \| object    | -                    |
-| multiple         | 多文件上传                                         | UPLOAD_FILE \| UPLOAD_IMG            | boolean                         | true                 |
-| maxCount         | 最大上传数量                                       | UPLOAD_FILE \| UPLOAD_IMG            | number                          | -                    |
-| fileSize         | 限制上传附件的大小，不指定，图片类型不开启裁剪功能 | UPLOAD_FILE \| UPLOAD_IMG            | number                          | -                    |
-| fileTypes        | 限制上传附件的类型                                 | UPLOAD_FILE \| UPLOAD_IMG            | string[]                        | -                    |
-| onRemove         | 附件被移除事件                                     | UPLOAD_FILE \| UPLOAD_IMG            | function(file)                  | -                    |
-| fixedSize        | 裁剪框的宽高比，空数组则不约束裁剪框的宽高比       | UPLOAD_IMG                           | array                           | [1.5, 1]             |
-| quality          | 裁剪图片的压缩比例                                 | UPLOAD_IMG                           | 0 - 1                           | 1                    |
-| tinymceHeight    | 富文本编辑器高度                                   | TINYMCE                              | number \| string                | -                    |
+| 参数             | 说明                                               | 表单类型                             | 类型                                  | 默认值               |
+| ---------------- | -------------------------------------------------- | ------------------------------------ | ------------------------------------- | -------------------- |
+| itemList         | 下拉框的列表数据，[配置项](#dict)                  | SELECT \| MULTIPLE_CHECKBOX \| RADIO | array                                 | -                    |
+| prefix           | 带有前缀图标                                       | INPUT                                | ReactNode                             | -                    |
+| suffix           | 带有后缀图标                                       | INPUT                                | ReactNode                             | -                    |
+| maxLength        | 内容最大长度                                       | INPUT                                | number                                | -                    |
+| password         | 是否为密码类型                                     | INPUT                                | boolean                               | -                    |
+| toUpper          | 输入框文本自动转大写                               | INPUT                                | boolean                               | -                    |
+| secretType       | 值保密类型，[配置项](#secret_type)                 | INPUT                                | string                                | -                    |
+| step             | 每次改变步数                                       | INPUT_NUMBER                         | number                                | 1                    |
+| min              | 最小值                                             | INPUT_NUMBER                         | number                                | 0                    |
+| max              | 最大值                                             | INPUT_NUMBER                         | number                                | -                    |
+| controls         | 是否显示增减按钮                                   | INPUT_NUMBER                         | boolean                               | true                 |
+| precision        | 数值精度                                           | INPUT_NUMBER                         | number                                | -                    |
+| formatter        | 格式输入框展示值的格式                             | INPUT_NUMBER                         | function(value: number): string       | -                    |
+| parser           | 转换回数字的方式，和 formatter 搭配使用            | INPUT_NUMBER                         | (value: string) => string             | -                    |
+| falseValue       | 非选中的值                                         | CHECKBOX \| SWITCH                   | string \| number                      | '0'                  |
+| trueValue        | 选中的值                                           | CHECKBOX \| SWITCH                   | string \| number                      | '1'                  |
+| showCount        | 是否展示字数                                       | TEXT_AREA                            | boolean                               | -                    |
+| autoSize         | 自适应内容高度，可设置为 boolean 或对象            | TEXT_AREA                            | boolean \| object                     | -                    |
+| dateType         | 日期控件的类型，[配置项](#date_type)               | DATE \| TIME                         | string                                | 'date'               |
+| minDateTime      | 最小日期，小于该时间的日期段将被禁用               | DATE \| TIME                         | string                                | -                    |
+| maxDateTime      | 最大日期，大于该时间的日期段将被禁用               | DATE \| TIME                         | string                                | -                    |
+| shortCuts        | 时间控件快捷选择功能                               | DATE \| RANGE_DATE                   | boolean                               | true                 |
+| disableds        | 日期类型控件的禁用                                 | RANGE_DATE \| RANGE_TIME             | [boolean, boolean]                    | -                    |
+| timeType         | 时间格式，[配置项](#time_type)                     | TIME                                 | string                                | 'hour-minute-second' |
+| hourStep         | 小时选项间隔                                       | TIME                                 | number                                | 1                    |
+| minuteStep       | 分钟选项间隔                                       | TIME                                 | number                                | 1                    |
+| secondStep       | 秒选项间隔                                         | TIME                                 | number                                | 1                    |
+| filterable       | 是否开启自动检索功能                               | SELECT                               | boolean                               | true                 |
+| collapseTags     | 是否折叠 tag 标签                                  | SELECT                               | boolean                               | -                    |
+| maxTagTextLength | 最大显示的 tag 文本长度                            | SELECT                               | number                                | -                    |
+| checkStrategy    | 定义返回数据的策略                                 | MULTIPLE_TREE_SELECT                 | SHOW_ALL \| SHOW_PARENT \| SHOW_CHILD | SHOW_CHILD           |
+| openPyt          | 是否开启拼音头检索                                 | SELECT                               | boolean                               | true                 |
+| hideHeader       | 是否隐藏表头                                       | IMMEDIATE                            | boolean                               | -                    |
+| onlySelect       | 是否只能选择                                       | IMMEDIATE                            | boolean                               | -                    |
+| columns          | 及时反馈下拉列表的配置，[配置项](#columns)         | IMMEDIATE                            | array                                 | -                    |
+| fieldAliasMap    | 同 searchHelper                                    | IMMEDIATE                            | function(): object \| object          | -                    |
+| extraAliasMap    | 同 searchHelper                                    | IMMEDIATE                            | function(): object \| object          | -                    |
+| multiple         | 多文件上传                                         | UPLOAD_FILE \| UPLOAD_IMG            | boolean                               | true                 |
+| maxCount         | 最大上传数量                                       | UPLOAD_FILE \| UPLOAD_IMG            | number                                | -                    |
+| fileSize         | 限制上传附件的大小，不指定，图片类型不开启裁剪功能 | UPLOAD_FILE \| UPLOAD_IMG            | number                                | -                    |
+| fileTypes        | 限制上传附件的类型                                 | UPLOAD_FILE \| UPLOAD_IMG            | string[]                              | -                    |
+| onRemove         | 附件被移除事件                                     | UPLOAD_FILE \| UPLOAD_IMG            | function(file)                        | -                    |
+| fixedSize        | 裁剪框的宽高比，空数组则不约束裁剪框的宽高比       | UPLOAD_IMG                           | array                                 | [1.5, 1]             |
+| quality          | 裁剪图片的压缩比例                                 | UPLOAD_IMG                           | 0 - 1                                 | 1                    |
+| tinymceHeight    | 富文本编辑器高度                                   | TINYMCE                              | number \| string                      | -                    |
 
 ### date_type
 
