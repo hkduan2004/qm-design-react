@@ -5,6 +5,7 @@
  * @Last Modified time: 2022-05-25 12:18:05
  */
 import React, { Component } from 'react';
+import { isEqual } from 'lodash-es';
 import classNames from 'classnames';
 import FormContext from './context';
 import ConfigContext from '../../config-provider/context';
@@ -51,6 +52,14 @@ class VSearch extends Component<ISerachProps, IState> {
     loading: false,
     activeIndex: 0,
   };
+
+  componentDidUpdate(prevProps: IProps) {
+    const prevParams = prevProps.option.request?.params;
+    const params = this.props.option.request?.params;
+    if (!isEqual(prevParams, params)) {
+      this.getItemList();
+    }
+  }
 
   async getItemList(input?: string) {
     const { fieldName, request = {} } = this.props.option;
