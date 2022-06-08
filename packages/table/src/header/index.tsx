@@ -76,7 +76,7 @@ const TableHeader: React.FC<IHeaderProps> = (props) => {
   }, [expandable]);
 
   const showSelectAll = React.useMemo(() => {
-    return isFetch ? !!rowSelection?.fetchAllRowKeys : !rowSelection?.hideSelectAll;
+    return isFetch ? !!(rowSelection?.selectAllOnCurrentPage || rowSelection?.fetchAllRowKeys) : !rowSelection?.hideSelectAll;
   }, [isFetch, rowSelection]);
 
   useUpdateEffect(() => {
