@@ -15,7 +15,7 @@ import { SizeHeight } from '../../_utils/types';
 import useResizeObserve from '../../hooks/useResizeObserve';
 import useUpdateEffect from '../../hooks/useUpdateEffect';
 
-import type { IFetch, IRecord } from '../../table/src/table/types';
+import type { IFetch, IRecord, ICheckStrategy } from '../../table/src/table/types';
 import type { ComponentSize } from '../../_utils/types';
 
 import { QmButton, QmSpin, Tree, Input } from '../../index';
@@ -23,10 +23,11 @@ import { QmButton, QmSpin, Tree, Input } from '../../index';
 type IProps = {
   size?: ComponentSize;
   multiple?: boolean;
-  defaultSelectedKeys?: Array<string | number>;
+  defaultSelectedKeys?: string[];
   tree?: {
     fetch?: IFetch & { valueKey?: string; textKey?: string };
     asyncLoad?: boolean; // 按需加载
+    checkStrategy?: ICheckStrategy;
     defaultExpandAll?: boolean;
   };
   onClose: (data: IRecord | null) => void;
@@ -100,6 +101,19 @@ const updateTreeData = (list: IRecord[], key: React.Key, valueKey: string, child
     return node;
   });
 };
+const getParentKeys = (tree: IRecord[], value: string, valueKey: string) => {
+  for (let i = 0; i < tree.length; i++) {
+    if (tree[i][valueKey] === value) {
+      return [value];
+    }
+    if (Array.isArray(tree[i].children)) {
+      const temp = getParentKeys(tree[i].children, value, valueKey);
+      if (temp) {
+        return [tree[i][valueKey], temp].flat();
+      }
+    }
+  }
+};
 // ===========================
 
 const TreeHelper: React.FC<IProps> = (props) => {
@@ -129,16 +143,30 @@ const TreeHelper: React.FC<IProps> = (props) => {
   // ===========================================================
 
   const [treeData, setTreeData] = React.useState<IRecord[]>([]);
-  const [selectedKeys, setSelectedKeys] = React.useState<Array<string | number>>([]);
+  const [selectedKeys, setSelectedKeys] = React.useState<string[]>([]);
   const [expandedKeys, setExpandedKeys] = React.useState<string[]>([]);
   const [inputValue, setInputValue] = React.useState<string>('');
+  const [isLoaded, setLoaded] = React.useState<boolean>(false);
   const treeDataOrigin = React.useRef<IRecord[]>(treeData);
   const responseList = React.useRef<IRecord[]>([]);
+  const allParentKeys = React.useRef<string[]>([]);
 
   const createTreeData = (treeData: IRecord[], dataList: IRecord[]) => {
     setTreeData(treeData);
     treeDataOrigin.current = treeData;
     responseList.current = dataList;
+    allParentKeys.current = getAllParentKey(treeData);
+  };
+
+  const createDefaultKeys = (treeData: IRecord[]): string[] => {
+    if (multiple) {
+      return defaultSelectedKeys;
+    }
+    const rows = deepFind(treeData, (node) => defaultSelectedKeys.includes(node[`text`]));
+    if (rows.length === 1) {
+      return [rows[0][`value`]];
+    }
+    return [];
   };
 
   const getTreeData = async () => {
@@ -151,7 +179,8 @@ const TreeHelper: React.FC<IProps> = (props) => {
         const dataList = Array.isArray(res.data) ? res.data : get(res.data, dataKey!) ?? [];
         const results = deepMapList(dataList, valueKey, textKey);
         createTreeData(results, dataList);
-        setSelectedKeys(defaultSelectedKeys);
+        setSelectedKeys(createDefaultKeys(results));
+        setLoaded(true);
       }
     } catch (err) {
       // ...
@@ -174,9 +203,30 @@ const TreeHelper: React.FC<IProps> = (props) => {
     }
   };
 
+  const createParentKeys = (key: string): string[] => {
+    return getParentKeys(treeData, key, 'value')?.slice(0, -1) || [];
+  };
+
   useUpdateEffect(() => {
-    setExpandedKeys(getAllParentKey(treeData));
-  }, [treeData]);
+    const { defaultExpandAll = true, checkStrategy = 'SHOW_CHILD' } = tree;
+    const results: string[] = [];
+    selectedKeys.forEach((x) => {
+      if (!multiple) {
+        results.push(...createParentKeys(x));
+      } else {
+        if (checkStrategy === 'SHOW_ALL') {
+          !allParentKeys.current.includes(x) && results.push(...createParentKeys(x));
+        }
+        if (checkStrategy === 'SHOW_CHILD') {
+          results.push(...createParentKeys(x));
+        }
+        if (checkStrategy === 'SHOW_PARENT') {
+          // ..
+        }
+      }
+    });
+    setExpandedKeys(defaultExpandAll ? allParentKeys.current : [...new Set(results)]);
+  }, [isLoaded]);
 
   React.useEffect(() => {
     getTreeData();
@@ -213,7 +263,6 @@ const TreeHelper: React.FC<IProps> = (props) => {
           checkable={multiple}
           selectable={!multiple}
           height={treeHeight}
-          defaultExpandAll={tree.defaultExpandAll ?? true}
           selectedKeys={selectedKeys}
           checkedKeys={selectedKeys}
           expandedKeys={expandedKeys}
@@ -234,7 +283,14 @@ const TreeHelper: React.FC<IProps> = (props) => {
           }}
           onCheck={(selectedKeys: string[]) => {
             const { valueKey = 'value' } = tree.fetch || {};
+            const { checkStrategy = 'SHOW_CHILD' } = tree;
             setSelectedKeys(selectedKeys);
+            if (checkStrategy === 'SHOW_CHILD') {
+              selectedKeys = selectedKeys.filter((x) => !allParentKeys.current.includes(x));
+            }
+            if (checkStrategy === 'SHOW_PARENT') {
+              // ...
+            }
             const rows = deepFind(responseList.current, (node) => selectedKeys.includes(get(node, valueKey)));
             setRecord(!multiple ? rows[0] : rows);
           }}

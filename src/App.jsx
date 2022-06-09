@@ -384,6 +384,7 @@ const App = () => {
           //             valueKey: 'value',
           //             textKey: 'text',
           //           },
+          //           // defaultExpandAll: false,
           //           // asyncLoad: true,
           //         },
           //         fieldAliasMap: () => {
@@ -417,6 +418,8 @@ const App = () => {
                       valueKey: 'value',
                       textKey: 'text',
                     },
+                    // checkStrategy: 'SHOW_ALL',
+                    defaultExpandAll: false,
                     // asyncLoad: true,
                   },
                   fieldAliasMap: () => {

@@ -796,6 +796,7 @@ const CellEdit: React.FC<ICellEditProps> = (props) => {
 
       const helperProps = {
         ...helper,
+        defaultSelectedKeys: [prevValue],
         size: $size,
         onClose: (data) => {
           if (data) {

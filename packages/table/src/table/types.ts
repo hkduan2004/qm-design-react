@@ -17,6 +17,8 @@ export type IAlign = 'left' | 'center' | 'right';
 
 export type IFilterType = 'text' | 'textarea' | 'checkbox' | 'radio' | 'number' | 'date';
 
+export type ICheckStrategy = 'SHOW_ALL' | 'SHOW_PARENT' | 'SHOW_CHILD';
+
 export type IEditerType =
   | 'text'
   | 'number'
@@ -173,6 +175,7 @@ export type IEditerReturn = {
     tree?: {
       fetch?: IFetch & { valueKey?: string; textKey?: string };
       asyncLoad?: boolean;
+      checkStrategy?: ICheckStrategy;
       defaultExpandAll?: boolean;
     };
     width?: number | string;
