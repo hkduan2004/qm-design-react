@@ -9,7 +9,7 @@ import { get, merge } from 'lodash-es';
 import ConfigContext from '../../config-provider/context';
 import { t } from '../../locale';
 import { warn } from '../../_utils/error';
-import { debounce, trueNoop } from '../../_utils/util';
+import { debounce, sleep, trueNoop } from '../../_utils/util';
 import { getPrefixCls } from '../../_utils/prefix';
 import { deepMapList } from '../../form/src/utils';
 import { SizeHeight } from '../../_utils/types';
@@ -216,6 +216,8 @@ const TreeTableHelper: React.FC<IProps> = (props) => {
       const res = await fetchApi(fetchParams);
       if (res.code === 200) {
         const items = Array.isArray(res.data) ? res.data : get(res.data, dataKey!) ?? [];
+        setRowKeys([]);
+        await sleep(0);
         setTableList(items);
       }
     } catch (err) {
