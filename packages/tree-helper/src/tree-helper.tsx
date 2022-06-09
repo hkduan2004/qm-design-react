@@ -129,6 +129,7 @@ const TreeHelper: React.FC<IProps> = (props) => {
   // ===========================================================
 
   const [treeData, setTreeData] = React.useState<IRecord[]>([]);
+  const [selectedKeys, setSelectedKeys] = React.useState<Array<string | number>>([]);
   const [expandedKeys, setExpandedKeys] = React.useState<string[]>([]);
   const [inputValue, setInputValue] = React.useState<string>('');
   const treeDataOrigin = React.useRef<IRecord[]>(treeData);
@@ -150,6 +151,7 @@ const TreeHelper: React.FC<IProps> = (props) => {
         const dataList = Array.isArray(res.data) ? res.data : get(res.data, dataKey!) ?? [];
         const results = deepMapList(dataList, valueKey, textKey);
         createTreeData(results, dataList);
+        setSelectedKeys(defaultSelectedKeys);
       }
     } catch (err) {
       // ...
@@ -208,9 +210,12 @@ const TreeHelper: React.FC<IProps> = (props) => {
         <Tree
           fieldNames={{ title: 'text', key: 'value', children: 'children' }}
           multiple={multiple}
+          checkable={multiple}
+          selectable={!multiple}
           height={treeHeight}
           defaultExpandAll={tree.defaultExpandAll ?? true}
-          defaultSelectedKeys={defaultSelectedKeys}
+          selectedKeys={selectedKeys}
+          checkedKeys={selectedKeys}
           expandedKeys={expandedKeys}
           treeData={treeData}
           loadData={tree.asyncLoad ? onLoadData : undefined}
@@ -222,8 +227,14 @@ const TreeHelper: React.FC<IProps> = (props) => {
           }}
           onExpand={expandHandle}
           onSelect={(selectedKeys: string[]) => {
-            if (!tree.fetch) return;
-            const { valueKey = 'value' } = tree.fetch;
+            const { valueKey = 'value' } = tree.fetch || {};
+            setSelectedKeys(selectedKeys);
+            const rows = deepFind(responseList.current, (node) => selectedKeys.includes(get(node, valueKey)));
+            setRecord(!multiple ? rows[0] : rows);
+          }}
+          onCheck={(selectedKeys: string[]) => {
+            const { valueKey = 'value' } = tree.fetch || {};
+            setSelectedKeys(selectedKeys);
             const rows = deepFind(responseList.current, (node) => selectedKeys.includes(get(node, valueKey)));
             setRecord(!multiple ? rows[0] : rows);
           }}

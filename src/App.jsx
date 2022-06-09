@@ -255,7 +255,7 @@ const App = () => {
         },
       },
       {
-        type: 'SELECT',
+        type: 'MULTIPLE_SELECT',
         label: '条件4',
         fieldName: 'd',
         request: {
@@ -267,9 +267,10 @@ const App = () => {
         },
       },
       {
-        type: 'TREE_SELECT',
+        type: 'MULTIPLE_TREE_SELECT',
         label: '条件5',
         fieldName: 'e',
+        options: { collapseTags: true },
         request: {
           fetchApi: getTreeData,
           params: {},
@@ -362,41 +363,9 @@ const App = () => {
         title: '个人信息',
         dataIndex: 'person',
         children: [
-          {
-            title: '姓名',
-            dataIndex: 'person.name',
-            width: 200,
-            required: true,
-            sorter: true,
-            filter: {
-              type: 'text',
-            },
-            editRender: (row) => {
-              const obj = {
-                type: 'tree-helper',
-                helper: {
-                  tree: {
-                    fetch: {
-                      api: getTreeData,
-                      params: {},
-                      dataKey: 'records',
-                      valueKey: 'value',
-                      textKey: 'text',
-                    },
-                    // asyncLoad: true,
-                  },
-                  fieldAliasMap: () => {
-                    return { 'person.name': 'text', 'person.age': 'value' };
-                  },
-                },
-                rules: [{ required: true, message: '姓名不能为空' }],
-              };
-              return obj;
-            },
-          },
           // {
           //   title: '姓名',
-          //   dataIndex: 'person.nameids',
+          //   dataIndex: 'person.name',
           //   width: 200,
           //   required: true,
           //   sorter: true,
@@ -405,7 +374,7 @@ const App = () => {
           //   },
           //   editRender: (row) => {
           //     const obj = {
-          //       type: 'tree-helper-multiple',
+          //       type: 'tree-helper',
           //       helper: {
           //         tree: {
           //           fetch: {
@@ -418,19 +387,52 @@ const App = () => {
           //           // asyncLoad: true,
           //         },
           //         fieldAliasMap: () => {
-          //           return { textKey: 'text', valueKey: 'value' };
+          //           return { 'person.name': 'text', 'person.age': 'value' };
           //         },
           //       },
-          //       items: row.person.nameids.map((x, i) => ({ text: row.person.names[i], value: x })),
           //       rules: [{ required: true, message: '姓名不能为空' }],
-          //       onChange: (a, b, c, d) => {
-          //         // console.log(a, b, c, d);
-          //         row.person.names = c.map((x) => x.text);
-          //       },
           //     };
           //     return obj;
           //   },
           // },
+          {
+            title: '姓名',
+            dataIndex: 'person.nameids',
+            width: 200,
+            required: true,
+            sorter: true,
+            filter: {
+              type: 'text',
+            },
+            editRender: (row) => {
+              const obj = {
+                type: 'tree-helper-multiple',
+                extra: { collapseTags: true },
+                helper: {
+                  tree: {
+                    fetch: {
+                      api: getTreeData,
+                      params: {},
+                      dataKey: 'records',
+                      valueKey: 'value',
+                      textKey: 'text',
+                    },
+                    // asyncLoad: true,
+                  },
+                  fieldAliasMap: () => {
+                    return { textKey: 'text', valueKey: 'value' };
+                  },
+                },
+                items: row.person.nameids.map((x, i) => ({ text: row.person.names[i], value: x })),
+                rules: [{ required: true, message: '姓名不能为空' }],
+                onChange: (a, b, c, d) => {
+                  // console.log(a, b, c, d);
+                  row.person.names = c.map((x) => x.text);
+                },
+              };
+              return obj;
+            },
+          },
           // {
           //   title: '姓名',
           //   dataIndex: 'person.nameids',
@@ -699,13 +701,13 @@ const App = () => {
           height={400}
           rowKey={'id'}
           columns={columns}
-          // dataSource={tableList}
-          // webPagination
-          fetch={{
-            api: getTableData,
-            params: fetchParams,
-            dataKey: 'records',
-          }}
+          dataSource={tableList}
+          webPagination
+          // fetch={{
+          //   api: getTableData,
+          //   params: fetchParams,
+          //   dataKey: 'records',
+          // }}
           rowSelection={{
             type: 'checkbox',
             // selectAllOnCurrentPage: true,
