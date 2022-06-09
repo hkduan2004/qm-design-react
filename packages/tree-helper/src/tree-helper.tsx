@@ -27,6 +27,7 @@ type IProps = {
   tree?: {
     fetch?: IFetch & { valueKey?: string; textKey?: string };
     asyncLoad?: boolean; // 按需加载
+    defaultExpandAll?: boolean;
   };
   onClose: (data: IRecord | null) => void;
 };
@@ -102,7 +103,7 @@ const updateTreeData = (list: IRecord[], key: React.Key, valueKey: string, child
 // ===========================
 
 const TreeHelper: React.FC<IProps> = (props) => {
-  const { multiple, defaultSelectedKeys = [], tree, onClose } = props;
+  const { multiple, defaultSelectedKeys = [], tree = {}, onClose } = props;
   const { size } = React.useContext(ConfigContext)!;
   const $size = React.useMemo(() => props.size ?? size ?? '', [props.size, size]);
 
@@ -140,7 +141,7 @@ const TreeHelper: React.FC<IProps> = (props) => {
   };
 
   const getTreeData = async () => {
-    if (!tree?.fetch) return;
+    if (!tree.fetch) return;
     const { api: fetchApi, params, dataKey, valueKey = 'value', textKey = 'text' } = tree.fetch;
     try {
       setLoading(true);
@@ -157,7 +158,7 @@ const TreeHelper: React.FC<IProps> = (props) => {
   };
 
   const onLoadData = async ({ key, children }: any) => {
-    if (!tree?.fetch || children) return;
+    if (!tree.fetch || children) return;
     const { api: fetchApi, params, dataKey, valueKey = 'value', textKey = 'text' } = tree.fetch;
     try {
       const res = await fetchApi({ ...params, [valueKey]: key });
@@ -208,11 +209,11 @@ const TreeHelper: React.FC<IProps> = (props) => {
           fieldNames={{ title: 'text', key: 'value', children: 'children' }}
           multiple={multiple}
           height={treeHeight}
-          defaultExpandAll
+          defaultExpandAll={tree.defaultExpandAll ?? true}
           defaultSelectedKeys={defaultSelectedKeys}
           expandedKeys={expandedKeys}
           treeData={treeData}
-          loadData={tree?.asyncLoad ? onLoadData : undefined}
+          loadData={tree.asyncLoad ? onLoadData : undefined}
           filterTreeNode={(node: any) => {
             if (!inputValue) {
               return false;
@@ -221,7 +222,7 @@ const TreeHelper: React.FC<IProps> = (props) => {
           }}
           onExpand={expandHandle}
           onSelect={(selectedKeys: string[]) => {
-            if (!tree?.fetch) return;
+            if (!tree.fetch) return;
             const { valueKey = 'value' } = tree.fetch;
             const rows = deepFind(responseList.current, (node) => selectedKeys.includes(get(node, valueKey)));
             setRecord(!multiple ? rows[0] : rows);

@@ -241,10 +241,11 @@
 
 ### helper_tree
 
-| 参数      | 说明                       | 类型    | 默认值 |
-| --------- | -------------------------- | ------- | ------ |
-| fetch     | 同 Table，[配置项](#fetch) | object  | -      |
-| asyncLoad | 是否异步加载数据           | boolean | -      |
+| 参数             | 说明                       | 类型    | 默认值 |
+| ---------------- | -------------------------- | ------- | ------ |
+| fetch            | 同 Table，[配置项](#fetch) | object  | -      |
+| asyncLoad        | 是否异步加载数据           | boolean | -      |
+| defaultExpandAll | 是否默认展开所有树节点     | boolean | true   |
 
 ### field_alias
 

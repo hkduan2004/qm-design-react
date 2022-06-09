@@ -170,6 +170,11 @@ export type IEditerReturn = {
       rowKey?: ((row: IRecord, index: number) => IRowKey) | IRowKey;
       webPagination?: boolean;
     };
+    tree?: {
+      fetch?: IFetch & { valueKey?: string; textKey?: string };
+      asyncLoad?: boolean;
+      defaultExpandAll?: boolean;
+    };
     width?: number | string;
     initialValue?: IFormData;
     closeRemoteMatch?: boolean;

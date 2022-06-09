@@ -105,6 +105,7 @@ const columnItem = {
  *   helper: PropTypes.shape({
  *     filters: PropTypes.object,
  *     table: PropTypes.object,
+ *     tree: PropTypes.object,
  *     initialValue: PropTypes.object,
  *     width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
  *     closeRemoteMatch: PropTypes.bool,
