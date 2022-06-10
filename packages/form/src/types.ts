@@ -276,6 +276,7 @@ export type IFormItem = {
     withCredentials?: boolean;
     params?: IFetchParams;
     dataKey?: string;
+    fieldAliasMap?: (() => Record<string, string>) | Record<string, string>;
   };
   extra?: {
     style?: CSSProperties;

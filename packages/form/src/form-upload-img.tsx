@@ -36,16 +36,25 @@ type IUploadImgProps<T = UploadFile> = IProps & {
 const VUploadImg: React.FC<IUploadImgProps> = (props) => {
   const { value, onChange, onValuesChange } = props;
   const { options = {}, upload = {}, style = {}, disabled } = props.option;
-  const { multiple = true, maxCount = 1, fixedSize, quality, fileTypes, fileSize, onRemove = noop } = options;
-  const { action, headers, params, withCredentials = false, dataKey = '' } = upload;
+  const { multiple = true, maxCount = 1, fixedSize, quality, fileTypes, fileSize, onRemove } = options;
+  const { action, headers, params, withCredentials = false, dataKey = '', fieldAliasMap } = upload;
+
+  const alias = typeof fieldAliasMap === 'function' ? fieldAliasMap() : fieldAliasMap || {};
 
   const triggerChange = (value) => {
-    const results = value.map((x) => ({
-      uid: x.uid,
-      name: x.name,
-      url: x.url || (!dataKey ? x.response?.data : get(x.response?.data, dataKey)) || '',
-      status: x.status,
-    }));
+    const results = value.map((x) => {
+      const others = {};
+      for (const key in alias) {
+        others[key] = x.response?.data?.[alias[key]] || '';
+      }
+      return {
+        uid: x.uid,
+        name: x.name,
+        ...others,
+        url: x.url || (!dataKey ? x.response?.data : get(x.response?.data, dataKey)) || '',
+        status: x.status,
+      };
+    });
     onChange?.(results);
     onValuesChange(results);
   };

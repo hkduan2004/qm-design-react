@@ -316,6 +316,36 @@ const App = () => {
           },
         },
       },
+      {
+        type: 'UPLOAD_FILE',
+        fieldName: 'v',
+        label: '标签22',
+        options: {
+          maxCount: 2,
+          onRemove: (a, b) => {
+            console.log(1234, a, b);
+          },
+        },
+        upload: {
+          action: 'http://127.0.0.1:3000/api/design/upload',
+          dataKey: 'url',
+          fieldAliasMap: () => {
+            return { objId: 'id' };
+          },
+        },
+      },
+      {
+        type: 'UPLOAD_IMG',
+        fieldName: 'w',
+        label: '标签23',
+        options: {
+          maxCount: 2,
+        },
+        upload: {
+          action: 'http://127.0.0.1:3000/api/design/upload',
+          dataKey: 'url',
+        },
+      },
     ];
   };
   const createTableColumns = () => {
@@ -408,7 +438,8 @@ const App = () => {
             editRender: (row) => {
               const obj = {
                 type: 'tree-helper-multiple',
-                extra: { collapseTags: true },
+                editable: true,
+                // extra: { collapseTags: true },
                 helper: {
                   tree: {
                     fetch: {
@@ -419,7 +450,7 @@ const App = () => {
                       textKey: 'text',
                     },
                     // checkStrategy: 'SHOW_ALL',
-                    defaultExpandAll: false,
+                    // defaultExpandAll: false,
                     // asyncLoad: true,
                   },
                   fieldAliasMap: () => {
@@ -427,10 +458,10 @@ const App = () => {
                   },
                 },
                 items: row.person.nameids.map((x, i) => ({ text: row.person.names[i], value: x })),
-                rules: [{ required: true, message: '姓名不能为空' }],
+                // rules: [{ required: true, message: '姓名不能为空' }],
                 onChange: (a, b, c, d) => {
-                  // console.log(a, b, c, d);
-                  row.person.names = c.map((x) => x.text);
+                  console.log(a, b, c, d);
+                  // row.person.names = c.map((x) => x.text);
                 },
               };
               return obj;
@@ -669,7 +700,15 @@ const App = () => {
 
   const printClick = async () => {
     await sleep(1000);
-    formRef.current.SET_FIELDS_VALUE({ ccc: [21, 22, 23] });
+    formRef.current.SET_FIELDS_VALUE({
+      v: [
+        {
+          name: 'jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+          url: 'http://127.0.0.1:3000/upload_d4bdea0cd1fd163ed2c3bbd7483859b2.xlsx',
+          objId: '1234',
+        },
+      ],
+    });
     // tableRef.current.SET_SELECTION_ROWS([{ id: 21 }, { id: 22 }]);
   };
 
