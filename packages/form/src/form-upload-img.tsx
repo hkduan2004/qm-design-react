@@ -6,7 +6,7 @@
  */
 import React, { Component } from 'react';
 import FormContext from './context';
-import { noop, getParserWidth, get } from '../../_utils/util';
+import { getParserWidth, get, noop } from '../../_utils/util';
 import { t } from '../../locale';
 import { DEFAULT_LABEL_WIDTH } from './types';
 import type { IFormItem } from './types';
@@ -34,6 +34,7 @@ type IUploadImgProps<T = UploadFile> = IProps & {
 };
 
 const VUploadImg: React.FC<IUploadImgProps> = (props) => {
+  const { $$form } = React.useContext(FormContext)!;
   const { value, onChange, onValuesChange } = props;
   const { options = {}, upload = {}, style = {}, disabled } = props.option;
   const { multiple = true, maxCount = 1, fixedSize, quality, fileTypes, fileSize, onRemove } = options;
@@ -56,7 +57,7 @@ const VUploadImg: React.FC<IUploadImgProps> = (props) => {
       };
     });
     onChange?.(results);
-    onValuesChange(results);
+    onValuesChange(results.filter((x) => x.status === 'done' && x.url));
   };
 
   return (
@@ -72,7 +73,7 @@ const VUploadImg: React.FC<IUploadImgProps> = (props) => {
       quality={quality}
       fileTypes={fileTypes}
       fileSize={fileSize}
-      disabled={disabled}
+      disabled={disabled || $$form.isOnlyShow}
       fileList={value}
       onChange={({ file, fileList }) => {
         triggerChange(fileList);
@@ -122,6 +123,7 @@ class FormUploadImg extends Component<IProps> {
               <VUploadImg
                 option={this.props.option}
                 onValuesChange={(value) => {
+                  if (!value.length) return;
                   onChange(value);
                   $$form.setViewValue(fieldName, '');
                 }}

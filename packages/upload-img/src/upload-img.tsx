@@ -6,6 +6,7 @@
  */
 import React, { Component } from 'react';
 import { t } from '../../locale';
+import { getPrefixCls } from '../../_utils/prefix';
 
 import CropperPreview from './cropper-preview';
 import { PlusOutlined } from '@ant-design/icons';
@@ -74,6 +75,7 @@ class QmUploadImg extends Component<IProps, IState> {
   render(): React.ReactElement {
     const { previewVisible, previewImage, previewTitle } = this.state;
     const { fixedSize, quality, fileTypes, fileSize, beforeCrop } = this.props;
+    const prefixCls = getPrefixCls('upload-img');
 
     const uploadButton = (
       <div>
@@ -85,7 +87,7 @@ class QmUploadImg extends Component<IProps, IState> {
     return (
       <>
         <CropperPreview fixedSize={fixedSize} quality={quality} fileTypes={fileTypes} fileSize={fileSize} beforeCrop={beforeCrop}>
-          <Upload {...this.props} onPreview={this.handlePreview}>
+          <Upload className={prefixCls} {...this.props} onPreview={this.handlePreview}>
             {this.showUploadButton ? uploadButton : null}
           </Upload>
         </CropperPreview>

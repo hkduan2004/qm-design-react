@@ -86,9 +86,9 @@
     }
   }
   &__only-show {
-    .ant-form-item > .ant-form-item-control {
-      * {
-        pointer-events: none !important;
+    .ant-form-item > .ant-form-item-control .ant-col {
+      & > :not(.qm-upload-file):not(.qm-upload-img):not(.qm-tinymce) {
+        pointer-events: none;
       }
     }
   }

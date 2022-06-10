@@ -25,6 +25,7 @@ type ITinymceProps<T = string> = IProps & {
 };
 
 const VTinymce: React.FC<ITinymceProps> = (props) => {
+  const { $$form } = React.useContext(FormContext)!;
   const { value, onChange, onValuesChange } = props;
   const { options = {}, style = {}, placeholder = t('qm.form.inputPlaceholder'), readOnly, disabled } = props.option;
   const { tinymceHeight } = options;
@@ -32,7 +33,7 @@ const VTinymce: React.FC<ITinymceProps> = (props) => {
     <QmTinymce
       height={tinymceHeight}
       style={style}
-      disabled={readOnly || disabled}
+      disabled={readOnly || disabled || $$form.isOnlyShow}
       value={value}
       onChange={(value) => {
         onChange?.(value);

@@ -6,7 +6,7 @@
  */
 import React, { Component } from 'react';
 import FormContext from './context';
-import { noop, getParserWidth, get } from '../../_utils/util';
+import { getParserWidth, get, noop } from '../../_utils/util';
 import { t } from '../../locale';
 import { DEFAULT_LABEL_WIDTH } from './types';
 import type { IFormItem } from './types';
@@ -35,6 +35,7 @@ type IUploadFileProps<T = UploadFile> = IProps & {
 };
 
 const VUploadFile: React.FC<IUploadFileProps> = (props) => {
+  const { $$form } = React.useContext(FormContext)!;
   const { value, onChange, onValuesChange } = props;
   const { options = {}, upload = {}, style = {}, disabled } = props.option;
   const { multiple = true, maxCount = 1, fileTypes, fileSize, onRemove } = options;
@@ -57,7 +58,7 @@ const VUploadFile: React.FC<IUploadFileProps> = (props) => {
       };
     });
     onChange?.(results);
-    onValuesChange(results);
+    onValuesChange(results.filter((x) => x.status === 'done' && x.url));
   };
 
   return (
@@ -71,7 +72,7 @@ const VUploadFile: React.FC<IUploadFileProps> = (props) => {
       maxCount={maxCount}
       fileTypes={fileTypes}
       fileSize={fileSize}
-      disabled={disabled}
+      disabled={disabled || $$form.isOnlyShow}
       showUploadList={{
         showDownloadIcon: true,
         downloadIcon: <DownloadOutlined />,
@@ -125,6 +126,7 @@ class FormUploadFile extends Component<IProps> {
               <VUploadFile
                 option={this.props.option}
                 onValuesChange={(value) => {
+                  if (!value.length) return;
                   onChange(value);
                   $$form.setViewValue(fieldName, '');
                 }}

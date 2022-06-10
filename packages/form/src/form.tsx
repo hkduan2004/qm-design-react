@@ -133,6 +133,10 @@ class QmForm extends Component<IProps, IState> {
     return this.props.formType === 'search';
   }
 
+  get isOnlyShow() {
+    return this.props.formType === 'onlyShow';
+  }
+
   get showDividerCollapse() {
     return this.dividers.some((x) => !!x.collapse);
   }
@@ -311,7 +315,7 @@ class QmForm extends Component<IProps, IState> {
   // 输入框获得焦点
   createInputFocus() {
     const { isAutoFocus } = this.props;
-    if (!isAutoFocus) return;
+    if (!isAutoFocus || this.isOnlyShow) return;
     const { type, fieldName } = this.formItems.filter((x) => x.fieldName)[0] || {};
     if ((type === 'INPUT' || type === 'INPUT_NUMBER') && fieldName) {
       setTimeout(() => this[`${fieldName}_Ref`]?.focus());
@@ -916,7 +920,7 @@ class QmForm extends Component<IProps, IState> {
       [prefixCls]: true,
       [`${prefixCls}--lg`]: this.$size === 'large',
       [`${prefixCls}--sm`]: this.$size === 'small',
-      [`${prefixCls}__only-show`]: formType === 'onlyShow',
+      [`${prefixCls}__only-show`]: this.isOnlyShow,
       [customClass!]: !!customClass,
     };
 

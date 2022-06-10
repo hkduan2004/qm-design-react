@@ -6,6 +6,7 @@
  */
 import React, { Component } from 'react';
 import { t } from '../../locale';
+import { getPrefixCls } from '../../_utils/prefix';
 
 import { Upload, Button, message } from '../../antd';
 import { UploadOutlined, DownloadOutlined } from '@ant-design/icons';
@@ -76,8 +77,10 @@ class QmUploadFile extends Component<IProps, IState> {
   render(): React.ReactElement {
     const { loading } = this.state;
     const { disabled, onChange } = this.props;
+    const prefixCls = getPrefixCls('upload-file');
     return (
       <Upload
+        className={prefixCls}
         {...this.props}
         beforeUpload={this.beforeUpload}
         onChange={(info) => {
