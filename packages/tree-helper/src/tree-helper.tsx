@@ -27,6 +27,7 @@ type IProps = {
   tree?: {
     fetch?: IFetch & { valueKey?: string; textKey?: string };
     asyncLoad?: boolean; // 按需加载
+    checkStrictly?: boolean;
     checkStrategy?: ICheckStrategy;
     defaultExpandAll?: boolean;
   };
@@ -263,6 +264,7 @@ const TreeHelper: React.FC<IProps> = (props) => {
           checkable={multiple}
           selectable={!multiple}
           height={treeHeight}
+          checkStrictly={!!tree.checkStrictly}
           selectedKeys={selectedKeys}
           checkedKeys={selectedKeys}
           expandedKeys={expandedKeys}
@@ -283,7 +285,10 @@ const TreeHelper: React.FC<IProps> = (props) => {
           }}
           onCheck={(selectedKeys: string[]) => {
             const { valueKey = 'value' } = tree.fetch || {};
-            const { checkStrategy = 'SHOW_CHILD' } = tree;
+            const { checkStrictly, checkStrategy = 'SHOW_CHILD' } = tree;
+            if (checkStrictly) {
+              selectedKeys = (selectedKeys as any).checked;
+            }
             setSelectedKeys(selectedKeys);
             if (checkStrategy === 'SHOW_CHILD') {
               selectedKeys = selectedKeys.filter((x) => !allParentKeys.current.includes(x));

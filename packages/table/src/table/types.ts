@@ -175,6 +175,7 @@ export type IEditerReturn = {
     tree?: {
       fetch?: IFetch & { valueKey?: string; textKey?: string };
       asyncLoad?: boolean;
+      checkStrictly?: boolean;
       checkStrategy?: ICheckStrategy;
       defaultExpandAll?: boolean;
     };
