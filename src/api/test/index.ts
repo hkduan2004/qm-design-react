@@ -21,3 +21,5 @@ export const getRegionData = (params) => axios.get(`/api/design/getRegionData`, 
 export const getTableAuth = (params) => axios.get(`/api/design/getTableAuth`, { params });
 
 export const getSearchHelperConfig = (params) => axios.post(`/api/design/getSearchHelperConfig`, params);
+
+export const createSearchHelperFetch = (url) => (params) => axios.post(url, params);

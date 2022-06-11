@@ -235,6 +235,7 @@ export type IFormItem = {
   searchHelper?: {
     name?: string;
     getServerConfig?: IFetchFn;
+    createTableFetch?: (url: string) => IFetchFn;
     filters?: IFormItem[];
     table?: {
       fetch?: IFetch;

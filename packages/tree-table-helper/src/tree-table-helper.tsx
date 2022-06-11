@@ -44,6 +44,7 @@ type IProps = {
   };
   name?: string;
   getServerConfig?: IFetchFn;
+  createTableFetch?: (url: string) => IFetchFn;
   onClose: (data: IRecord | null, keys?: IRowKey[]) => void;
 };
 
@@ -115,6 +116,7 @@ const TreeTableHelper: React.FC<IProps> = (props) => {
     tree = {},
     name,
     getServerConfig,
+    createTableFetch,
     onClose,
   } = props;
   const { size } = React.useContext(ConfigContext)!;
@@ -180,25 +182,25 @@ const TreeTableHelper: React.FC<IProps> = (props) => {
 
   const getHelperConfig = async () => {
     if (!name) return;
-    if (!getServerConfig) {
-      return warn('searchHelper', '从服务端获取配置信息的时候，`getServerConfig` 为必选参数');
+    if (!getServerConfig || !createTableFetch) {
+      return warn('searchHelper', '从服务端获取配置信息的时候，`getServerConfig` 和 `createTableFetch` 为必选参数');
     }
     try {
-      const res = await getServerConfig({ sh_name: name, sh_type: 1 });
+      const res = await getServerConfig({ sh_name: name });
       if (res.code === 200) {
-        const { filters = [], columns = [], rowKey, webPagination } = res.data || {};
+        const { filters = [], columns = [], rowKey, webPagination, fetchUrl, fetchParams = {} } = res.data || {};
         // 设置 formItems、columns
         setFormItems(filters);
         setColumns(createColumns(columns));
         setTableConf({
           fetch: {
-            api: getServerConfig,
+            api: createTableFetch(fetchUrl),
             dataKey: 'records',
           },
           rowKey: rowKey || tableConf.rowKey,
           webPagination: webPagination || tableConf.webPagination || false,
         });
-        filterChangeHandle({ sh_type: 2 });
+        filterChangeHandle(fetchParams);
       }
     } catch (e) {
       // ...
