@@ -2,7 +2,7 @@
  * @Author: 焦质晔
  * @Date: 2021-07-23 13:39:52
  * @Last Modified by: 焦质晔
- * @Last Modified time: 2022-06-01 20:19:52
+ * @Last Modified time: 2022-06-11 09:51:47
  */
 import React from 'react';
 import classNames from 'classnames';
@@ -462,7 +462,7 @@ const App = () => {
                 // rules: [{ required: true, message: '姓名不能为空' }],
                 onChange: (a, b, c, d) => {
                   console.log(a, b, c, d);
-                  // row.person.names = c.map((x) => x.text);
+                  row.person.names = c.map((x) => x.text);
                 },
               };
               return obj;

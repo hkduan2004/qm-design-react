@@ -2,7 +2,7 @@
  * @Author: 焦质晔
  * @Date: 2022-01-11 17:57:36
  * @Last Modified by: 焦质晔
- * @Last Modified time: 2022-02-27 13:01:39
+ * @Last Modified time: 2022-06-11 09:33:53
  */
 import React from 'react';
 import { get } from 'lodash-es';
@@ -58,7 +58,7 @@ const getAllParentKey = (tree: IRecord[]) => {
     if (x.children) {
       result.push(...getAllParentKey(x.children));
     }
-    if (x.children) {
+    if (Array.isArray(x.children) && x.children.length) {
       result.push(x.value);
     }
   });
