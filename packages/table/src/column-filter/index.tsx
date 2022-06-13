@@ -34,10 +34,14 @@ const ColumnFilter: React.FC<IColumnFilterProps> = (props) => {
 
   const colGroups = React.useRef<IColumn[][]>([]); // 表头跨列分组
 
+  const createLeftFixedColumns = (columns: IColumn[]) => columns.filter((x) => !x.noAuth && x.fixed === 'left');
+  const createRightFixedColumns = (columns: IColumn[]) => columns.filter((x) => !x.noAuth && x.fixed === 'right');
+  const createMainFixedColumns = (columns: IColumn[]) => columns.filter((x) => !x.noAuth && !x.fixed);
+
   const [visible, setVisible] = React.useState<boolean>(false);
-  const [leftFixedColumns, setLeftFixedColumns] = React.useState<IColumn[]>(columns.filter((x) => !x.noAuth && x.fixed === 'left'));
-  const [rightFixedColumns, setRightFixedColumns] = React.useState<IColumn[]>(columns.filter((x) => !x.noAuth && x.fixed === 'right'));
-  const [mainColumns, setMainColumns] = React.useState<IColumn[]>(columns.filter((x) => !x.noAuth && !x.fixed));
+  const [leftFixedColumns, setLeftFixedColumns] = React.useState<IColumn[]>(createLeftFixedColumns(columns));
+  const [rightFixedColumns, setRightFixedColumns] = React.useState<IColumn[]>(createRightFixedColumns(columns));
+  const [mainColumns, setMainColumns] = React.useState<IColumn[]>(createMainFixedColumns(columns));
 
   const tableUniqueKey = React.useMemo(() => {
     return uniqueKey ? `table_${uniqueKey}` : '';
@@ -173,9 +177,13 @@ const ColumnFilter: React.FC<IColumnFilterProps> = (props) => {
   // =================================================
 
   const createColumns = (columns: IColumn[]) => {
-    setLeftFixedColumns(columns.filter((x) => !x.noAuth && x.fixed === 'left'));
-    setRightFixedColumns(columns.filter((x) => !x.noAuth && x.fixed === 'right'));
-    setMainColumns(columns.filter((x) => !x.noAuth && !x.fixed));
+    const $left = createLeftFixedColumns(columns);
+    const $right = createRightFixedColumns(columns);
+    const $main = createMainFixedColumns(columns);
+    setLeftFixedColumns($left);
+    setRightFixedColumns($right);
+    setMainColumns($main);
+    return [...$left, ...$main, ...$right];
   };
 
   const createColGroups = (columns: IColumn[]) => {
@@ -236,8 +244,8 @@ const ColumnFilter: React.FC<IColumnFilterProps> = (props) => {
 
   const fixedChangeHandle = (column: IColumn, dir?: IFixed) => {
     dir ? (column.fixed = dir) : delete column.fixed;
-    createColumns(columns);
-    changeHandle();
+    const $columns = createColumns(columns);
+    columnsChange?.($columns);
   };
 
   const renderListItem = (column: IColumn, type: string) => {

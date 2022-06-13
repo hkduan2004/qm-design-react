@@ -7,6 +7,7 @@
 import React from 'react';
 import { get } from 'lodash-es';
 import ConfigContext from '../../config-provider/context';
+import pinyin from '../../pinyin';
 import { t } from '../../locale';
 import { debounce } from '../../_utils/util';
 import { getPrefixCls } from '../../_utils/prefix';
@@ -247,12 +248,26 @@ const TreeHelper: React.FC<IProps> = (props) => {
   };
 
   const changeHandle = (value: string) => {
+    const { defaultExpandAll = true } = tree;
     const results = treeFilter(treeDataOrigin.current, (node) => {
       if (!value) return true;
-      return node.text.indexOf(value) !== -1;
+      const text: string = node.text || '';
+      const pyt: string = pinyin
+        .parse(text)
+        .map((v) => {
+          if (v.type === 2) {
+            return v.target.toLowerCase().slice(0, 1);
+          }
+          return v.target;
+        })
+        .join('');
+      return `${text}|${pyt}`.indexOf(value) !== -1;
     });
     setInputValue(value);
     setTreeData(results);
+    if (!defaultExpandAll) {
+      setExpandedKeys(value ? allParentKeys.current : []);
+    }
   };
 
   const prefixCls = getPrefixCls('tree-helper');

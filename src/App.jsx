@@ -452,8 +452,8 @@ const App = () => {
                       textKey: 'text',
                     },
                     // checkStrictly: true,
-                    checkStrategy: 'SHOW_PARENT',
-                    // defaultExpandAll: false,
+                    // checkStrategy: 'SHOW_PARENT',
+                    defaultExpandAll: false,
                     // asyncLoad: true,
                   },
                   fieldAliasMap: () => {
