@@ -37,29 +37,29 @@ type IProps = {
 export type QmTreeHelperProps = IProps;
 
 // ===========================
-const getParentKey = (key: string, tree: IRecord[]) => {
+const getParentKey = (tree: IRecord[], key: string, valueKey: string) => {
   let parentKey: string | undefined;
   for (let i = 0; i < tree.length; i++) {
     const node = tree[i];
     if (node.children) {
-      if (node.children.some((item) => item.value === key)) {
-        parentKey = node.value;
+      if (node.children.some((item) => item[valueKey] === key)) {
+        parentKey = node[valueKey];
       } else {
-        const pk = getParentKey(key, node.children);
+        const pk = getParentKey(node.children, key, valueKey);
         pk && (parentKey = pk);
       }
     }
   }
   return parentKey;
 };
-const getAllParentKey = (tree: IRecord[]) => {
+const getAllParentKey = (tree: IRecord[], valueKey: string) => {
   const result: string[] = [];
   tree.forEach((x) => {
     if (x.children) {
-      result.push(...getAllParentKey(x.children));
+      result.push(...getAllParentKey(x.children, valueKey));
     }
     if (Array.isArray(x.children) && x.children.length) {
-      result.push(x.value);
+      result.push(x[valueKey]);
     }
   });
   return result;
@@ -115,6 +115,14 @@ const getParentKeys = (tree: IRecord[], value: string, valueKey: string) => {
     }
   }
 };
+const getChildKeys = (tree: IRecord[], value: string, valueKey: string) => {
+  const list = deepFind(tree, (node) => node[valueKey] === value);
+  if (!list.length) {
+    return [];
+  }
+  const target = list[0];
+  const result: string[] = [];
+};
 // ===========================
 
 const TreeHelper: React.FC<IProps> = (props) => {
@@ -156,7 +164,7 @@ const TreeHelper: React.FC<IProps> = (props) => {
     setTreeData(treeData);
     treeDataOrigin.current = treeData;
     responseList.current = dataList;
-    allParentKeys.current = getAllParentKey(treeData);
+    allParentKeys.current = getAllParentKey(treeData, 'value');
   };
 
   const createDefaultKeys = (treeData: IRecord[]): string[] => {
@@ -294,7 +302,7 @@ const TreeHelper: React.FC<IProps> = (props) => {
               selectedKeys = selectedKeys.filter((x) => !allParentKeys.current.includes(x));
             }
             if (checkStrategy === 'SHOW_PARENT') {
-              // ...
+              selectedKeys = selectedKeys.filter((x, _, arr) => !arr.includes(getParentKey(treeData, x, 'value')!));
             }
             const rows = deepFind(responseList.current, (node) => selectedKeys.includes(get(node, valueKey)));
             setRecord(!multiple ? rows[0] : rows);
