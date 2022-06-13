@@ -461,7 +461,7 @@ const App = () => {
                   },
                 },
                 items: row.person.nameids.map((x, i) => ({ text: row.person.names[i], value: x })),
-                // rules: [{ required: true, message: '姓名不能为空' }],
+                rules: [{ required: true, message: '姓名不能为空' }],
                 onChange: (a, b, c, d) => {
                   console.log(a, b, c, d);
                   row.person.names = c.map((x) => x.text);
