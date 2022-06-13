@@ -122,7 +122,7 @@ const SearchHelper: React.FC<IProps> = (props) => {
       return warn('searchHelper', '从服务端获取配置信息的时候，`getServerConfig` 和 `createTableFetch` 为必选参数');
     }
     try {
-      const res = await getServerConfig({ sh_name: name });
+      const res = await getServerConfig({ searchHelperId: name });
       if (res.code === 200) {
         const { filters = [], columns = [], rowKey, webPagination, fetchUrl, fetchParams = {} } = res.data || {};
         // 设置 formItems、columns

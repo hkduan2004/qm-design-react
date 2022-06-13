@@ -120,8 +120,9 @@ const getChildKeys = (tree: IRecord[], value: string, valueKey: string) => {
   if (!list.length) {
     return [];
   }
-  const target = list[0];
-  const result: string[] = [];
+  // const target = list[0];
+  // const result: string[] = [];
+  // ...
 };
 // ===========================
 

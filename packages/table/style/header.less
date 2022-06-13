@@ -33,7 +33,7 @@
 .header--column {
   .cell--wrapper {
     display: flex;
-    height: 100%;
+    align-items: center;
     .cell--text {
       display: flex;
       align-items: center;
@@ -48,6 +48,11 @@
         padding: 2px;
         cursor: default;
       }
+    }
+  }
+  &.column-has-filter {
+    .cell--wrapper {
+      margin-right: 20px;
     }
   }
   &.col--center {
@@ -122,11 +127,13 @@
   /* 筛选 */
   .cell--filter {
     width: 20px;
-    flex-shrink: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
     color: @v-icon-color;
     transition: all 0.3s ease;
     cursor: pointer;
