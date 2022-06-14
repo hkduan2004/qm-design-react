@@ -59,6 +59,7 @@ const Table = React.forwardRef<TableRef, ITableProps>((props, ref) => {
     exportExcel,
     showAlert,
     topSpaceAlign,
+    showTableInfo,
     showFullScreen,
     showRefresh,
     showColumnDefine,
@@ -530,40 +531,43 @@ const Table = React.forwardRef<TableRef, ITableProps>((props, ref) => {
   return (
     <TableContext.Provider value={context}>
       <div className={classNames(wrapperCls)}>
-        <div ref={topElementRef} className={`${prefixCls}-top`}>
-          <div className={`${prefixCls}-top__space`}>
-            {/* 信息条 */}
-            {showAlert && <Alert total={pagination.total} />}
-            <div className={`${prefixCls}-top__space-slot`} style={{ justifyContent: EAlign[topSpaceAlign!] }}>
-              {/* 默认槽口 */}
-              {props.children}
+        {/* 顶部信息 */}
+        {showTableInfo && (
+          <div ref={topElementRef} className={`${prefixCls}-top`}>
+            <div className={`${prefixCls}-top__space`}>
+              {/* 信息条 */}
+              {showAlert && <Alert total={pagination.total} />}
+              <div className={`${prefixCls}-top__space-slot`} style={{ justifyContent: EAlign[topSpaceAlign!] }}>
+                {/* 默认槽口 */}
+                {props.children}
+              </div>
+            </div>
+            <div className={`${prefixCls}-top__actions`}>
+              {/* 全屏 */}
+              {showFullScreen && <FullScreen isFullScreen={isFullScreen} />}
+              {/* 刷新 */}
+              {showRefresh && isFetch && <Reload />}
+              {/* 打印 */}
+              {permission.print && tablePrint && <TablePrint tableColumns={tableColumns} />}
+              {/* 导入 */}
+              {permission.import && isTableImport && <TableImport tableColumns={tableColumns} />}
+              {/* 导出 */}
+              {permission.export && exportExcel && <TableExport tableColumns={tableColumns} />}
+              {/* 粘贴板 */}
+              {isTableClipboard && <TableClipboard flattenColumns={flattenColumns} />}
+              {/* 多选集合 */}
+              {isSelectCollection && <SelectCollection columns={tableColumns} />}
+              {/* 快速定位查找 */}
+              {isFastSearch && <FastSearch />}
+              {/* 分组汇总 */}
+              {isGroupSummary && <GroupSummary />}
+              {/* 高级检索 */}
+              {isSuperSearch && <SuperSearch />}
+              {/* 列定义 */}
+              {showColumnDefine && <ColumnFilter columns={columns} />}
             </div>
           </div>
-          <div className={`${prefixCls}-top__actions`}>
-            {/* 全屏 */}
-            {showFullScreen && <FullScreen isFullScreen={isFullScreen} />}
-            {/* 刷新 */}
-            {showRefresh && isFetch && <Reload />}
-            {/* 打印 */}
-            {permission.print && tablePrint && <TablePrint tableColumns={tableColumns} />}
-            {/* 导入 */}
-            {permission.import && isTableImport && <TableImport tableColumns={tableColumns} />}
-            {/* 导出 */}
-            {permission.export && exportExcel && <TableExport tableColumns={tableColumns} />}
-            {/* 粘贴板 */}
-            {isTableClipboard && <TableClipboard flattenColumns={flattenColumns} />}
-            {/* 多选集合 */}
-            {isSelectCollection && <SelectCollection columns={tableColumns} />}
-            {/* 快速定位查找 */}
-            {isFastSearch && <FastSearch />}
-            {/* 分组汇总 */}
-            {isGroupSummary && <GroupSummary />}
-            {/* 高级检索 */}
-            {isSuperSearch && <SuperSearch />}
-            {/* 列定义 */}
-            {showColumnDefine && <ColumnFilter columns={columns} />}
-          </div>
-        </div>
+        )}
         <Spin spinning={loading ?? spinning}>
           <div ref={tableElementRef} className={classNames(tableCls)} style={tableStyles}>
             {/* 主要内容 */}

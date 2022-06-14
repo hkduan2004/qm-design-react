@@ -5,7 +5,9 @@
  * @Last Modified time: 2021-12-25 17:58:27
  */
 import React, { Component } from 'react';
+import axios from 'axios';
 import { t } from '../../locale';
+import { download } from '../../_utils/download';
 import { getPrefixCls } from '../../_utils/prefix';
 
 import { Upload, Button, message } from '../../antd';
@@ -74,6 +76,22 @@ class QmUploadFile extends Component<IProps, IState> {
     });
   };
 
+  async downloadFile(url: string, fileName?: string) {
+    try {
+      const res = await axios({ url, responseType: 'blob' });
+      const blob: Blob = res.data;
+      const contentDisposition = res.headers['content-disposition'];
+      const name = fileName
+        ? fileName
+        : contentDisposition
+        ? contentDisposition.split(';')[1].split('filename=')[1]
+        : url.slice(url.lastIndexOf('/') + 1);
+      download(blob, name);
+    } catch (err) {
+      // ...
+    }
+  }
+
   render(): React.ReactElement {
     const { loading } = this.state;
     const { disabled, onChange } = this.props;
@@ -86,6 +104,13 @@ class QmUploadFile extends Component<IProps, IState> {
         onChange={(info) => {
           onChange?.(info);
           this.setState({ loading: false });
+        }}
+        onDownload={(file) => {
+          try {
+            file.url && this.downloadFile(file.url, file.name);
+          } catch (err) {
+            message.error(t('qm.download.error'));
+          }
         }}
       >
         {!this.props.children ? (

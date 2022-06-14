@@ -326,6 +326,8 @@ export const propTypes = {
   showGroupSummary: PropTypes.bool,
   // 是否显示列定义
   showColumnDefine: PropTypes.bool,
+  // 是否显示表格上方的信息栏
+  showTableInfo: PropTypes.bool,
   // 只显示图标，不显示文字
   onlyShowIcon: PropTypes.bool,
   // 事件监听
@@ -358,6 +360,7 @@ export const defaultProps: ITableProps = {
   showFastSearch: true,
   showGroupSummary: true,
   showColumnDefine: true,
+  showTableInfo: true,
 };
 
 /**

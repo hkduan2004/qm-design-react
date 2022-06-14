@@ -706,9 +706,10 @@ const App = () => {
     formRef.current.SET_FIELDS_VALUE({
       v: [
         {
-          name: 'jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-          url: 'http://127.0.0.1:3000/upload_d4bdea0cd1fd163ed2c3bbd7483859b2.xlsx',
+          name: '你好.png',
+          url: 'http://127.0.0.1:3000/upload_2cd9dda07cb5576367818305c62b5561.png',
           objId: '1234',
+          status: 'done', // 才能显示下载按钮
         },
       ],
     });

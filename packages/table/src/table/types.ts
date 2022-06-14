@@ -411,6 +411,7 @@ export type ITableProps = {
   showFastSearch?: boolean;
   showGroupSummary?: boolean;
   showColumnDefine?: boolean;
+  showTableInfo?: boolean;
   children?: React.ReactNode;
   onlyShowIcon?: boolean;
   onChange?: (
