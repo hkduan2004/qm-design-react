@@ -24,7 +24,8 @@ import { QmButton, QmEmpty } from '../../../index';
 import { Input } from '../../../antd';
 import { PlusOutlined, CloseCircleOutlined } from '@ant-design/icons';
 
-import type { TableRef, IColumn, IEditerType, IFilterType, ISuperFilter } from '../table/types';
+import type { IColumn, IEditerType, IFilterType, ISuperFilter } from '../table/types';
+import type { QmTableRef } from '../../../index';
 import type { IDict } from '../../../_utils/types';
 
 type IResultProps = {
@@ -43,7 +44,7 @@ const Result: React.FC<IResultProps> = (props) => {
   const { tableProps, $size, flattenColumns, setSuperFilters, clearTableFilter } = React.useContext(TableContext)!;
   const { uniqueKey } = tableProps;
 
-  const superTableRef = React.useRef<TableRef>(null);
+  const superTableRef = React.useRef<QmTableRef>(null);
 
   const [tableData, setTableData] = React.useState<ISuperFilter[]>([]);
 

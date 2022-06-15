@@ -8,6 +8,7 @@ import React, { Component } from 'react';
 import ConfigContext from '../../config-provider/context';
 import { t } from '../../locale';
 import config from './config';
+import type { QmFormRef } from '../../index';
 
 import { QmForm, QmFormItem, QmButton } from '../../index';
 
@@ -36,7 +37,7 @@ type IState = {
 class Setting extends Component<IProps, IState> {
   static contextType = ConfigContext;
 
-  public formRef = React.createRef<QmForm>();
+  public formRef = React.createRef<QmFormRef>();
 
   createFormList = (): QmFormItem[] => {
     return [

@@ -79,7 +79,7 @@ const App = () => {
           },
           tree: {
             tableParamsMap: () => {
-              return { a1: 'text', a2: 'value' };
+              return { p1: 'text', p2: 'value' };
             },
             fetch: {
               api: getTreeData,

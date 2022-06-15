@@ -69,6 +69,8 @@ type IState = {
 
 export type QmFormProps = IProps;
 
+export type FormRef = QmForm;
+
 class QmForm extends Component<IProps, IState> {
   static contextType = ConfigContext;
 
@@ -861,9 +863,9 @@ class QmForm extends Component<IProps, IState> {
   }
 
   // 获取表单的值，异步方法，错误前置的原则
-  async GET_FORM_DATA() {
+  async GET_FORM_DATA(): Promise<[any, any]> {
     try {
-      const res = await this.formRef.current!.validateFields();
+      const res: IFormData = await this.formRef.current!.validateFields();
       return [null, Object.assign({}, this.get_fields_other(), this.formatFormValue(res))];
     } catch ({ errorFields }) {
       this.formRef.current!.scrollToField(errorFields[0].name);

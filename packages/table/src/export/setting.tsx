@@ -13,7 +13,8 @@ import { sleep } from '../../../_utils/util';
 import { getPrefixCls } from '../../../_utils/prefix';
 import { DEFAULT_FILENAME_FORMAT } from '../table/types';
 
-import { IColumn } from '../table/types';
+import type { IColumn } from '../table/types';
+import type { QmFormRef } from '../../../index';
 
 import Define from './define';
 import { QmButton, QmForm, QmFormItem } from '../../../index';
@@ -29,7 +30,7 @@ const Setting: React.FC<ISettingProps> = (props) => {
   const { tableProps, pagination, showSummary } = React.useContext(TableContext)!;
   const { rowSelection } = tableProps;
 
-  const formRef = React.useRef<QmForm>(null);
+  const formRef = React.useRef<QmFormRef>(null);
 
   const [loading, setLoading] = React.useState<boolean>(false);
 

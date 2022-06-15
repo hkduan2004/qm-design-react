@@ -22,6 +22,7 @@ import config from '../config';
 import useUpdateEffect from '../../../hooks/useUpdateEffect';
 
 import type { IColumn, IRecord, IRowKey } from '../table/types';
+import type { QmFormRef } from '../../../index';
 
 import { QmButton, QmTabs, QmForm, QmFormItem, QmEmpty, Modal, Checkbox, Input } from '../../../index';
 import { CloseCircleOutlined } from '@ant-design/icons';
@@ -73,8 +74,8 @@ const Setting: React.FC<ISettingProps> = (props) => {
   } = React.useContext(TableContext)!;
   const { uniqueKey } = tableProps;
 
-  const form1Ref = React.useRef<QmForm>(null);
-  const form2Ref = React.useRef<QmForm>(null);
+  const form1Ref = React.useRef<QmFormRef>(null);
+  const form2Ref = React.useRef<QmFormRef>(null);
   const records = React.useRef<IRecord[]>([]);
   const curRowKey = React.useRef<IRowKey>('');
   const curIndex = React.useRef<number>(-1);

@@ -7,5 +7,5 @@
 import Table from './src/table';
 
 export type { QmTableProps } from './src/table';
-export type { IColumn as QmTableColumn } from './src/table/types';
+export type { TableRef as QmTableRef, IColumn as QmTableColumn } from './src/table/types';
 export default Table;

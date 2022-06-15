@@ -6,6 +6,6 @@
  */
 import Form from './src/form';
 
-export type { QmFormProps } from './src/form';
+export type { FormRef as QmFormRef, QmFormProps } from './src/form';
 export type { IFormItem as QmFormItem, IFormItemType as QmFormItemType } from './src/types';
 export default Form;

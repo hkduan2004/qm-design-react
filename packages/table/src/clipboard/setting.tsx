@@ -11,6 +11,7 @@ import { getPrefixCls } from '../../../_utils/prefix';
 import { setCellValue } from '../utils';
 
 import type { IColumn, IRecord } from '../table/types';
+import type { QmFormRef } from '../../../index';
 
 import { QmButton, QmForm, QmFormItem } from '../../../index';
 
@@ -23,7 +24,7 @@ const Setting: React.FC<ISettingProps> = (props) => {
   const { columns, onClose } = props;
   const { tableRef, tableBodyRef, dataChange } = React.useContext(TableContext)!;
 
-  const formRef = React.useRef<QmForm>(null);
+  const formRef = React.useRef<QmFormRef>(null);
 
   const createFormItems = (): QmFormItem[] => {
     return [

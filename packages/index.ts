@@ -47,7 +47,7 @@ export { default as QmDrawer } from './drawer';
 export type { QmModalProps } from './modal';
 export { default as QmModal } from './modal';
 
-export type { QmFormProps, QmFormItem, QmFormItemType } from './form';
+export type { QmFormRef, QmFormProps, QmFormItem, QmFormItemType } from './form';
 export { default as QmForm } from './form';
 
 export type { QmTinymceProps } from './tinymce';
@@ -62,7 +62,7 @@ export { default as QmUploadFile } from './upload-file';
 export type { QmUploadImgProps } from './upload-img';
 export { default as QmUploadImg } from './upload-img';
 
-export type { QmTableProps, QmTableColumn } from './table';
+export type { QmTableRef, QmTableProps, QmTableColumn } from './table';
 export { default as QmTable } from './table';
 
 export type { QmSearchHelperProps } from './search-helper';

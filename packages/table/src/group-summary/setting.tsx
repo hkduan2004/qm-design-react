@@ -17,7 +17,8 @@ import { DEFAULT_DISTANCE } from '../table/types';
 import useUpdateEffect from '../../../hooks/useUpdateEffect';
 import config from '../config';
 
-import type { TableRef, IColumn, IRecord } from '../table/types';
+import type { IColumn, IRecord } from '../table/types';
+import type { QmTableRef } from '../../../index';
 import type { IDict } from '../../../_utils/types';
 
 import Table from '../table';
@@ -36,8 +37,8 @@ const Setting: React.FC<ISettingProps> = (props) => {
   const { tableProps, $size, flattenColumns } = React.useContext(TableContext)!;
   const { uniqueKey } = tableProps;
 
-  const groupTableRef = React.useRef<TableRef>(null);
-  const summaryTableRef = React.useRef<TableRef>(null);
+  const groupTableRef = React.useRef<QmTableRef>(null);
+  const summaryTableRef = React.useRef<QmTableRef>(null);
 
   const [visible, setVisible] = React.useState<boolean>(false);
 

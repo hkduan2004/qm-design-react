@@ -16,8 +16,9 @@ import { SizeHeight } from '../../_utils/types';
 import useResizeObserve from '../../hooks/useResizeObserve';
 import useUpdateEffect from '../../hooks/useUpdateEffect';
 
+import type { QmFormRef, QmTableRef } from '../../index';
 import type { IFormItem, IFormData } from '../../form/src/types';
-import type { TableRef, IFetch, IFetchFn, IColumn, IRowKey, IRecord } from '../../table/src/table/types';
+import type { IFetch, IFetchFn, IColumn, IRowKey, IRecord } from '../../table/src/table/types';
 import type { ComponentSize, Nullable } from '../../_utils/types';
 
 import { QmSplit, QmForm, QmTable, QmButton, Tree, Input } from '../../index';
@@ -123,7 +124,8 @@ const TreeTableHelper: React.FC<IProps> = (props) => {
   const $size = React.useMemo(() => props.size ?? size ?? '', [props.size, size]);
 
   const wrapperRef = React.useRef<HTMLDivElement>(null);
-  const tableRef = React.useRef<TableRef>(null);
+  const formRef = React.useRef<QmFormRef>(null);
+  const tableRef = React.useRef<QmTableRef>(null);
   const tableSize = useResizeObserve(wrapperRef);
 
   const createColumns = (columns?: IColumn[]): IColumn[] => {
@@ -292,6 +294,12 @@ const TreeTableHelper: React.FC<IProps> = (props) => {
     setTreeData(results);
   };
 
+  const resetFormHandle = async () => {
+    const [err, data] = await formRef.current!.GET_FORM_DATA();
+    if (err) return;
+    filterChangeHandle(data);
+  };
+
   const prefixCls = getPrefixCls('tree-table');
 
   const tableProps = !tableConf.webPagination
@@ -342,6 +350,7 @@ const TreeTableHelper: React.FC<IProps> = (props) => {
         <QmSplit.Pane className={`split-pane`}>
           <div className={`form-wrap`}>
             <QmForm
+              ref={formRef}
               items={formItems}
               initialValues={initialValue}
               uniqueKey={uniqueKey ? `helper_${uniqueKey}` : uniqueKey}
@@ -350,6 +359,7 @@ const TreeTableHelper: React.FC<IProps> = (props) => {
               fieldsChange={(items) => setFormItems(items)}
               onCollapse={() => calcTableHeight()}
               onFinish={(values) => filterChangeHandle(values)}
+              onReset={resetFormHandle}
             />
           </div>
           <div>

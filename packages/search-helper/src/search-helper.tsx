@@ -16,8 +16,9 @@ import useResizeObserve from '../../hooks/useResizeObserve';
 import useUpdateEffect from '../../hooks/useUpdateEffect';
 
 import type { IFormItem, IFormData } from '../../form/src/types';
-import type { TableRef, IFetch, IFetchFn, IColumn, IRowKey, IRecord } from '../../table/src/table/types';
+import type { IFetch, IFetchFn, IColumn, IRowKey, IRecord } from '../../table/src/table/types';
 import type { ComponentSize } from '../../_utils/types';
+import type { QmFormRef, QmTableRef } from '../../index';
 
 import { QmForm, QmTable, QmButton } from '../../index';
 
@@ -63,7 +64,8 @@ const SearchHelper: React.FC<IProps> = (props) => {
   const $size = React.useMemo(() => props.size ?? size ?? '', [props.size, size]);
 
   const wrapperRef = React.useRef<HTMLDivElement>(null);
-  const tableRef = React.useRef<TableRef>(null);
+  const formRef = React.useRef<QmFormRef>(null);
+  const tableRef = React.useRef<QmTableRef>(null);
   const tableSize = useResizeObserve(wrapperRef);
 
   const createColumns = (columns?: IColumn[]): IColumn[] => {
@@ -174,6 +176,12 @@ const SearchHelper: React.FC<IProps> = (props) => {
     setFetchParams(Object.assign({}, fetchParams, val));
   };
 
+  const resetFormHandle = async () => {
+    const [err, data] = await formRef.current!.GET_FORM_DATA();
+    if (err) return;
+    filterChangeHandle(data);
+  };
+
   const prefixCls = getPrefixCls('search-helper');
 
   const tableProps = !tableConf.webPagination
@@ -193,6 +201,7 @@ const SearchHelper: React.FC<IProps> = (props) => {
     <div ref={wrapperRef} className={`${prefixCls}--wrapper`}>
       <div className={`form-wrap`}>
         <QmForm
+          ref={formRef}
           items={formItems}
           initialValues={initialValue}
           uniqueKey={uniqueKey ? `helper_${uniqueKey}` : uniqueKey}
@@ -201,6 +210,7 @@ const SearchHelper: React.FC<IProps> = (props) => {
           fieldsChange={(items) => setFormItems(items)}
           onCollapse={() => calcTableHeight()}
           onFinish={(values) => filterChangeHandle(values)}
+          onReset={resetFormHandle}
         />
       </div>
       <div>

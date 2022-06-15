@@ -13,10 +13,11 @@ import { t } from '../../../locale';
 import { sleep } from '../../../_utils/util';
 import config from '../config';
 
+import type { IColumn, IRecord } from '../table/types';
+import type { QmFormRef } from '../../../index';
+
 import SelectFile from './SelectFile';
 import { QmButton, QmForm, QmFormItem } from '../../../index';
-
-import { IColumn, IRecord } from '../table/types';
 
 type ISettingProps = {
   columns: IColumn[];
@@ -29,7 +30,7 @@ const Setting: React.FC<ISettingProps> = (props) => {
 
   const { importXLSX } = useExport();
 
-  const formRef = React.useRef<QmForm>(null);
+  const formRef = React.useRef<QmFormRef>(null);
 
   const [loading, setLoading] = React.useState<boolean>(false);
 
