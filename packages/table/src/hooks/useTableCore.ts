@@ -724,10 +724,8 @@ const useTableCore = <T extends ITableProps>(props: T, extra: IExtra) => {
       const tableList = createTableList();
       if (tableList.length) {
         const rowKey = getRowKey(tableList[0], tableList[0].index);
-        tableBodyRef.current!.setClickedValues([rowKey, config.selectionColumn]);
         setSelectionKeys([rowKey]);
       } else {
-        tableBodyRef.current!.setClickedValues([]);
         setSelectionKeys([]);
       }
     }
