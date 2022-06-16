@@ -178,6 +178,7 @@ export type IFormItem = {
     maxLength?: number;
     password?: boolean;
     toUpper?: boolean;
+    pattern?: RegExp;
     secretType?: ISecretType;
     // input-number
     step?: number;

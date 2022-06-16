@@ -5,12 +5,13 @@
  * @Last Modified time: 2022-04-19 11:53:59
  */
 import React, { Component } from 'react';
+import { cloneDeep } from 'lodash-es';
 import classNames from 'classnames';
 import memoize from 'memoize-one';
 import ConfigContext from '../../config-provider/context';
 import FormContext from './context';
 import { addResizeListener, removeResizeListener } from '../../_utils/resize-event';
-import { getParserWidth, getAuthValue, deepClone, debounce, get, noop, isEmpty, isObject, isFunction } from '../../_utils/util';
+import { getParserWidth, getAuthValue, debounce, get, noop, isEmpty, isObject, isFunction } from '../../_utils/util';
 import { isEmptyValue } from './utils';
 import { warn } from '../../_utils/error';
 import { t } from '../../locale';
@@ -722,7 +723,7 @@ class QmForm extends Component<IProps, IState> {
           span={selfCol * colSpan}
           style={this.isFilterType ? { display: !this.showFilterCollapse || isBlock ? 'block' : 'none' } : { display: isDisplay ? 'block' : 'none' }}
         >
-          {type ? this.createFormItem(deepClone(item) as IFormItem) : null}
+          {type ? this.createFormItem(cloneDeep(item) as IFormItem) : null}
         </Col>
       );
     });

@@ -151,6 +151,7 @@
 | maxLength        | 内容最大长度                                           | INPUT                                | number                                | -                    |
 | password         | 是否为密码类型                                         | INPUT                                | boolean                               | -                    |
 | toUpper          | 输入框文本自动转大写                                   | INPUT                                | boolean                               | -                    |
+| pattern          | 输入框文本的正则校验规则                               | INPUT                                | RegExp                                | -                    |
 | secretType       | 值保密类型，[配置项](#secret_type)                     | INPUT                                | string                                | -                    |
 | step             | 每次改变步数                                           | INPUT_NUMBER                         | number                                | 1                    |
 | min              | 最小值                                                 | INPUT_NUMBER                         | number                                | 0                    |

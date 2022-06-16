@@ -42,6 +42,13 @@ const App = () => {
         label: '条件1',
         tooltip: 'Label 描述信息',
         fieldName: 'a',
+        options: {
+          // toUpper: true,
+          // pattern: /^[0-9]+$/,
+        },
+        onChange: (val) => {
+          console.log(123, val);
+        },
       },
       {
         type: 'TREE_TABLE_HELPER',
@@ -732,7 +739,7 @@ const App = () => {
             setFetchParams(values);
           }}
           onValuesChange={(a, b) => {
-            console.log(222, a, b);
+            // console.log(222, a, b);
           }}
           onCollapse={() => tableRef.current.CALCULATE_HEIGHT()}
         />

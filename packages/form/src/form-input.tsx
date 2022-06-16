@@ -5,6 +5,7 @@
  * @Last Modified time: 2022-05-25 12:07:15
  */
 import React, { Component } from 'react';
+import { isRegExp } from 'lodash-es';
 import FormContext from './context';
 import { noop, getParserWidth } from '../../_utils/util';
 import { t } from '../../locale';
@@ -54,7 +55,7 @@ class VInput extends Component<IInputProps> {
       onBlur = noop,
       onEnter = noop,
     } = this.props.option;
-    const { prefix, suffix, password, maxLength, toUpper, secretType } = options;
+    const { prefix, suffix, password, maxLength, pattern, toUpper, secretType } = options;
     const showSecretType = secretType && (readOnly || disabled);
     const C = !password ? Input : Input.Password;
     return (
@@ -86,8 +87,14 @@ class VInput extends Component<IInputProps> {
           }
         }}
         onChange={(ev) => {
-          const { value } = ev.target;
-          this.triggerChange(!toUpper ? value : value.toUpperCase());
+          let val = ev.target.value;
+          if (isRegExp(pattern)) {
+            val = pattern.test(val) ? val : value ?? '';
+          }
+          if (toUpper) {
+            val = val.toUpperCase();
+          }
+          this.triggerChange(val);
         }}
       />
     );
