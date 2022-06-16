@@ -11,7 +11,7 @@ import { isEqual } from 'lodash-es';
 import TableContext from '../context';
 import { deepFindRowKey, getCellValue, getVNodeText, parseHeight, isArrayContain, getAllTableData, deepGetRowkey } from '../utils';
 import { isObject, isValidElement, camelize, noop, trueNoop } from '../../../_utils/util';
-import { prevent } from '../../../_utils/dom';
+import { contains, prevent } from '../../../_utils/dom';
 import { t } from '../../../locale';
 import { warn } from '../../../_utils/error';
 import { getPrefixCls } from '../../../_utils/prefix';
@@ -210,14 +210,16 @@ const TableBody = React.forwardRef<TableBodyRef, IBodyProps>((props, ref) => {
         setHighlightKey('');
         setFullScreen(false);
       }
-      if (!clicked.length) return;
+      if (!clicked.length || (!contains(document.activeElement, tableBodyRef.current!) && document.activeElement?.tagName === 'INPUT')) return;
       // Enter
       if (keyCode === 13) {
         prevent(ev);
         if (rowSelection?.type === 'radio' || rowHighlight) {
           const rowKey = selectionKeys[0] ?? highlightKey ?? null;
           const row = tableData.find((record) => getRowKey(record, record.index) === rowKey) ?? null;
-          row && onRowEnter?.(row, ev);
+          if (row) {
+            onRowEnter?.(row, ev);
+          }
         }
       }
       // 上  下
@@ -653,7 +655,14 @@ const TableBody = React.forwardRef<TableBodyRef, IBodyProps>((props, ref) => {
     <div className={`${prefixCls}--body-wrapper`} style={{ ...wrapStyle }} onScroll={scrollEventHandle}>
       {renderBodyYSpace()}
       {renderBodyXSpace()}
-      <table ref={tableBodyRef} className={`${prefixCls}--body`} cellSpacing="0" cellPadding="0" style={{ width: bodyWidth ? `${bodyWidth}px` : '' }}>
+      <table
+        ref={tableBodyRef}
+        className={`${prefixCls}--body`}
+        tabIndex={-1}
+        cellSpacing="0"
+        cellPadding="0"
+        style={{ width: bodyWidth ? `${bodyWidth}px` : '' }}
+      >
         {renderColgroup()}
         {!rowDraggable ? (
           <tbody>{renderRows(tableData)}</tbody>

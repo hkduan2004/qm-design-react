@@ -199,7 +199,7 @@ export const getParentNode = (el: HTMLElement, selector: string): Nullable<HTMLE
  * @param {HTMLNode} container 目标节点
  * @returns boolean
  */
-export const contains = (el: HTMLElement, container: HTMLElement): boolean => {
+export const contains = (el: Element | HTMLElement | null, container: HTMLElement): boolean => {
   if (isServer || !el || !container) return false;
   let parent = el;
 
