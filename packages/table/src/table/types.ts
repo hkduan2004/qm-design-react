@@ -115,6 +115,12 @@ export type IRule = {
   validator?: (value: unknown) => boolean;
 };
 
+export type IFieldAuthItem = {
+  visible: number;
+  disabled?: number;
+  secretName?: string;
+};
+
 export type IValidItem = {
   rowKey: IRowKey;
   dataIndex: string;

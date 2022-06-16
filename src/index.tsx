@@ -32,13 +32,8 @@ import '../packages/style/index.less';
 //             secretName: 'name', // 'name' | 'phone' | 'IDnumber' | 'bankCard'
 //           },
 //           {
-//             dataIndex: 'choice',
-//             visible: 0,
-//             disabled: 0,
-//           },
-//           {
-//             dataIndex: 'state',
-//             visible: 0,
+//             dataIndex: 'price',
+//             visible: 1,
 //             disabled: 0,
 //           },
 //         ],

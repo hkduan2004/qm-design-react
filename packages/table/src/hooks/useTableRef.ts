@@ -10,7 +10,7 @@ import { isIE } from '../../../_utils/util';
 import Store from '../store';
 import config from '../config';
 
-import type { getRowKeyType, IColumn, IDerivedRowKey, IRecord, IRowKey, ITableProps } from '../table/types';
+import type { getRowKeyType, IColumn, IDerivedRowKey, IFieldAuthItem, IRecord, IRowKey, ITableProps } from '../table/types';
 import type { ComponentSize, Nullable } from '../../../_utils/types';
 
 export type ITableRef = {
@@ -23,6 +23,7 @@ export type ITableRef = {
   allRowKeys: IRowKey[];
   deriveRowKeys: IDerivedRowKey[]; // 派生的 rowKeys for treeTable
   flattenRowKeys: IRowKey[];
+  fieldAuth: Record<string, IFieldAuthItem>;
   scrollYStore: {
     startIndex: number;
     endIndex: number;
@@ -74,6 +75,8 @@ const useTableRef = <T extends ITableProps>(props: T, { getRowKey, $size }: IExt
     deriveRowKeys: [],
     // 叶子节点 rowKeys
     flattenRowKeys: [],
+    // 字段权限
+    fieldAuth: {},
     // 存放纵向 Y 虚拟滚动相关信息
     scrollYStore: {
       startIndex: 0,
@@ -140,6 +143,7 @@ const useTableRef = <T extends ITableProps>(props: T, { getRowKey, $size }: IExt
   const setElementStore = (key: string, value: HTMLElement) => {
     tableRef.current.elementStore[key] = value;
   };
+
   const clearElementStore = () => {
     for (const key in tableRef.current.elementStore) {
       tableRef.current.elementStore[key] = null;
@@ -168,6 +172,10 @@ const useTableRef = <T extends ITableProps>(props: T, { getRowKey, $size }: IExt
     tableRef.current.deriveRowKeys = createDeriveRowKeys(records, '', '');
     tableRef.current.flattenRowKeys = createFlatRowKeys(tableRef.current.deriveRowKeys);
     tableRef.current.treeTable = tableRef.current.deriveRowKeys.some((x) => Array.isArray(x.children) && x.children.length);
+  };
+
+  const setFieldAuth = (key: string, value: IFieldAuthItem) => {
+    tableRef.current.fieldAuth[key] = value;
   };
 
   const setScrollYStore = (option: ITableRef['scrollYStore']) => {
@@ -215,6 +223,7 @@ const useTableRef = <T extends ITableProps>(props: T, { getRowKey, $size }: IExt
     setTableOriginData,
     setAllTableData,
     setDeriveRowKeys,
+    setFieldAuth,
     setScrollYStore,
     setResizeState,
     setHandleState,

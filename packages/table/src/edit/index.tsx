@@ -55,7 +55,9 @@ const CellEdit: React.FC<ICellEditProps> = (props) => {
   const [matching, setMatching] = React.useState<boolean>(false);
   const [shItemList, setShItemList] = React.useState<IDict[]>(options.items || []);
 
-  const editable = (options.editable || isEqual(clicked, [rowKey, columnKey])) && !options.disabled;
+  const auth_disabled = !!tableRef.current.fieldAuth[columnKey]?.disabled;
+
+  const editable = (options.editable || isEqual(clicked, [rowKey, columnKey])) && !options.disabled && !auth_disabled;
 
   const dataKey = `${rowKey}|${columnKey}`;
 

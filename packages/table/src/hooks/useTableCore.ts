@@ -33,6 +33,7 @@ import type {
   IColumn,
   IDerivedRowKey,
   IFetchParams,
+  IFieldAuthItem,
   IFilter,
   IFormatType,
   IPagination,
@@ -89,6 +90,7 @@ type IExtra = {
   setHighlightKey: (rowKey: IRowKey) => void;
   setScrollYLoad: (scrollYLoad: boolean) => void;
   setScrollYStore: (option: ITableRef['scrollYStore']) => void;
+  setFieldAuth: (key: string, value: IFieldAuthItem) => void;
   setResizeState: (option: ITableRef['resizeState']) => void;
   setSummaries: (option: ITableRef['summaries']) => void;
   setPermission: <T extends ITableState['permission']>(option: T | ((prev: T) => T)) => void;
@@ -157,6 +159,7 @@ const useTableCore = <T extends ITableProps>(props: T, extra: IExtra) => {
     setHighlightKey,
     setScrollYLoad,
     setScrollYStore,
+    setFieldAuth,
     setResizeState,
     setSummaries,
     setPermission,
@@ -586,6 +589,7 @@ const useTableCore = <T extends ITableProps>(props: T, extra: IExtra) => {
         if (target) {
           const { visible = 1, disabled, secretName } = target;
           const originColumn = deepFindColumn(originColumns, dataIndex) as IColumn;
+          setFieldAuth(dataIndex, { visible, disabled, secretName });
           if (!visible) {
             column.noAuth = true;
             originColumn.noAuth = true;
