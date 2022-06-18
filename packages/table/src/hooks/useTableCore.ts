@@ -765,6 +765,7 @@ const useTableCore = <T extends ITableProps>(props: T, extra: IExtra) => {
 
   // 创建 treeExpandRef 数据
   const createTreeExpand = () => {
+    if (!tableRef.current.treeTable || !treeConfig?.virtual) return;
     const list = deepMapRowkey(tableRef.current.deriveRowKeys);
     treeExpandRef.current.list = list;
     treeExpandRef.current.maps.clear();
@@ -838,6 +839,7 @@ const useTableCore = <T extends ITableProps>(props: T, extra: IExtra) => {
     setAllTableData(list);
     setDeriveRowKeys(list);
     createRowKeysMap();
+    createTreeExpand();
     updateTableData();
   };
 
