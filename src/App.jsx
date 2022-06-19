@@ -459,7 +459,7 @@ const App = () => {
                       textKey: 'text',
                     },
                     // checkStrictly: true,
-                    // checkStrategy: 'SHOW_PARENT',
+                    checkStrategy: 'SHOW_PARENT',
                     defaultExpandAll: false,
                     // asyncLoad: true,
                   },

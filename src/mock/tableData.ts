@@ -15,8 +15,8 @@ export default {
         'id|+1': 1,
         person: {
           name: '@cname',
-          nameids: [1, 2],
-          names: ['张三', '李四'],
+          nameids: [],
+          names: [],
           'sex|1': ['0', '1'],
           'age|18-60': 18,
         },

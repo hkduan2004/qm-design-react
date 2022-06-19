@@ -11,7 +11,7 @@ import pinyin from '../../pinyin';
 import { t } from '../../locale';
 import { debounce } from '../../_utils/util';
 import { getPrefixCls } from '../../_utils/prefix';
-import { deepMapList } from '../../form/src/utils';
+import { deepMapList, deepFind } from '../../form/src/utils';
 import { SizeHeight } from '../../_utils/types';
 import useResizeObserve from '../../hooks/useResizeObserve';
 import useUpdateEffect from '../../hooks/useUpdateEffect';
@@ -65,11 +65,11 @@ const getAllParentKey = (tree: IRecord[], valueKey: string) => {
   });
   return result;
 };
-const deepFind = (arr: IRecord[], fn: (node: IRecord) => boolean): IRecord[] => {
+const deepFindList = (arr: IRecord[], fn: (node: IRecord) => boolean): IRecord[] => {
   const result: IRecord[] = [];
   arr.forEach((x) => {
     if (x.children) {
-      result.push(...deepFind(x.children, fn));
+      result.push(...deepFindList(x.children, fn));
     }
     if (fn(x)) {
       result.push(x);
@@ -116,14 +116,12 @@ const getParentKeys = (tree: IRecord[], value: string, valueKey: string) => {
     }
   }
 };
-const getChildKeys = (tree: IRecord[], value: string, valueKey: string) => {
-  const list = deepFind(tree, (node) => node[valueKey] === value);
-  if (!list.length) {
-    return [];
+const getChildKeys = (node: IRecord, valueKey: string) => {
+  const results: string[] = node.children?.map((x) => x[valueKey]) || [];
+  if (Array.isArray(node.children)) {
+    node.children.forEach((x) => results.push(...getChildKeys(x, valueKey)));
   }
-  // const target = list[0];
-  // const result: string[] = [];
-  // ...
+  return results;
 };
 // ===========================
 
@@ -173,7 +171,7 @@ const TreeHelper: React.FC<IProps> = (props) => {
     if (multiple) {
       return defaultSelectedKeys;
     }
-    const rows = deepFind(treeData, (node) => defaultSelectedKeys.includes(node[`text`]));
+    const rows = deepFindList(treeData, (node) => defaultSelectedKeys.includes(node[`text`]));
     if (rows.length === 1) {
       return [rows[0][`value`]];
     }
@@ -232,7 +230,12 @@ const TreeHelper: React.FC<IProps> = (props) => {
           results.push(...createParentKeys(x));
         }
         if (checkStrategy === 'SHOW_PARENT') {
-          // ..
+          const currentNode = deepFind(treeData, x);
+          if (currentNode) {
+            const _parentKeys = createParentKeys(x);
+            const _childKeys = getChildKeys(currentNode, 'value');
+            results.push(..._parentKeys, ...[x, ..._childKeys].filter((x) => allParentKeys.current.includes(x)));
+          }
         }
       }
     });
@@ -304,7 +307,7 @@ const TreeHelper: React.FC<IProps> = (props) => {
           onSelect={(selectedKeys: string[]) => {
             const { valueKey = 'value' } = tree.fetch || {};
             setSelectedKeys(selectedKeys);
-            const rows = deepFind(responseList.current, (node) => selectedKeys.includes(get(node, valueKey)));
+            const rows = deepFindList(responseList.current, (node) => selectedKeys.includes(get(node, valueKey)));
             setRecord(!multiple ? rows[0] : rows);
           }}
           onCheck={(selectedKeys: string[]) => {
@@ -320,7 +323,7 @@ const TreeHelper: React.FC<IProps> = (props) => {
             if (checkStrategy === 'SHOW_PARENT') {
               selectedKeys = selectedKeys.filter((x, _, arr) => !arr.includes(getParentKey(treeData, x, 'value')!));
             }
-            const rows = deepFind(responseList.current, (node) => selectedKeys.includes(get(node, valueKey)));
+            const rows = deepFindList(responseList.current, (node) => selectedKeys.includes(get(node, valueKey)));
             setRecord(!multiple ? rows[0] : rows);
           }}
         />
