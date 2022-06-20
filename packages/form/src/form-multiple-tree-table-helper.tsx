@@ -124,6 +124,10 @@ class VMultipleTreeHelper extends Component<IMultipleTreeHelperProps, IState> {
     this._records = records;
   };
 
+  recordsToDict = (): IDict[] => {
+    return this._records.map((x) => ({ text: x[this.alias.textKey], value: x[this.alias.valueKey] }));
+  };
+
   // 打开搜索帮助面板
   openSearchHelper = (cb?: () => void) => {
     const { $$form } = this.context;
@@ -146,9 +150,9 @@ class VMultipleTreeHelper extends Component<IMultipleTreeHelperProps, IState> {
 
   // 搜索帮助关闭，回显值事件
   closeSearchHelper = (data: IRecord[], keys: string[] = []) => {
-    const { textKey, valueKey } = this.alias;
+    const { valueKey } = this.alias;
     this.setRecords(uniqBy([...this._records.filter((x) => keys.includes(x[valueKey])), ...data], valueKey));
-    const results = this._records.map((x) => ({ text: x[textKey], value: x[valueKey] }));
+    const results = this.recordsToDict();
     this.setItemList(results);
     this.triggerChange(results.map((x) => x.value));
     const { closed } = this.searchHelper!;
@@ -157,9 +161,9 @@ class VMultipleTreeHelper extends Component<IMultipleTreeHelperProps, IState> {
     });
   };
 
-  createViewText() {
-    return this.state.itemList
-      .filter((x) => this.props.value?.includes(x.value))
+  createViewText(value: Array<string | number>) {
+    return this.recordsToDict()
+      .filter((x) => value.includes(x.value))
       .map((x) => x.text)
       .join(',');
   }
@@ -169,7 +173,7 @@ class VMultipleTreeHelper extends Component<IMultipleTreeHelperProps, IState> {
     const { valueKey } = this.alias;
     this.setRecords(this._records.filter((x) => value.includes(x[valueKey])));
     onChange?.(value);
-    onValuesChange(value, this.createViewText(), this._records);
+    onValuesChange(value, this.createViewText(value), this._records);
   };
 
   render(): React.ReactElement {
