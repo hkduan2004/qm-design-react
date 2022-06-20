@@ -210,6 +210,7 @@ class VSearch extends Component<ISerachProps, IState> {
                 readOnly={readOnly}
                 disabled={disabled}
                 value={value}
+                title={value}
                 onFocus={() => {
                   !results.length && this.fetchHandle(value);
                 }}

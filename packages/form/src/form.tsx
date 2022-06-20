@@ -306,13 +306,15 @@ class QmForm extends Component<IProps, IState> {
 
   // 设置视图数据，用于摘要显示
   setViewValue(fieldName: string, val = '') {
-    if (!this.showDividerCollapse) return;
     const { viewData } = this.state;
     if (val !== viewData[fieldName]) {
-      this.setState((prevState) => ({
-        viewData: Object.assign({}, prevState.viewData, { [fieldName]: val }),
-      }));
+      this.setState((prevState) => ({ viewData: Object.assign({}, prevState.viewData, { [fieldName]: val }) }));
     }
+  }
+
+  // 获取视图文本
+  getViewValue(fieldName: string) {
+    return this.state.viewData[fieldName] ?? '';
   }
 
   // 输入框获得焦点

@@ -177,6 +177,7 @@ class VMultipleTreeHelper extends Component<IMultipleTreeHelperProps, IState> {
     const { visible, loading, itemList } = this.state;
     const { value } = this.props;
     const {
+      fieldName,
       options = {},
       searchHelper = {},
       style = {},
@@ -231,6 +232,7 @@ class VMultipleTreeHelper extends Component<IMultipleTreeHelperProps, IState> {
               allowClear={allowClear}
               disabled={disabled}
               style={{ width: '100%' }}
+              {...{ title: $$form.getViewValue(fieldName) }}
               onKeyUp={(ev) => {
                 if (ev.keyCode === 13) {
                   ev.preventDefault();

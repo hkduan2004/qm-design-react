@@ -134,6 +134,7 @@ class FormSelect extends Component<IProps, IState> {
                 showSearch={filterable}
                 maxTagCount={collapseTags ? 'responsive' : undefined}
                 maxTagTextLength={maxTagTextLength}
+                {...{ title: $$form.getViewValue(fieldName) }}
                 filterOption={(input, option) => {
                   const text = (option?.children || '') as string;
                   const pyt: string = pinyin

@@ -278,6 +278,7 @@ class VRegionSelect extends Component<IRegionSelectProps, IState> {
                 readOnly={readOnly}
                 disabled={disabled}
                 value={textValue}
+                title={textValue}
                 onChange={(ev) => {
                   const { value } = ev.target;
                   this.triggerChange(value);

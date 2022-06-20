@@ -64,6 +64,7 @@ class VInput extends Component<IInputProps> {
         value={showSecretType ? secretFormat(value, secretType) : value}
         placeholder={placeholder}
         style={style}
+        title={value}
         prefix={prefix}
         suffix={suffix}
         maxLength={maxLength}

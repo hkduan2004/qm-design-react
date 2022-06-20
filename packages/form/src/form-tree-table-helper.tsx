@@ -185,7 +185,8 @@ class VTreeTableHelper extends Component<ITreeTableHelperProps, IState> {
       <>
         <Search
           ref={(ref) => (this[`${type}_Ref`] = ref)}
-          value={value ?? ''}
+          value={value}
+          title={value}
           placeholder={placeholder}
           style={style}
           prefix={prefix}

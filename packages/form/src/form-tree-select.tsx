@@ -154,6 +154,7 @@ class FormTreeSelect extends Component<IProps, IState> {
                 treeDefaultExpandAll={true}
                 showSearch={filterable}
                 maxTagCount={collapseTags ? 'responsive' : undefined}
+                {...{ title: $$form.getViewValue(fieldName) }}
                 filterTreeNode={(input, option) => {
                   const text: string = (option?.title as string) || '';
                   const pyt: string = pinyin

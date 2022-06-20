@@ -177,6 +177,7 @@ class VMultipleSearch extends Component<IMultipleSearchProps, IState> {
     const { visible, loading, itemList } = this.state;
     const { value } = this.props;
     const {
+      fieldName,
       options = {},
       searchHelper = {},
       style = {},
@@ -231,6 +232,7 @@ class VMultipleSearch extends Component<IMultipleSearchProps, IState> {
               allowClear={allowClear}
               disabled={disabled}
               style={{ width: '100%' }}
+              {...{ title: $$form.getViewValue(fieldName) }}
               onKeyUp={(ev) => {
                 if (ev.keyCode === 13) {
                   ev.preventDefault();

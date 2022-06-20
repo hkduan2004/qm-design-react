@@ -291,6 +291,7 @@ class VSearch extends Component<ISearchProps, IState> {
           loading={loading}
           placeholder={placeholder}
           style={style}
+          title={value}
           prefix={prefix}
           suffix={suffix}
           maxLength={maxLength}
