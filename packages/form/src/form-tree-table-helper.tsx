@@ -12,7 +12,8 @@ import { t } from '../../locale';
 import { warn } from '../../_utils/error';
 import { SizeHeight } from '../../_utils/types';
 import { DEFAULT_LABEL_WIDTH } from './types';
-import type { IFormItem } from './types';
+import type { IFormItem, IRecord } from './types';
+import type { Nullable } from '../../_utils/types';
 
 import { QmModal, QmTreeTableHelper } from '../../index';
 import { Form, Row, Col, Input } from '../../antd';
@@ -31,7 +32,7 @@ type ITreeTableHelperProps<T = string> = IProps & {
   value?: T;
   onBlur?: (value: T) => void;
   onChange?: (value: T) => void;
-  onValuesChange: (value: T) => void;
+  onValuesChange: (value: T, record: IRecord | null) => void;
 };
 
 class VTreeTableHelper extends Component<ITreeTableHelperProps, IState> {
@@ -45,6 +46,8 @@ class VTreeTableHelper extends Component<ITreeTableHelperProps, IState> {
 
   // 描述信息字段映射
   public extras: Record<string, string>;
+
+  public _record: Nullable<IRecord>;
 
   public state: IState = {
     visible: false,
@@ -108,6 +111,7 @@ class VTreeTableHelper extends Component<ITreeTableHelperProps, IState> {
       const val = data[this.extras[key]];
       $$form.SET_FIELDS_EXTRA({ [key]: val });
     }
+    this._record = data;
     this.triggerChange(data[this.alias[fieldName]]);
     const { closed } = this.searchHelper!;
     this.setVisible(false, () => {
@@ -126,13 +130,14 @@ class VTreeTableHelper extends Component<ITreeTableHelperProps, IState> {
     for (const key in this.extras) {
       $$form.SET_FIELDS_EXTRA({ [key]: '' });
     }
+    this._record = null;
     this.triggerChange('');
   };
 
   triggerChange = (value: string) => {
     const { onChange, onValuesChange } = this.props;
     onChange?.(value);
-    onValuesChange(value);
+    onValuesChange(value, this._record);
   };
 
   triggerBlur = (value: string) => {
@@ -267,8 +272,8 @@ class FormTreeTableHelper extends Component<IProps> {
             >
               <VTreeTableHelper
                 option={this.props.option}
-                onValuesChange={(value) => {
-                  onChange(value);
+                onValuesChange={(value, record) => {
+                  onChange(value, record);
                   $$form.setViewValue(fieldName, value);
                 }}
               />

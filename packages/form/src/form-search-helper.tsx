@@ -11,10 +11,10 @@ import { getParserWidth, nextTick, trueNoop } from '../../_utils/util';
 import { t } from '../../locale';
 import { warn } from '../../_utils/error';
 import { SizeHeight } from '../../_utils/types';
-import { DEFAULT_LABEL_WIDTH, IFormData } from './types';
+import { DEFAULT_LABEL_WIDTH } from './types';
 
-import type { IFormItem } from './types';
-import type { ValueOf } from '../../_utils/types';
+import type { IFormItem, IRecord } from './types';
+import type { Nullable } from '../../_utils/types';
 
 import { QmModal, QmSearchHelper } from '../../index';
 import { Form, Row, Col, Input } from '../../antd';
@@ -54,6 +54,8 @@ class VSearch extends Component<ISearchProps, IState> {
 
   // 值是否变化
   public _is_change = false;
+
+  public _record: Nullable<IRecord>;
 
   state: IState = {
     visible: false,
@@ -181,6 +183,7 @@ class VSearch extends Component<ISearchProps, IState> {
       const val = data[this.extras[key]];
       $$form.SET_FIELDS_EXTRA({ [key]: val });
     }
+    this._record = data;
     this.triggerChange(data[this.alias[fieldName]]);
     this.searchHelperChangeHandle(data[this.alias[fieldName]]);
     const { closed } = this.searchHelper!;
@@ -210,22 +213,17 @@ class VSearch extends Component<ISearchProps, IState> {
     for (const key in this.extras) {
       $$form.SET_FIELDS_EXTRA({ [key]: '' });
     }
+    this._record = null;
     this.triggerChange('');
     this.searchHelperChangeHandle('');
   };
 
   // 搜索帮助 change 事件
   searchHelperChangeHandle = (val?: string) => {
-    const { fieldName, onChange } = this.props.option;
-    const { $$form } = this.context;
-    const others: Record<string, ValueOf<IFormData>> = {};
-    Object.keys(this.alias).forEach((key) => {
-      if (key === fieldName) return;
-      others[key] = $$form.state.formData[key];
-    });
+    const { onChange } = this.props.option;
     this.deriveParams = {};
     this._is_change = false;
-    onChange?.(val, Object.keys(others).length ? others : null);
+    onChange?.(val, this._record);
   };
 
   // ===================================
