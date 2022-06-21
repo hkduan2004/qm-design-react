@@ -178,6 +178,7 @@
 | maxTagTextLength | 最大显示的 tag 文本长度                                | SELECT                               | number                                | -                    |
 | checkStrategy    | 定义返回数据的策略                                     | MULTIPLE_TREE_SELECT                 | SHOW_ALL \| SHOW_PARENT \| SHOW_CHILD | SHOW_CHILD           |
 | openPyt          | 是否开启拼音头检索                                     | SELECT                               | boolean                               | true                 |
+| changeOnSelect   | 点选每级菜单选项值都会发生变化                         | CASCADER                             | boolean                               | -                    |
 | hideHeader       | 是否隐藏表头                                           | IMMEDIATE                            | boolean                               | -                    |
 | onlySelect       | 是否只能选择                                           | IMMEDIATE                            | boolean                               | -                    |
 | columns          | 及时反馈下拉列表的配置，[配置项](#columns)             | IMMEDIATE                            | array                                 | -                    |

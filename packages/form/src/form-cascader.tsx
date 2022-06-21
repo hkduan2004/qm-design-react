@@ -35,8 +35,10 @@ type ICascaderProps<T = string | string[]> = IProps & {
 };
 
 const VCascader: React.FC<ICascaderProps> = (props) => {
+  const { $$form } = React.useContext(FormContext)!;
   const { value, multiple, cascaderData } = props;
   const {
+    fieldName,
     options = {},
     style = {},
     placeholder = t('qm.form.selectPlaceholder'),
@@ -45,7 +47,7 @@ const VCascader: React.FC<ICascaderProps> = (props) => {
     readOnly,
     disabled,
   } = props.option;
-  const { filterable = true, openPyt = true } = options;
+  const { changeOnSelect, filterable = true, openPyt = true } = options;
 
   const filter = (input, path) => {
     return path.some((option) => {
@@ -87,14 +89,16 @@ const VCascader: React.FC<ICascaderProps> = (props) => {
       maxTagCount={'responsive'}
       value={createValue()}
       options={cascaderData as any}
+      changeOnSelect={changeOnSelect}
       placeholder={placeholder}
       style={style}
       bordered={bordered}
       allowClear={allowClear}
       disabled={disabled}
       showSearch={filterable && { filter }}
-      onChange={(value: unknown[] = []) => {
-        triggerChange(!multiple ? value.join(',') : value.map((x) => (x as unknown as string[]).join(',')));
+      {...{ title: $$form.getViewValue(fieldName) }}
+      onChange={(value: any[] = []) => {
+        triggerChange(!multiple ? value.join(',') : value.map((x) => x.join(',')));
       }}
     />
   );
@@ -174,7 +178,7 @@ class FormCascader extends Component<IProps, IState> {
       onChange = noop,
     } = this.props.option;
     const { itemList = [] } = options;
-    const items = isEmpty(itemList) ? this.state.results : (itemList as IDict[]);
+    const items = isEmpty(itemList) ? this.state.results : itemList;
     return (
       <Form.Item
         label={$$form.renderFormLabel(label)}

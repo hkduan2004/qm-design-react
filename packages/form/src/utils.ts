@@ -5,6 +5,7 @@
  * @Last Modified time: 2022-03-19 10:52:49
  */
 import dayjs, { Dayjs } from 'dayjs';
+import type { IDict } from 'packages/_utils/types';
 
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
@@ -22,9 +23,9 @@ export const formatDate = (date: Dayjs | null, format: string) => {
 
 export const isEmptyValue = (value: unknown) => value === '' || value === undefined || value === null;
 
-export const deepMapList = (list: any[], valueKey: string, textKey: string) => {
+export const deepMapList = (list: any[], valueKey: string, textKey: string): IDict[] => {
   return list.map((x) => {
-    const item = { value: x[valueKey], text: x[textKey] } as any;
+    const item: IDict = { value: x[valueKey], text: x[textKey] };
     x.disabled && (item.disabled = true);
     if (Array.isArray(x.children)) {
       item.children = deepMapList(x.children, valueKey, textKey);

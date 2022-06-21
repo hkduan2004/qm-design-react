@@ -215,6 +215,8 @@ export type IFormItem = {
     openPyt?: boolean;
     // tree-select
     checkStrategy?: ICheckStrategy;
+    // cascader
+    changeOnSelect?: boolean;
     // immediate
     hideHeader?: boolean;
     onlySelect?: boolean;
