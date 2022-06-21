@@ -58,13 +58,14 @@ class VInput extends Component<IInputProps> {
     const { prefix, suffix, password, maxLength, pattern, toUpper, secretType } = options;
     const showSecretType = secretType && (readOnly || disabled);
     const C = !password ? Input : Input.Password;
+    const $value = showSecretType ? secretFormat(value, secretType) : value;
     return (
       <C
         ref={(ref) => (this[type] = ref)}
-        value={showSecretType ? secretFormat(value, secretType) : value}
+        value={$value}
         placeholder={placeholder}
         style={style}
-        title={value}
+        title={$value}
         prefix={prefix}
         suffix={suffix}
         maxLength={maxLength}
