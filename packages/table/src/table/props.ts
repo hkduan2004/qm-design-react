@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import { isNumber } from '../../../_utils/util';
 import { isValidComponentSize, isValidWidthUnit } from '../../../_utils/validators';
 import { throwError } from '../../../_utils/error';
-import { ITableProps } from './types';
+import type { ITableProps } from './types';
 
 const columnItem = {
   dataIndex: PropTypes.string.isRequired,
